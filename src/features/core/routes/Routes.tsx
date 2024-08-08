@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import App from "../../../App.tsx";
+import App, { testLoader } from "../../../App.tsx";
 import ErrorPage from "../components/ErrorPage.tsx";
 import Profile from "../../profiles/components/Profile.tsx";
 import NavbarWrapper from "../components/NavbarWrapper.tsx";
@@ -9,6 +9,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
+    loader: testLoader,
     children: [
       {
         path: "",
