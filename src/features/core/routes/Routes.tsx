@@ -4,6 +4,9 @@ import App from "../../../App.tsx";
 import ErrorPage from "../components/ErrorPage.tsx";
 import Profile from "../../profiles/components/Profile.tsx";
 import NavbarWrapper from "../components/NavbarWrapper.tsx";
+import LoginWrapper from "../../accounts/components/LoginWrapper.tsx";
+import RegisterForm from "../../accounts/components/RegisterForm.tsx";
+import LoginForm from "../../accounts/components/LoginForm.tsx";
 
 const router = createBrowserRouter([
   {
@@ -38,12 +41,18 @@ const router = createBrowserRouter([
       },
 
       {
-        path: "/accounts/login",
-        element: <div>Login</div>,
-      },
-      {
-        path: "/accounts/signup",
-        element: <div>Signup</div>,
+        path: "",
+        element: <LoginWrapper />,
+        children: [
+          {
+            path: "/accounts/login",
+            element: <LoginForm />,
+          },
+          {
+            path: "/accounts/signup",
+            element: <RegisterForm />,
+          },
+        ],
       },
     ],
   },
