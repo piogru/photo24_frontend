@@ -7,7 +7,7 @@ import { Outlet } from "react-router-dom";
 
 function App() {
   return (
-    <div className="bg-white dark:bg-gray-900 h-screen dark:text-slate-200">
+    <div className="h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-200">
       <Outlet />
     </div>
   );
