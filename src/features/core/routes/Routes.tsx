@@ -7,6 +7,10 @@ import NavbarWrapper from "../components/NavbarWrapper.tsx";
 import LoginWrapper from "../../accounts/components/LoginWrapper.tsx";
 import RegisterForm from "../../accounts/components/RegisterForm.tsx";
 import LoginForm from "../../accounts/components/LoginForm.tsx";
+import { isAuth, isAuthenticated } from "../utils/auth.ts";
+import ProtectedRoute from "../components/ProtectedRoute.tsx";
+import Feed from "../../feed/components/Feed.tsx";
+import Home from "../../landing/components/Home.tsx";
 
 const router = createBrowserRouter([
   {
@@ -16,33 +20,54 @@ const router = createBrowserRouter([
     // loader: testLoader,
     children: [
       {
-        path: "",
-        element: <NavbarWrapper />,
+        element: <ProtectedRoute conditionHook={isAuth} Alternative={Home} />,
         children: [
           {
-            path: ":accountName",
-            element: <Profile />,
+            // path: "",
+            element: <NavbarWrapper />,
             children: [
               {
-                path: "",
-                element: <div>Posts</div>,
+                // path: "",
+                index: true,
+                element: <Feed />,
               },
               {
-                path: "saved",
-                element: <div>Saved</div>,
+                loader: () => {
+                  console.log("Redirect if not logged in");
+                  return true;
+                },
+                children: [
+                  {
+                    path: ":accountName",
+                    element: <Profile />,
+                    children: [
+                      {
+                        // path: "",
+                        element: <div>Posts</div>,
+                      },
+                      {
+                        path: "saved",
+                        element: <div>Saved</div>,
+                      },
+                    ],
+                  },
+                  {
+                    path: "explore",
+                    element: <div>Explore</div>,
+                  },
+                ],
               },
             ],
           },
-          {
-            path: "explore",
-            element: <div>Explore</div>,
-          },
+          //   ],
+          // },
         ],
       },
 
       {
         path: "",
         element: <LoginWrapper />,
+        loader: async () => await isAuthenticated(),
         children: [
           {
             path: "/accounts/login",
