@@ -3,16 +3,23 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import SiteLogo from "../../core/components/SiteLogo";
 import Input from "../../core/components/Input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { postSignup } from "../api/queries";
+import { useMutation } from "@tanstack/react-query";
+import ApiError from "../../core/components/ApiError";
 
 const schema = z
   .object({
-    username: z.string(),
+    name: z.string(),
     email: z.string().email(),
     password: z.string(),
     confirmPassword: z.string(),
   })
-  .required();
+  .required()
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
 
 export default function RegisterForm() {
   const {
@@ -22,7 +29,20 @@ export default function RegisterForm() {
   } = useForm({
     resolver: zodResolver(schema),
   });
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const navigate = useNavigate();
+  const mutation = useMutation({
+    mutationFn: postSignup,
+    onSuccess: () => {
+      navigate("/");
+    },
+  });
+  const onSubmit = handleSubmit(async (data) => {
+    mutation.mutate({
+      email: data.email,
+      name: data.name,
+      password: data.password,
+    });
+  });
 
   return (
     <div className="flex flex-col justyify-center max-w-[22rem] w-full space-y-4">
@@ -42,7 +62,7 @@ export default function RegisterForm() {
               required
             />
             <Input
-              name="username"
+              name="name"
               register={register}
               label="Username"
               errorObject={errors?.username}
@@ -78,6 +98,9 @@ export default function RegisterForm() {
               </ul>
             )}
           </div>
+          {mutation.isError ?
+            <ApiError error={mutation.error} />
+          : null}
           <button
             type="submit"
             className="w-full mt-4 py-1 bg-blue-500 rounded-lg font-semibold"
