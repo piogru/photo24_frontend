@@ -1,13 +1,25 @@
-import { redirect } from "react-router-dom";
+import { replace } from "react-router-dom";
+import { getCurrentUser } from "../../accounts/api/queries";
+import { QueryClient } from "@tanstack/react-query";
 
-export const isAuthenticated = async () => {
-  const token = localStorage.getItem("token");
-  console.log("isAuthenticated - token: ", token);
-  if (token) throw redirect("/");
+export const isAuthenticated = (queryClient: QueryClient) => async () => {
+  const query = currentUserQuery();
+  const authStatus = await queryClient
+    .ensureQueryData(query)
+    .then(() => {
+      return true;
+    })
+    .catch(() => {
+      return false;
+    });
+
+  if (authStatus) throw replace("/");
+
   return null;
 };
 
-export const isAuth = () => {
-  // return true;
-  return false;
-};
+export const currentUserQuery = () => ({
+  queryKey: ["auth", "me"],
+  retry: false,
+  queryFn: async () => getCurrentUser(),
+});

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   HomeIcon as HomeIconSolid,
   MagnifyingGlassIcon as MagnifyingGlassIconSolid,
@@ -19,6 +19,8 @@ import {
   TagIcon,
   Cog6ToothIcon,
 } from "@heroicons/react/24/outline";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { postLogout } from "../../accounts/api/queries";
 
 const iconStyle = "size-6 text-gray-400";
 const links = [
@@ -60,6 +62,22 @@ const links = [
 ];
 
 export default function Navbar() {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: postLogout,
+    onSuccess: async () => {
+      await queryClient.resetQueries({
+        queryKey: ["auth"],
+        exact: false,
+      });
+      await queryClient.setQueryData(["auth", "me"], null);
+
+      console.log("REMOVE");
+      navigate("/");
+    },
+  });
+
   return (
     <nav className="h-screen w-60 p-6 flex flex-col gap-4 border-r-2 border-slate-600">
       <h1 className="text-4xl">Title</h1>
@@ -79,6 +97,12 @@ export default function Navbar() {
         <button className="flex flex-row space-x-4">
           <Bars3Icon className={iconStyle} />
           <div>More</div>
+        </button>
+        <button
+          onClick={() => mutation.mutate()}
+          className="flex flex-row space-x-4"
+        >
+          <div>Log out</div>
         </button>
       </div>
     </nav>

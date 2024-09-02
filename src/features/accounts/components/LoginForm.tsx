@@ -27,7 +27,7 @@ export default function LoginForm() {
   const mutation = useMutation({
     mutationFn: postLogin,
     onSuccess: () => {
-      navigate("/");
+      navigate("/", { replace: true });
     },
   });
   const onSubmit = handleSubmit(async (data) => {
