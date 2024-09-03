@@ -22,7 +22,7 @@ import {
   Cog6ToothIcon,
 } from "@heroicons/react/24/outline";
 
-const iconStyle = "size-6 text-gray-400";
+const iconStyle = "size-7 text-gray-900 dark:text-gray-200";
 const links = [
   {
     route: "/",
@@ -68,7 +68,6 @@ export default function Navbar() {
       });
       await queryClient.setQueryData(["auth", "me"], null);
 
-      console.log("REMOVE");
       navigate("/");
     },
   });
@@ -76,18 +75,25 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="h-screen w-60 p-6 flex flex-col gap-4 border-r-2 border-slate-600">
+    <nav className="h-screen w-60 p-6 flex flex-col gap-4 border-r border-slate-300 dark:border-slate-600">
       <h1 className="text-4xl">Title</h1>
       <ul className="flex flex-col flex-grow space-y-2">
         {links.map((link) => {
           return (
             <li key={link.route} className="py-2">
-              <NavLink to={link.route} className="flex space-x-4">
+              <NavLink
+                to={link.route}
+                className="inline-flex items-center space-x-4 text-base"
+              >
                 {({ isActive }) => {
                   return (
                     <>
                       {isActive ? link.iconActive : link.icon}
-                      <div>{link.label}</div>
+                      <div
+                        className={`${isActive ? "font-semibold" : "font-normal"}`}
+                      >
+                        {link.label}
+                      </div>
                     </>
                   );
                 }}
@@ -102,12 +108,14 @@ export default function Navbar() {
           onClick={() => {
             setMenuOpen(!menuOpen);
           }}
-          className="inline-flex flex-row space-x-4"
+          className="inline-flex flex-row items-center space-x-4"
         >
           <Bars3Icon
             className={`${iconStyle} ${menuOpen ? "stroke-2" : null}`}
           />
-          <div>More</div>
+          <div className={`${menuOpen ? "font-semibold" : "font-normal"}`}>
+            More
+          </div>
         </button>
 
         <button className="inline-flex space-x-2">
