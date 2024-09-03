@@ -1,13 +1,12 @@
+import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postLogout } from "../../accounts/api/queries";
 import useTheme from "../hooks/useTheme";
 import {
   HomeIcon as HomeIconSolid,
-  MagnifyingGlassIcon as MagnifyingGlassIconSolid,
   ViewfinderCircleIcon as ViewfinderCircleIconSolid,
   UserIcon as UserIconSolid,
-  Bars3Icon as Bars3IconSolid,
   PlusCircleIcon as PlusCircleIconSolid,
 } from "@heroicons/react/24/solid";
 import {
@@ -19,7 +18,7 @@ import {
   PlusCircleIcon,
   SunIcon,
   MoonIcon,
-  TagIcon,
+  BookmarkIcon,
   Cog6ToothIcon,
 } from "@heroicons/react/24/outline";
 
@@ -60,7 +59,7 @@ const links = [
 export default function Navbar() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const mutation = useMutation({
+  const logoutMutation = useMutation({
     mutationFn: postLogout,
     onSuccess: async () => {
       await queryClient.resetQueries({
@@ -74,6 +73,7 @@ export default function Navbar() {
     },
   });
   const [theme, handleThemeChange] = useTheme();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <nav className="h-screen w-60 p-6 flex flex-col gap-4 border-r-2 border-slate-600">
@@ -96,27 +96,44 @@ export default function Navbar() {
           );
         })}
       </ul>
-      <div className="">
-        <button className="flex flex-row space-x-4">
-          <Bars3Icon className={iconStyle} />
+
+      <div className="flex flex-col space-y-2">
+        <button
+          onClick={() => {
+            setMenuOpen(!menuOpen);
+          }}
+          className="inline-flex flex-row space-x-4"
+        >
+          <Bars3Icon
+            className={`${iconStyle} ${menuOpen ? "stroke-2" : null}`}
+          />
           <div>More</div>
         </button>
-        <button
-          onClick={() => mutation.mutate()}
-          className="flex flex-row space-x-4"
-        >
-          <div>Log out</div>
+
+        <button className="inline-flex space-x-2">
+          <Cog6ToothIcon className={iconStyle} />
+          <div>Settings</div>
+        </button>
+        <button className="inline-flex space-x-2">
+          <BookmarkIcon className={iconStyle} />
+          <div>Saved</div>
         </button>
         <button
           onClick={() => {
             handleThemeChange();
           }}
-          className="inline-flex"
+          className="inline-flex space-x-2"
         >
           {theme === "dark" ?
             <MoonIcon className={iconStyle} />
           : <SunIcon className={iconStyle} />}
           <div>Switch appearance</div>
+        </button>
+        <button
+          onClick={() => logoutMutation.mutate()}
+          className="inline-flex flex-row space-x-4"
+        >
+          <div>Log out</div>
         </button>
       </div>
     </nav>
