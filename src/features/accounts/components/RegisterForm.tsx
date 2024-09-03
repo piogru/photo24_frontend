@@ -46,7 +46,7 @@ export default function RegisterForm() {
 
   return (
     <div className="flex flex-col justyify-center max-w-[22rem] w-full space-y-4">
-      <div className="border rounded border-slate-600 mt-6 px-10 pb-5">
+      <div className="border rounded mt-6 px-10 pb-5 border-slate-300 dark:border-slate-600">
         <SiteLogo />
         <form onSubmit={onSubmit}>
           <div className="flex flex-col justify-center space-y-2">
@@ -103,17 +103,17 @@ export default function RegisterForm() {
           : null}
           <button
             type="submit"
-            className="w-full mt-4 py-1 bg-blue-500 rounded-lg font-semibold"
+            className="w-full mt-4 py-1 bg-blue-500 disabled:bg-blue-400 rounded-lg font-semibold text-white"
           >
             Next
           </button>
         </form>
       </div>
 
-      <div className="flex flex-row justify-center border rounded border-slate-600 py-4">
+      <div className="flex flex-row justify-center border rounded py-4 border-slate-300 dark:border-slate-600">
         <p>
           {"Have an account? "}
-          <Link to="/accounts/login" className="text-blue-400">
+          <Link to="/accounts/login" className="text-blue-500">
             Log in
           </Link>
         </p>

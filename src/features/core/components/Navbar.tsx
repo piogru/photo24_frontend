@@ -1,10 +1,12 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { postLogout } from "../../accounts/api/queries";
+import useTheme from "../hooks/useTheme";
 import {
   HomeIcon as HomeIconSolid,
-  MagnifyingGlassIcon as MagnifyingGlassIconSolid,
   ViewfinderCircleIcon as ViewfinderCircleIconSolid,
   UserIcon as UserIconSolid,
-  Bars3Icon as Bars3IconSolid,
   PlusCircleIcon as PlusCircleIconSolid,
 } from "@heroicons/react/24/solid";
 import {
@@ -16,55 +18,48 @@ import {
   PlusCircleIcon,
   SunIcon,
   MoonIcon,
-  TagIcon,
+  BookmarkIcon,
   Cog6ToothIcon,
 } from "@heroicons/react/24/outline";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { postLogout } from "../../accounts/api/queries";
 
-const iconStyle = "size-6 text-gray-400";
+const iconStyle = "size-7 text-gray-900 dark:text-gray-200";
 const links = [
   {
     route: "/",
     label: "Home",
     icon: <HomeIcon className={iconStyle} />,
+    iconActive: <HomeIconSolid className={iconStyle} />,
   },
   {
     route: "/search",
     label: "Search",
     icon: <MagnifyingGlassIcon className={iconStyle} />,
+    iconActive: <MagnifyingGlassIcon className={`${iconStyle} stroke-2`} />,
   },
   {
     route: "/explore",
     label: "Explore",
     icon: <ViewfinderCircleIcon className={iconStyle} />,
+    iconActive: <ViewfinderCircleIconSolid className={iconStyle} />,
   },
   {
     route: "/create",
     label: "Create",
     icon: <PlusCircleIcon className={iconStyle} />,
+    iconActive: <PlusCircleIconSolid className={iconStyle} />,
   },
   {
     route: "/profile",
     label: "Profile",
     icon: <UserIcon className={iconStyle} />,
-  },
-  {
-    route: "/accounts/login",
-    label: "Login",
-    icon: <UserIcon className={iconStyle} />,
-  },
-  {
-    route: "/accounts/signup",
-    label: "Sign up",
-    icon: <UserIcon className={iconStyle} />,
+    iconActive: <UserIconSolid className={iconStyle} />,
   },
 ];
 
 export default function Navbar() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const mutation = useMutation({
+  const logoutMutation = useMutation({
     mutationFn: postLogout,
     onSuccess: async () => {
       await queryClient.resetQueries({
@@ -73,34 +68,78 @@ export default function Navbar() {
       });
       await queryClient.setQueryData(["auth", "me"], null);
 
-      console.log("REMOVE");
       navigate("/");
     },
   });
+  const [theme, handleThemeChange] = useTheme();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="h-screen w-60 p-6 flex flex-col gap-4 border-r-2 border-slate-600">
+    <nav className="h-screen w-60 p-6 flex flex-col gap-4 border-r border-slate-300 dark:border-slate-600">
       <h1 className="text-4xl">Title</h1>
       <ul className="flex flex-col flex-grow space-y-2">
         {links.map((link) => {
           return (
             <li key={link.route} className="py-2">
-              <Link to={link.route} className="flex space-x-4">
-                <div>{link.icon}</div>
-                <div>{link.label}</div>
-              </Link>
+              <NavLink
+                to={link.route}
+                className="inline-flex items-center space-x-4 text-base"
+              >
+                {({ isActive }) => {
+                  return (
+                    <>
+                      {isActive ? link.iconActive : link.icon}
+                      <div
+                        className={`${isActive ? "font-semibold" : "font-normal"}`}
+                      >
+                        {link.label}
+                      </div>
+                    </>
+                  );
+                }}
+              </NavLink>
             </li>
           );
         })}
       </ul>
-      <div className="">
-        <button className="flex flex-row space-x-4">
-          <Bars3Icon className={iconStyle} />
-          <div>More</div>
+
+      <div className="flex flex-col space-y-2">
+        <button
+          onClick={() => {
+            setMenuOpen(!menuOpen);
+          }}
+          className="inline-flex flex-row items-center space-x-4"
+        >
+          <Bars3Icon
+            className={`${iconStyle} ${menuOpen ? "stroke-2" : null}`}
+          />
+          <div className={`${menuOpen ? "font-semibold" : "font-normal"}`}>
+            More
+          </div>
+        </button>
+
+        <button className="inline-flex space-x-2">
+          <Cog6ToothIcon className={iconStyle} />
+          <div>Settings</div>
+        </button>
+        <button className="inline-flex space-x-2">
+          <BookmarkIcon className={iconStyle} />
+          <div>Saved</div>
         </button>
         <button
-          onClick={() => mutation.mutate()}
-          className="flex flex-row space-x-4"
+          onClick={() => {
+            handleThemeChange();
+          }}
+          className="inline-flex space-x-2"
+        >
+          {theme === "dark" ?
+            <MoonIcon className={iconStyle} />
+          : <SunIcon className={iconStyle} />}
+          <div>Switch appearance</div>
+        </button>
+        <button
+          onClick={() => logoutMutation.mutate()}
+          className="inline-flex flex-row space-x-4"
         >
           <div>Log out</div>
         </button>
