@@ -1,4 +1,7 @@
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { postLogout } from "../../accounts/api/queries";
+import useTheme from "../hooks/useTheme";
 import {
   HomeIcon as HomeIconSolid,
   MagnifyingGlassIcon as MagnifyingGlassIconSolid,
@@ -19,8 +22,6 @@ import {
   TagIcon,
   Cog6ToothIcon,
 } from "@heroicons/react/24/outline";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { postLogout } from "../../accounts/api/queries";
 
 const iconStyle = "size-6 text-gray-400";
 const links = [
@@ -28,36 +29,31 @@ const links = [
     route: "/",
     label: "Home",
     icon: <HomeIcon className={iconStyle} />,
+    iconActive: <HomeIconSolid className={iconStyle} />,
   },
   {
     route: "/search",
     label: "Search",
     icon: <MagnifyingGlassIcon className={iconStyle} />,
+    iconActive: <MagnifyingGlassIcon className={`${iconStyle} stroke-2`} />,
   },
   {
     route: "/explore",
     label: "Explore",
     icon: <ViewfinderCircleIcon className={iconStyle} />,
+    iconActive: <ViewfinderCircleIconSolid className={iconStyle} />,
   },
   {
     route: "/create",
     label: "Create",
     icon: <PlusCircleIcon className={iconStyle} />,
+    iconActive: <PlusCircleIconSolid className={iconStyle} />,
   },
   {
     route: "/profile",
     label: "Profile",
     icon: <UserIcon className={iconStyle} />,
-  },
-  {
-    route: "/accounts/login",
-    label: "Login",
-    icon: <UserIcon className={iconStyle} />,
-  },
-  {
-    route: "/accounts/signup",
-    label: "Sign up",
-    icon: <UserIcon className={iconStyle} />,
+    iconActive: <UserIconSolid className={iconStyle} />,
   },
 ];
 
@@ -77,6 +73,7 @@ export default function Navbar() {
       navigate("/");
     },
   });
+  const [theme, handleThemeChange] = useTheme();
 
   return (
     <nav className="h-screen w-60 p-6 flex flex-col gap-4 border-r-2 border-slate-600">
@@ -85,10 +82,16 @@ export default function Navbar() {
         {links.map((link) => {
           return (
             <li key={link.route} className="py-2">
-              <Link to={link.route} className="flex space-x-4">
-                <div>{link.icon}</div>
-                <div>{link.label}</div>
-              </Link>
+              <NavLink to={link.route} className="flex space-x-4">
+                {({ isActive }) => {
+                  return (
+                    <>
+                      {isActive ? link.iconActive : link.icon}
+                      <div>{link.label}</div>
+                    </>
+                  );
+                }}
+              </NavLink>
             </li>
           );
         })}
@@ -103,6 +106,17 @@ export default function Navbar() {
           className="flex flex-row space-x-4"
         >
           <div>Log out</div>
+        </button>
+        <button
+          onClick={() => {
+            handleThemeChange();
+          }}
+          className="inline-flex"
+        >
+          {theme === "dark" ?
+            <MoonIcon className={iconStyle} />
+          : <SunIcon className={iconStyle} />}
+          <div>Switch appearance</div>
         </button>
       </div>
     </nav>
