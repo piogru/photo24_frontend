@@ -1,41 +1,58 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-// import App, { testLoader } from "../../../App.tsx";
 import App from "../../../App.tsx";
+import { appLoader } from "../api/loaders.ts";
 import ErrorPage from "../components/ErrorPage.tsx";
 import Profile from "../../profiles/components/Profile.tsx";
 import NavbarWrapper from "../components/NavbarWrapper.tsx";
 import LoginWrapper from "../../accounts/components/LoginWrapper.tsx";
 import RegisterForm from "../../accounts/components/RegisterForm.tsx";
 import LoginForm from "../../accounts/components/LoginForm.tsx";
+import { isAuthenticated } from "../utils/auth.ts";
+import Feed from "../../feed/components/Feed.tsx";
+import Home from "../../landing/components/Home.tsx";
+import { QueryClient } from "@tanstack/react-query";
+import AuthenticatedRoute from "../components/AuthenticatedRoute.tsx";
 
+const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
-    // loader: testLoader,
+    loader: appLoader(queryClient),
     children: [
       {
-        path: "",
-        element: <NavbarWrapper />,
+        element: <AuthenticatedRoute Alternative={Home} />,
         children: [
           {
-            path: ":accountName",
-            element: <Profile />,
+            element: <NavbarWrapper />,
             children: [
               {
-                path: "",
-                element: <div>Posts</div>,
+                index: true,
+                element: <Feed />,
               },
               {
-                path: "saved",
-                element: <div>Saved</div>,
+                children: [
+                  {
+                    path: ":accountName",
+                    element: <Profile />,
+                    children: [
+                      {
+                        element: <div>Posts</div>,
+                      },
+                      {
+                        path: "saved",
+                        element: <div>Saved</div>,
+                      },
+                    ],
+                  },
+                  {
+                    path: "explore",
+                    element: <div>Explore</div>,
+                  },
+                ],
               },
             ],
-          },
-          {
-            path: "explore",
-            element: <div>Explore</div>,
           },
         ],
       },
@@ -43,6 +60,7 @@ const router = createBrowserRouter([
       {
         path: "",
         element: <LoginWrapper />,
+        loader: isAuthenticated(queryClient),
         children: [
           {
             path: "/accounts/login",

@@ -1,4 +1,4 @@
-import InputProps from "../types/InputProps";
+import InputProps from "../types/inputProps";
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
 
 export default function Input({
@@ -33,7 +33,9 @@ export default function Input({
         {label}
       </label>
       {true && (
-        <ValidationMarkComponent className={`block size-6 mx-2 top-2.5 end-2 peer-placeholder-shown:hidden peer-focus:hidden text-gray-400 peer-aria-[invalid="true"]:text-red-600`} />
+        <ValidationMarkComponent
+          className={`block size-6 mx-2 top-2.5 end-2 peer-placeholder-shown:hidden peer-focus:hidden text-gray-400 peer-aria-[invalid="true"]:text-red-600`}
+        />
       )}
     </div>
   );

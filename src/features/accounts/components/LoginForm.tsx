@@ -3,7 +3,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import SiteLogo from "../../core/components/SiteLogo";
 import Input from "../../core/components/Input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { postLogin } from "../api/queries";
+import ApiError from "../../core/components/ApiError";
 
 const schema = z
   .object({
@@ -20,7 +23,19 @@ export default function LoginForm() {
   } = useForm({
     resolver: zodResolver(schema),
   });
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const navigate = useNavigate();
+  const mutation = useMutation({
+    mutationFn: postLogin,
+    onSuccess: () => {
+      navigate("/", { replace: true });
+    },
+  });
+  const onSubmit = handleSubmit(async (data) => {
+    mutation.mutate({
+      userId: data.userId,
+      password: data.password,
+    });
+  });
 
   return (
     <div className="flex flex-col justyify-center max-w-[22rem] w-full space-y-4">
@@ -53,6 +68,9 @@ export default function LoginForm() {
               </ul>
             )}
           </div>
+          {mutation.isError ?
+            <ApiError error={mutation.error} />
+          : null}
           <button
             type="submit"
             className="w-full mt-4 py-1 bg-blue-500 rounded-lg font-semibold"
@@ -66,7 +84,7 @@ export default function LoginForm() {
         <p>
           {"Don't have an account? "}
           <Link to="/accounts/signup" className="text-blue-400">
-            Log in
+            Sign up
           </Link>
         </p>
       </div>
