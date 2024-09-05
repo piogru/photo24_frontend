@@ -1,3 +1,4 @@
+import { ComponentType, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postLogout } from "../../accounts/api/queries";
@@ -23,13 +24,38 @@ import {
 import Dropdown from "./Dropdown";
 import Switch from "./Switch";
 import useCurrentUserQuery from "../hooks/useCurrentUserQuery";
+import PhotoUpload from "../../photo/components/PhotoUpload";
+import NavIcon from "./NavIcon";
+import MagnifyingGlassIconSolid from "./MagnifyingGlassIconSolid";
 
-const navIconStyle =
-  "size-7 text-gray-900 dark:text-gray-200 transition duration-75 group-active:scale-90 group-active:text-gray-700 dark:group-active:text-gray-400 group-hover:scale-105";
+type NavbarLink = {
+  key: string;
+  route: string;
+  label: string;
+  icon: ComponentType<{
+    className?: string;
+  }>;
+  iconActive: ComponentType<{
+    className?: string;
+  }>;
+};
+
+type NavbarButton = {
+  key: string;
+  label: string;
+  onClick: () => void;
+  icon: ComponentType<{
+    className?: string;
+  }>;
+  iconActive: ComponentType<{
+    className?: string;
+  }>;
+};
+
 const menuIconStyle =
   "size-5 text-gray-900 dark:text-gray-200 group-active:text-gray-700 dark:group-active:text-gray-400";
-const navButtonStyle =
-  "w-full inline-flex items-center space-x-2 px-2 py-3 rounded-lg text-sm hover:bg-black/5 dark:hover:bg-white/10 text-gray-900 dark:text-gray-200 active:text-gray-700 dark:active:text-gray-400";
+const menuButtonStyle =
+  "group w-full inline-flex items-center space-x-2 px-2 py-3 rounded-lg text-sm hover:bg-black/5 dark:hover:bg-white/10 text-gray-900 dark:text-gray-200 active:text-gray-700 dark:active:text-gray-400";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -48,45 +74,51 @@ export default function Navbar() {
     },
   });
   const [theme, handleThemeChange] = useTheme();
-  const links = [
+  const [photoUploadOpen, setPhotoUploadOpen] = useState(false);
+  const links: (NavbarButton | NavbarLink)[] = [
     {
+      key: "home",
       route: "/",
       label: "Home",
-      icon: <HomeIcon className={navIconStyle} />,
-      iconActive: <HomeIconSolid className={navIconStyle} />,
+      icon: HomeIcon,
+      iconActive: HomeIconSolid,
     },
     {
+      key: "search",
       route: "/search",
       label: "Search",
-      icon: <MagnifyingGlassIcon className={navIconStyle} />,
-      iconActive: (
-        <MagnifyingGlassIcon className={`${navIconStyle} stroke-2`} />
-      ),
+      icon: MagnifyingGlassIcon,
+      iconActive: MagnifyingGlassIconSolid,
     },
     {
+      key: "explore",
       route: "/explore",
       label: "Explore",
-      icon: <ViewfinderCircleIcon className={navIconStyle} />,
-      iconActive: <ViewfinderCircleIconSolid className={navIconStyle} />,
+      icon: ViewfinderCircleIcon,
+      iconActive: ViewfinderCircleIconSolid,
     },
     {
-      route: "/create",
+      key: "create",
       label: "Create",
-      icon: <PlusCircleIcon className={navIconStyle} />,
-      iconActive: <PlusCircleIconSolid className={navIconStyle} />,
+      onClick: () => {
+        setPhotoUploadOpen(true);
+      },
+      icon: PlusCircleIcon,
+      iconActive: PlusCircleIconSolid,
     },
     {
+      key: "profile",
       route: `/${currentUser?.name}`,
       label: "Profile",
-      icon: <UserIcon className={navIconStyle} />,
-      iconActive: <UserIconSolid className={navIconStyle} />,
+      icon: UserIcon,
+      iconActive: UserIconSolid,
     },
   ];
   const menuItems = [
     {
       key: "settings",
       element: (
-        <NavLink to="/accounts/edit" className={navButtonStyle}>
+        <NavLink to="/accounts/edit" className={menuButtonStyle}>
           <Cog6ToothIcon className={menuIconStyle} />
           <span>Settings</span>
         </NavLink>
@@ -95,7 +127,7 @@ export default function Navbar() {
     {
       key: "saved",
       element: (
-        <NavLink to={`/${currentUser?.name}/saved`} className={navButtonStyle}>
+        <NavLink to={`/${currentUser?.name}/saved`} className={menuButtonStyle}>
           <BookmarkIcon className={menuIconStyle} />
           <span>Saved</span>
         </NavLink>
@@ -110,7 +142,7 @@ export default function Navbar() {
               event.preventDefault();
               handleThemeChange();
             }}
-            className={navButtonStyle}
+            className={menuButtonStyle}
           >
             {theme === "dark" ?
               <MoonIcon className={menuIconStyle} />
@@ -136,7 +168,7 @@ export default function Navbar() {
       element: (
         <button
           onClick={() => logoutMutation.mutate()}
-          className={navButtonStyle}
+          className={menuButtonStyle}
         >
           <span>Log out</span>
         </button>
@@ -145,50 +177,74 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="h-screen w-64 px-4 pt-8 pb-5 flex flex-col space-y-6 border-r border-slate-300 dark:border-slate-600">
-      <h1 className="text-4xl ml-2">Title</h1>
-      <ul className="flex flex-col flex-grow space-y-3">
-        {links.map((link) => {
-          return (
-            <li key={link.route}>
-              <NavLink
-                to={link.route}
-                className="group w-full inline-flex items-center space-x-4 px-2 py-3 rounded-lg text-base hover:bg-black/5 dark:hover:bg-white/10 group:text-gray-700 dark:active:text-gray-400"
-              >
-                {({ isActive }) => {
-                  return (
-                    <>
-                      {isActive ? link.iconActive : link.icon}
-                      <div
-                        className={`${isActive ? "font-semibold" : "font-normal"}`}
-                      >
-                        {link.label}
-                      </div>
-                    </>
-                  );
-                }}
-              </NavLink>
-            </li>
-          );
-        })}
-      </ul>
+    <>
+      <PhotoUpload isOpen={photoUploadOpen} setIsOpen={setPhotoUploadOpen} />
 
-      <Dropdown
-        buttonChildren={({ active }: { active: boolean }) => (
-          <>
-            <Bars3Icon
-              className={`${navIconStyle} ${active ? "stroke-2" : null} transition duration-75 group-active:scale-90 group-hover:scale-105`}
-            />
-            <div
-              className={`${active ? "font-semibold" : "font-normal"} group-active:text-gray-700 dark:group-active:text-gray-400`}
-            >
-              More
-            </div>
-          </>
-        )}
-        menuItemsProps={{ anchor: "bottom start" }}
-        items={menuItems}
-      />
-    </nav>
+      <nav className="h-screen w-64 px-4 pt-8 pb-5 flex flex-col space-y-6 border-r border-slate-300 dark:border-slate-600">
+        <h1 className="text-4xl ml-2">Title</h1>
+        <ul className="flex flex-col flex-grow space-y-3">
+          {links.map((item) => {
+            return (
+              <li key={item.key}>
+                {"route" in item ?
+                  <NavLink
+                    to={item.route}
+                    className="group w-full inline-flex items-center space-x-4 px-2 py-3 rounded-lg text-base hover:bg-black/5 dark:hover:bg-white/10 group:text-gray-700 dark:active:text-gray-400"
+                  >
+                    {({ isActive }) => {
+                      return (
+                        <>
+                          <NavIcon
+                            isActive={isActive}
+                            Icon={item.icon}
+                            ActiveIcon={item.iconActive}
+                          />
+                          <div
+                            className={`${isActive ? "font-semibold" : "font-normal"}`}
+                          >
+                            {item.label}
+                          </div>
+                        </>
+                      );
+                    }}
+                  </NavLink>
+                : <button
+                    onClick={item.onClick}
+                    className="group w-full inline-flex items-center space-x-4 px-2 py-3 rounded-lg text-base hover:bg-black/5 dark:hover:bg-white/10 group:text-gray-700 dark:active:text-gray-400"
+                  >
+                    <NavIcon
+                      isActive={false}
+                      Icon={item.icon}
+                      ActiveIcon={item.iconActive}
+                    />
+                    <div className="font-normal">{item.label}</div>
+                  </button>
+                }
+              </li>
+            );
+          })}
+        </ul>
+
+        <Dropdown
+          buttonChildren={({ active }: { active: boolean }) => (
+            <>
+              <Bars3Icon
+                className={`
+                  size-7 text-gray-900 dark:text-gray-200 transition duration-75 group-active:scale-90 group-active:text-gray-700 dark:group-active:text-gray-400 group-hover:scale-105
+                  ${active ? "stroke-2" : null} transition duration-75 group-active:scale-90 group-hover:scale-105
+                `}
+              />
+              <div
+                className={`${active ? "font-semibold" : "font-normal"} group-active:text-gray-700 dark:group-active:text-gray-400`}
+              >
+                More
+              </div>
+            </>
+          )}
+          menuItemsProps={{ anchor: "bottom start" }}
+          items={menuItems}
+        />
+      </nav>
+    </>
   );
 }
