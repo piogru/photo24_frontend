@@ -32,25 +32,31 @@ const router = createBrowserRouter([
                 element: <Feed />,
               },
               {
+                path: "explore",
+                element: <div>Explore</div>,
+              },
+
+              {
+                path: ":accountName",
+                loader: () => {
+                  console.log("Profile, if user not found - redirect to 404");
+                  return true;
+                },
+                element: <Profile />,
                 children: [
                   {
-                    path: ":accountName",
-                    element: <Profile />,
-                    children: [
-                      {
-                        element: <div>Posts</div>,
-                      },
-                      {
-                        path: "saved",
-                        element: <div>Saved</div>,
-                      },
-                    ],
+                    element: <div>Posts</div>,
                   },
                   {
-                    path: "explore",
-                    element: <div>Explore</div>,
+                    path: "saved",
+                    element: <div>Saved</div>,
                   },
                 ],
+              },
+
+              {
+                path: "accounts/edit",
+                element: <div>Accounts/edit</div>,
               },
             ],
           },
