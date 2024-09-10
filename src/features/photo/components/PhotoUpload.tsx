@@ -2,7 +2,7 @@ import { Button, DialogTitle, Input } from "@headlessui/react";
 import Modal from "../../core/components/Modal";
 import { PhotoIcon } from "@heroicons/react/24/outline";
 import { useCallback, useState } from "react";
-import PhotoCrop from "./PhotoCrop";
+import PhotoEdit from "./PhotoEdit";
 import {
   ArrowLeftIcon,
   ExclamationCircleIcon,
@@ -140,7 +140,7 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
                 />
               </div>
             </div>
-          : <PhotoCrop files={files} />}
+          : <PhotoEdit files={files} />}
         </div>
       </Modal>
 

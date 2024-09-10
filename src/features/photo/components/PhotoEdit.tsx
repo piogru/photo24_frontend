@@ -20,7 +20,7 @@ type FileTemp = {
 const buttonStyle =
   "size-10 flex justify-center items-center rounded-full text-gray-200 bg-gray-800 hover:bg-gray-800/50 transition";
 
-export default function PhotoCrop({ files }: FilePreviewProps) {
+export default function PhotoEdit({ files }: FilePreviewProps) {
   const [preview, setPreview] = useState<string | null>(null);
   const [fileArray, setFileArray] = useState<FileTemp[]>([]);
   const [selectedFileIndex, setSelectedFileIndex] = useState(0);
