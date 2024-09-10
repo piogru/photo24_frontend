@@ -1,9 +1,3 @@
-type AppConstantsType = {
-  apiUrl: string;
-};
-
-const AppConstants: AppConstantsType = {
-  apiUrl: import.meta.env.VITE_API_URL,
-};
-
-export default AppConstants;
+export const apiURL: string = import.meta.env.VITE_API_URL;
+export const imageLimit: number = import.meta.env.VITE_IMG_LIMIT;
+export const imageMaxSize: number = import.meta.env.VITE_IMG_MAX_SIZE;
