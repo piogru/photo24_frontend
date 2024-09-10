@@ -39,8 +39,13 @@ export default function PhotoCrop({ files }: FilePreviewProps) {
   }, [files, selectedFileIndex]);
 
   return (
-    <div className="relative">
-      {preview && <img src={preview} className="" />}
+    <div className="w-full h-full relative">
+      {preview && (
+        <img
+          src={preview}
+          className="h-full w-full object-cover rounded-b-xl"
+        />
+      )}
       <div className="absolute bottom-0 px-4 mb-3 w-full flex flex-row justify-between items-center gap-4">
         <div className="flex flex-row gap-4">
           <Button className={buttonStyle}>
@@ -58,28 +63,32 @@ export default function PhotoCrop({ files }: FilePreviewProps) {
         </Button>
       </div>
 
-      <Button
-        onClick={() => {
-          const newSelectedIndex = selectedFileIndex - 1;
-          if (newSelectedIndex >= 0) {
-            setSelectedFileIndex(newSelectedIndex);
-          }
-        }}
-        className={`${buttonStyle} absolute top-1/2 bottom-1/2 left-2`}
-      >
-        <ChevronLeftIcon className="size-6" />
-      </Button>
-      <Button
-        onClick={() => {
-          const newSelectedIndex = selectedFileIndex + 1;
-          if (newSelectedIndex < files.length) {
-            setSelectedFileIndex(newSelectedIndex);
-          }
-        }}
-        className={`${buttonStyle} absolute top-1/2 bottom-1/2 right-2`}
-      >
-        <ChevronRightIcon className="size-6" />
-      </Button>
+      {selectedFileIndex != 0 ?
+        <Button
+          onClick={() => {
+            const newSelectedIndex = selectedFileIndex - 1;
+            if (newSelectedIndex >= 0) {
+              setSelectedFileIndex(newSelectedIndex);
+            }
+          }}
+          className={`${buttonStyle} absolute top-1/2 bottom-1/2 left-2`}
+        >
+          <ChevronLeftIcon className="size-6" />
+        </Button>
+      : null}
+      {selectedFileIndex < files.length - 1 ?
+        <Button
+          onClick={() => {
+            const newSelectedIndex = selectedFileIndex + 1;
+            if (newSelectedIndex < files.length) {
+              setSelectedFileIndex(newSelectedIndex);
+            }
+          }}
+          className={`${buttonStyle} absolute top-1/2 bottom-1/2 right-2`}
+        >
+          <ChevronRightIcon className="size-6" />
+        </Button>
+      : null}
 
       {fileArray.length > 1 ?
         <div className="absolute bottom-0 mb-3 w-full inline-flex flex-row justify-center items-center gap-2">
