@@ -1,14 +1,13 @@
+import { ReactNode } from "react";
 import { Button, Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
-import { DragEvent, ReactNode } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { DropzoneRootProps } from "react-dropzone";
 
 type ModalProps = {
   isOpen: boolean;
   onClose: () => void;
   title?: ReactNode;
-  onDrop?: (event: DragEvent) => void;
-  onDragEnter?: (event: DragEvent) => void;
-  onDragLeave?: (event: DragEvent) => void;
+  getRootProps?: <T extends DropzoneRootProps>(props: T) => T;
   children: ReactNode;
 };
 
@@ -16,31 +15,21 @@ export default function Modal({
   isOpen,
   onClose,
   title,
-  onDrop,
-  onDragEnter,
-  onDragLeave,
+  getRootProps = (props) => props,
   children,
 }: ModalProps) {
   return (
     <Dialog
-      open={isOpen}
-      onClose={onClose}
-      onDragOver={
-        onDrop ?
-          (event) => {
-            event.preventDefault();
-          }
-        : undefined
-      }
-      onDrop={onDrop ? (event) => onDrop(event) : undefined}
-      onDragEnter={onDragEnter ? (event) => onDragEnter(event) : undefined}
-      onDragLeave={onDragLeave ? (event) => onDragLeave(event) : undefined}
-      className="relative z-50 text-gray-900 dark:text-gray-200"
+      {...getRootProps({
+        open: isOpen,
+        onClose: onClose,
+        role: "dialog",
+        className: "relative z-50 text-gray-900 dark:text-gray-200",
+      })}
     >
       <DialogBackdrop
         onDragOver={(event) => {
           event.preventDefault();
-          console.log("backdrop dragover");
         }}
         transition
         className="fixed inset-0 bg-black/30 duration-150 ease-out data-[closed]:opacity-0"

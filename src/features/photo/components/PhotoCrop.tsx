@@ -4,10 +4,12 @@ import {
   MagnifyingGlassPlusIcon,
   ChevronUpDownIcon,
   Square2StackIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
 } from "@heroicons/react/24/outline";
 
 type FilePreviewProps = {
-  files: FileList;
+  files: File[];
 };
 
 type FileTemp = {
@@ -16,7 +18,7 @@ type FileTemp = {
 };
 
 const buttonStyle =
-  "size-10 flex justify-center items-center rounded-full dark:bg-gray-800 hover:dark:bg-gray-800/50";
+  "size-10 flex justify-center items-center rounded-full dark:bg-gray-800 hover:dark:bg-gray-800/50 transition";
 
 export default function PhotoCrop({ files }: FilePreviewProps) {
   const [preview, setPreview] = useState<string | null>(null);
@@ -24,7 +26,7 @@ export default function PhotoCrop({ files }: FilePreviewProps) {
   const [selectedFileIndex, setSelectedFileIndex] = useState(0);
 
   useEffect(() => {
-    const objectUrl = URL.createObjectURL(files[0]);
+    const objectUrl = URL.createObjectURL(files[selectedFileIndex]);
     setPreview(objectUrl);
 
     const arr = Array.from(files).map((item, idx) => ({
@@ -34,7 +36,7 @@ export default function PhotoCrop({ files }: FilePreviewProps) {
     setFileArray(arr);
 
     return () => URL.revokeObjectURL(objectUrl);
-  }, [files]);
+  }, [files, selectedFileIndex]);
 
   return (
     <div className="relative">
@@ -55,8 +57,34 @@ export default function PhotoCrop({ files }: FilePreviewProps) {
           <span className="sr-only">Items</span>
         </Button>
       </div>
+      <div className="absolute top-1/2 bottom-1/2 left-2">
+        <Button
+          onClick={() => {
+            const newSelectedIndex = selectedFileIndex - 1;
+            if (newSelectedIndex >= 0) {
+              setSelectedFileIndex(newSelectedIndex);
+            }
+          }}
+          className={buttonStyle}
+        >
+          <ChevronLeftIcon className="size-6" />
+        </Button>
+      </div>
+      <div className="absolute top-1/2 bottom-1/2 right-2">
+        <Button
+          onClick={() => {
+            const newSelectedIndex = selectedFileIndex + 1;
+            if (newSelectedIndex < files.length) {
+              setSelectedFileIndex(newSelectedIndex);
+            }
+          }}
+          className={buttonStyle}
+        >
+          <ChevronRightIcon className="size-6" />
+        </Button>
+      </div>
       {fileArray.length > 1 ?
-        <div className="absolute bottom-0 mb-3 w-full flex flex-row justify-between items-center gap-4">
+        <div className="absolute bottom-0 mb-3 w-full inline-flex flex-row justify-center items-center gap-2">
           {Array.from(fileArray).map((item, idx) => (
             <div
               key={item.key}

@@ -1,9 +1,15 @@
 import { Button, DialogTitle, Input } from "@headlessui/react";
 import Modal from "../../core/components/Modal";
 import { PhotoIcon } from "@heroicons/react/24/outline";
-import { ChangeEvent, DragEvent, useState } from "react";
+import { useCallback, useState } from "react";
 import PhotoCrop from "./PhotoCrop";
-import { ArrowLeftIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowLeftIcon,
+  ExclamationCircleIcon,
+  QuestionMarkCircleIcon,
+} from "@heroicons/react/24/outline";
+import { FileRejection, useDropzone } from "react-dropzone";
+import { imageLimit, imageMaxSize } from "../../core/constants/appConstants";
 
 type PhotoUploadProps = {
   isOpen: boolean;
@@ -11,15 +17,37 @@ type PhotoUploadProps = {
 };
 
 export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
-  const [files, setFiles] = useState<FileList | null>(null);
-  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
-  const [dragState, setDragState] = useState(false);
+  const [files, setFiles] = useState<File[]>([]);
+  const [isDiscardConfirmationOpen, setIsDiscardConfirmationOpen] =
+    useState(false);
+  const [discardAndClose, setDiscardAndClose] = useState(false);
+  const onDrop = useCallback(
+    (acceptedFiles: File[], fileRejections: FileRejection[]) => {
+      if (fileRejections.length === 0) {
+        setFiles(acceptedFiles);
+      }
+    },
+    [],
+  );
+  const { fileRejections, getRootProps, getInputProps, isDragActive } =
+    useDropzone({
+      accept: {
+        "image/*": [".png", ".jpeg", ".jpg"],
+      },
+      disabled: files.length > 0,
+      onDrop: onDrop,
+      onError: (error) => {
+        console.log("Dropzone - error", error);
+      },
+      maxFiles: imageLimit,
+      maxSize: imageMaxSize,
+      multiple: true,
+    });
+  const dropError = fileRejections.length > 0;
 
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      console.log(event.target.files);
-      setFiles(event.target.files);
-    }
+  const handlePrevious = () => {
+    setDiscardAndClose(false);
+    setIsDiscardConfirmationOpen(true);
   };
 
   const handleNext = () => {
@@ -27,19 +55,17 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
   };
 
   const onClose = () => {
-    setFiles(null);
-    setIsOpen(false);
-
-    // Discard modal if files available
+    setDiscardAndClose(true);
+    files.length > 0 ? setIsDiscardConfirmationOpen(true) : setIsOpen(false);
   };
 
-  const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-  };
+  const onDiscard = () => {
+    setIsDiscardConfirmationOpen(false);
+    setFiles([]);
 
-  const handleDrop = (event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    console.log(event.target);
+    if (discardAndClose) {
+      setIsOpen(false);
+    }
   };
 
   return (
@@ -47,13 +73,15 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
       <Modal
         isOpen={isOpen}
         onClose={onClose}
-        onDragEnter={() => setDragState(true)}
-        onDragLeave={() => setDragState(false)}
+        getRootProps={getRootProps}
         title={
           <DialogTitle className="font-bold p-3 text-center text-xl border-b border-gray-100 dark:border-gray-900">
-            {files !== null ?
-              <div className="w-full inline-flex flex-row justify-between items-center">
-                <Button onClick={() => setIsConfirmationOpen(true)}>
+            {files.length === 0 ?
+              <>
+                {!dropError ? "Create new post" : "Files could not be uploaded"}
+              </>
+            : <div className="w-full inline-flex flex-row justify-between items-center">
+                <Button onClick={handlePrevious}>
                   <ArrowLeftIcon className="size-6 dark:text-white" />
                 </Button>
                 <span>Crop</span>
@@ -61,34 +89,51 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
                   Next
                 </Button>
               </div>
-            : "Create new post"}
+            }
           </DialogTitle>
         }
       >
         <div
-          className={`w-[28rem] h-[30rem] flex flex-col justify-center items-center ${dragState ? "bg-black/50" : ""}`}
+          className={`w-[28rem] h-[30rem] flex flex-col justify-center items-center ${isDragActive ? "bg-black/50" : ""}`}
         >
-          {files === null ?
+          {files.length === 0 ?
             <div className="flex flex-col justify-center gap-6 items-center p-4">
               <div className="flex flex-col items-center">
-                <PhotoIcon
-                  className={`size-20 stroke-1 ${dragState ? "text-blue-500" : null}`}
-                />
-                <span className="text-2xl">Drag photos here</span>
+                {!dropError ?
+                  <>
+                    <PhotoIcon
+                      className={`size-20 stroke-1 ${isDragActive ? "text-blue-500" : null}`}
+                    />
+                    <span className="text-2xl">Drag photos here</span>
+                  </>
+                : <>
+                    <ExclamationCircleIcon className="size-20 stroke-1" />
+                    <span className="text-2xl">This file is not supported</span>
+                    <div className="inline text-gray-800 dark:text-gray-400">
+                      <span className="font-semibold">
+                        {fileRejections[0].file.name}{" "}
+                      </span>
+                      <span className="">
+                        {fileRejections[0].errors[0].message}
+                      </span>
+                    </div>
+                  </>
+                }
               </div>
-              <div className="w-fit">
+              <div className="relative w-fit">
                 <label
                   htmlFor="file_input"
-                  className="px-6 py-1.5 bg-blue-500 disabled:bg-blue-400 hover:bg-blue-600 rounded-xl text-lg font-semibold text-white cursor-pointer"
+                  className="px-6 py-1.5 bg-blue-500 disabled:bg-blue-400 hover:bg-blue-600 rounded-xl text-lg font-semibold text-white cursor-pointer select-none"
                 >
-                  Select from computer
+                  {!dropError ? "Select from computer" : "Select other files"}
                 </label>
+                <QuestionMarkCircleIcon className="absolute top-0 -right-9 size-8" />
                 <Input
-                  id="file_input"
-                  type="file"
-                  multiple
-                  onChange={handleFileChange}
-                  className="hidden"
+                  {...getInputProps({
+                    id: "file_input",
+                    type: "file",
+                    className: "hidden",
+                  })}
                 />
               </div>
             </div>
@@ -97,23 +142,20 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
       </Modal>
 
       <Modal
-        isOpen={isConfirmationOpen}
-        onClose={() => setIsConfirmationOpen(false)}
+        isOpen={isDiscardConfirmationOpen}
+        onClose={() => setIsDiscardConfirmationOpen(false)}
       >
         <div className="flex flex-col">
           <DialogTitle className="">Discard post?</DialogTitle>
           <p className="">{"If you leave, edits won't be saved"}</p>
           <div className="flex flex-col items-center gap-4">
-            <Button
-              onClick={() => {
-                setFiles(null);
-                setIsConfirmationOpen(false);
-              }}
-              className="text-red-500"
-            >
+            <Button autoFocus onClick={onDiscard} className="text-red-500">
               Discard
             </Button>
-            <Button onClick={() => setIsConfirmationOpen(false)} className="">
+            <Button
+              onClick={() => setIsDiscardConfirmationOpen(false)}
+              className=""
+            >
               Cancel
             </Button>
           </div>
