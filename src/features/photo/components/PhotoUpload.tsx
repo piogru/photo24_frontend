@@ -75,7 +75,7 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
         onClose={onClose}
         getRootProps={getRootProps}
         title={
-          <DialogTitle className="font-bold p-3 text-center text-xl border-b border-gray-100 dark:border-gray-900">
+          <DialogTitle className="font-semibold px-3 py-1 text-center text-lg border-b border-gray-100 dark:border-gray-900">
             {files.length === 0 ?
               <>
                 {!dropError ? "Create new post" : "Files could not be uploaded"}
@@ -85,7 +85,10 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
                   <ArrowLeftIcon className="size-6 dark:text-white" />
                 </Button>
                 <span>Crop</span>
-                <Button onClick={() => handleNext()} className="text-blue-500">
+                <Button
+                  onClick={() => handleNext()}
+                  className="text-base text-blue-500"
+                >
                   Next
                 </Button>
               </div>
@@ -94,7 +97,7 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
         }
       >
         <div
-          className={`w-[28rem] h-[30rem] flex flex-col justify-center items-center ${isDragActive ? "bg-black/50" : ""}`}
+          className={`w-[28rem] h-[30rem] flex flex-col justify-center items-center rounded-b-xl ${isDragActive ? "bg-black/5 dark:bg-black/50" : ""}`}
         >
           {files.length === 0 ?
             <div className="flex flex-col justify-center gap-6 items-center p-4">
@@ -145,16 +148,26 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
         isOpen={isDiscardConfirmationOpen}
         onClose={() => setIsDiscardConfirmationOpen(false)}
       >
-        <div className="flex flex-col">
-          <DialogTitle className="">Discard post?</DialogTitle>
-          <p className="">{"If you leave, edits won't be saved"}</p>
-          <div className="flex flex-col items-center gap-4">
-            <Button autoFocus onClick={onDiscard} className="text-red-500">
+        <div className="w-96 flex flex-col items-center gap-4">
+          <div className="mt-6 mb-4 flex flex-col items-center gap-1 text-center">
+            <DialogTitle className="text-xl font-semibold">
+              Discard post?
+            </DialogTitle>
+            <p className="text-sm text-gray-800 dark:text-gray-400">
+              {"If you leave, your edits won't be saved"}
+            </p>
+          </div>
+          <div className="w-full flex flex-col items-center">
+            <Button
+              autoFocus
+              onClick={onDiscard}
+              className="w-full py-3 font-semibold text-red-500 border-t border-slate-300 dark:border-slate-600"
+            >
               Discard
             </Button>
             <Button
               onClick={() => setIsDiscardConfirmationOpen(false)}
-              className=""
+              className="w-full py-3 border-t border-slate-300 dark:border-slate-600"
             >
               Cancel
             </Button>

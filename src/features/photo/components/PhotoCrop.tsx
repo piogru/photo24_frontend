@@ -18,7 +18,7 @@ type FileTemp = {
 };
 
 const buttonStyle =
-  "size-10 flex justify-center items-center rounded-full dark:bg-gray-800 hover:dark:bg-gray-800/50 transition";
+  "size-10 flex justify-center items-center rounded-full text-gray-200 bg-gray-800 hover:bg-gray-800/50 transition";
 
 export default function PhotoCrop({ files }: FilePreviewProps) {
   const [preview, setPreview] = useState<string | null>(null);
@@ -57,32 +57,30 @@ export default function PhotoCrop({ files }: FilePreviewProps) {
           <span className="sr-only">Items</span>
         </Button>
       </div>
-      <div className="absolute top-1/2 bottom-1/2 left-2">
-        <Button
-          onClick={() => {
-            const newSelectedIndex = selectedFileIndex - 1;
-            if (newSelectedIndex >= 0) {
-              setSelectedFileIndex(newSelectedIndex);
-            }
-          }}
-          className={buttonStyle}
-        >
-          <ChevronLeftIcon className="size-6" />
-        </Button>
-      </div>
-      <div className="absolute top-1/2 bottom-1/2 right-2">
-        <Button
-          onClick={() => {
-            const newSelectedIndex = selectedFileIndex + 1;
-            if (newSelectedIndex < files.length) {
-              setSelectedFileIndex(newSelectedIndex);
-            }
-          }}
-          className={buttonStyle}
-        >
-          <ChevronRightIcon className="size-6" />
-        </Button>
-      </div>
+
+      <Button
+        onClick={() => {
+          const newSelectedIndex = selectedFileIndex - 1;
+          if (newSelectedIndex >= 0) {
+            setSelectedFileIndex(newSelectedIndex);
+          }
+        }}
+        className={`${buttonStyle} absolute top-1/2 bottom-1/2 left-2`}
+      >
+        <ChevronLeftIcon className="size-6" />
+      </Button>
+      <Button
+        onClick={() => {
+          const newSelectedIndex = selectedFileIndex + 1;
+          if (newSelectedIndex < files.length) {
+            setSelectedFileIndex(newSelectedIndex);
+          }
+        }}
+        className={`${buttonStyle} absolute top-1/2 bottom-1/2 right-2`}
+      >
+        <ChevronRightIcon className="size-6" />
+      </Button>
+
       {fileArray.length > 1 ?
         <div className="absolute bottom-0 mb-3 w-full inline-flex flex-row justify-center items-center gap-2">
           {Array.from(fileArray).map((item, idx) => (
