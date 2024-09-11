@@ -1,19 +1,26 @@
-import { Button, DialogTitle, Input } from "@headlessui/react";
+import { useCallback, useEffect, useState } from "react";
+import { Button, DialogTitle } from "@headlessui/react";
 import Modal from "../../core/components/Modal";
-import { PhotoIcon } from "@heroicons/react/24/outline";
-import { useCallback, useState } from "react";
 import PhotoEdit from "./PhotoEdit";
-import {
-  ArrowLeftIcon,
-  ExclamationCircleIcon,
-  QuestionMarkCircleIcon,
-} from "@heroicons/react/24/outline";
+import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { FileRejection, useDropzone } from "react-dropzone";
 import { imageLimit, imageMaxSize } from "../../core/constants/appConstants";
+import PhotoDropArea from "./PhotoDropArea";
+import { StageName } from "../types/stageName";
 
 type PhotoUploadProps = {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
+};
+
+const steps = {
+  dragAndDrop: {
+    title: "Create new post",
+  },
+  crop: { title: "Crop" },
+  share: { title: "Create new post" },
+  sharing: { title: "Sharing" },
+  error: { title: "File couldn't be uploaded" },
 };
 
 export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
@@ -44,14 +51,52 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
       multiple: true,
     });
   const dropError = fileRejections.length > 0;
+  const [stage, setStage] = useState<StageName>("dragAndDrop");
 
-  const handlePrevious = () => {
+  useEffect(() => {
+    if (fileRejections.length > 0 && files.length === 0) {
+      setStage("error");
+    }
+    if ((stage === "dragAndDrop" || stage === "error") && files.length > 0) {
+      setStage("crop");
+    }
+  }, [files, fileRejections, stage]);
+
+  const handlePrevious = (stage: StageName) => {
     setDiscardAndClose(false);
-    setIsDiscardConfirmationOpen(true);
+    if (stage === "crop") {
+      setIsDiscardConfirmationOpen(true);
+    }
+
+    switch (stage) {
+      case "dragAndDrop":
+        break;
+      case "crop":
+        break;
+      case "share":
+        setStage("crop");
+        break;
+      case "error":
+        break;
+    }
   };
 
-  const handleNext = () => {
-    console.log("Next");
+  const handleNext = (stage: StageName) => {
+    switch (stage) {
+      case "dragAndDrop":
+        setStage("crop");
+        break;
+      case "crop":
+        setStage("share");
+        break;
+      case "share":
+        console.log("Share to API");
+        setStage("sharing");
+        break;
+      case "error":
+        setStage("crop");
+        break;
+    }
   };
 
   const onClose = () => {
@@ -66,6 +111,8 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
     if (discardAndClose) {
       setIsOpen(false);
     }
+    setStage("dragAndDrop");
+    //todo: Cancel mutation
   };
 
   return (
@@ -75,72 +122,42 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
         onClose={onClose}
         getRootProps={getRootProps}
         title={
-          <DialogTitle className="font-semibold px-3 py-1 text-center text-lg border-b border-gray-100 dark:border-gray-900">
-            {files.length === 0 ?
-              <>
-                {!dropError ? "Create new post" : "Files could not be uploaded"}
-              </>
-            : <div className="w-full inline-flex flex-row justify-between items-center">
-                <Button onClick={handlePrevious}>
-                  <ArrowLeftIcon className="size-6 dark:text-white" />
-                </Button>
-                <span>Crop</span>
-                <Button
-                  onClick={() => handleNext()}
-                  className="text-base text-blue-500"
-                >
-                  Next
-                </Button>
-              </div>
-            }
+          <DialogTitle className="font-semibold px-3 py-1 text-center text-lg border-b border-gray-100 dark:border-gray-900 w-full inline-flex flex-row justify-between items-center">
+            {stage === "crop" || stage === "share" ?
+              <Button onClick={() => handlePrevious(stage)}>
+                <ArrowLeftIcon className="size-6 dark:text-white" />
+              </Button>
+            : null}
+            <span className="mx-auto">{steps[stage].title}</span>
+            {stage === "crop" || stage === "share" ?
+              <Button
+                onClick={() => handleNext(stage)}
+                className="text-base text-blue-500"
+              >
+                {stage !== "share" ? "Next" : "Share"}
+              </Button>
+            : null}
           </DialogTitle>
         }
       >
         <div
-          className={`w-[28rem] h-[30rem] flex flex-col justify-center items-center rounded-b-xl ${isDragActive ? "bg-black/5 dark:bg-black/50" : ""}`}
+          className={`${stage !== "share" ? "w-[28rem]" : "w-[48rem]"} h-[30rem] flex flex-col justify-center items-center rounded-b-xl transition ${isDragActive ? "bg-black/5 dark:bg-black/50" : ""}`}
         >
-          {files.length === 0 ?
-            <div className="flex flex-col justify-center gap-6 items-center p-4">
-              <div className="flex flex-col items-center">
-                {!dropError ?
-                  <>
-                    <PhotoIcon
-                      className={`size-20 stroke-1 ${isDragActive ? "text-blue-500" : null}`}
-                    />
-                    <span className="text-2xl">Drag photos here</span>
-                  </>
-                : <>
-                    <ExclamationCircleIcon className="size-20 stroke-1" />
-                    <span className="text-2xl">This file is not supported</span>
-                    <div className="inline text-gray-800 dark:text-gray-400">
-                      <span className="font-semibold">
-                        {fileRejections[0].file.name}{" "}
-                      </span>
-                      <span className="">
-                        {fileRejections[0].errors[0].message}
-                      </span>
-                    </div>
-                  </>
-                }
-              </div>
-              <div className="relative w-fit">
-                <label
-                  htmlFor="file_input"
-                  className="px-6 py-1.5 bg-blue-500 disabled:bg-blue-400 hover:bg-blue-600 rounded-xl text-lg font-semibold text-white cursor-pointer select-none"
-                >
-                  {!dropError ? "Select from computer" : "Select other files"}
-                </label>
-                <QuestionMarkCircleIcon className="absolute top-0 -right-9 size-8" />
-                <Input
-                  {...getInputProps({
-                    id: "file_input",
-                    type: "file",
-                    className: "hidden",
-                  })}
-                />
-              </div>
-            </div>
-          : <PhotoEdit files={files} />}
+          {stage === "dragAndDrop" || stage === "error" ?
+            <PhotoDropArea
+              isDragActive={isDragActive}
+              dropError={dropError}
+              fileRejections={fileRejections}
+              getInputProps={getInputProps}
+            />
+          : null}
+          {stage === "crop" || stage === "share" ?
+            <PhotoEdit files={files} stage={stage} />
+          : null}
+
+          {stage === "sharing" ?
+            <div>Sharing</div>
+          : null}
         </div>
       </Modal>
 

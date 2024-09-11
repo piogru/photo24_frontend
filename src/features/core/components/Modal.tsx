@@ -38,7 +38,7 @@ export default function Modal({
         <Button onClick={onClose} className="absolute top-2 right-2 p-1">
           <XMarkIcon className="size-8 stroke-2 font-bold text-black dark:text-white" />
         </Button>
-        <DialogPanel className="max-w-lg rounded-xl shadow-xl bg-white dark:bg-gray-800  duration-150 ease-out data-[closed]:scale-95 data-[closed]:opacity-0">
+        <DialogPanel className="rounded-xl overflow-hidden shadow-xl bg-white dark:bg-gray-800 duration-150 ease-out data-[closed]:scale-95 data-[closed]:opacity-0">
           {title ? title : null}
           <div className="w-full h-full">{children}</div>
         </DialogPanel>
