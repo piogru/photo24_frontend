@@ -1,1 +1,3 @@
-export type StageName = "dragAndDrop" | "crop" | "share" | "sharing" | "error";
+type StageName = "dragAndDrop" | "crop" | "share" | "sharing" | "error";
+
+export default StageName;

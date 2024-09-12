@@ -8,13 +8,13 @@ import {
   ChevronRightIcon,
   FaceSmileIcon,
 } from "@heroicons/react/24/outline";
-import { StageName } from "../types/stageName";
+import StageName from "../types/stageName";
 import Accordion from "../../core/components/Accordion";
 import PhotoPreview from "./PhotoPreview";
 import Input from "../../core/components/Input";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import ConnectForm from "../../core/components/ConnectForm";
+import Switch from "../../core/components/Switch";
+import { Controller, useFieldArray, useFormContext } from "react-hook-form";
 
 type PhotoEditProps = {
   files: File[];
@@ -29,24 +29,14 @@ type FileTemp = {
 const buttonStyle =
   "size-10 flex justify-center items-center rounded-full text-gray-200 bg-gray-800 hover:bg-gray-800/50 transition";
 
-const schema = z
-  .object({
-    userId: z.string(),
-    password: z.string(),
-  })
-  .required();
-
 export default function PhotoEdit({ files, stage }: PhotoEditProps) {
   const [fileArray, setFileArray] = useState<FileTemp[]>([]);
   const [selectedFileIndex, setSelectedFileIndex] = useState(0);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: zodResolver(schema),
+  const { control } = useFormContext();
+  const { fields } = useFieldArray({
+    control,
+    name: "fileInfo",
   });
-  const [fileDescriptions, setFileDescriptions] = useState([]);
 
   useEffect(() => {
     const arr = Array.from(files).map((item, idx) => ({
@@ -111,7 +101,7 @@ export default function PhotoEdit({ files, stage }: PhotoEditProps) {
         : null}
         {fileArray.length > 1 ?
           <div className="absolute bottom-0 mb-3 w-full inline-flex flex-row justify-center items-center gap-2">
-            {Array.from(fileArray).map((item, idx) => (
+            {fileArray.map((item, idx) => (
               <div
                 key={item.key}
                 className={`size-2 rounded-full ${selectedFileIndex === idx ? "bg-blue-500" : "bg-gray-400"}`}
@@ -122,59 +112,89 @@ export default function PhotoEdit({ files, stage }: PhotoEditProps) {
       </div>
 
       {stage !== "crop" ?
-        <div className="basis-80 w-full flex flex-col gap-4 overflow-auto">
-          <div className="px-4 pt-4 flex flex-row items-center gap-2">
-            <div className="size-8 rounded-full bg-gray-500"></div>
-            <div>Account name</div>
-          </div>
-
-          <div className="w-full flex flex-col">
-            <div className="overflow-auto">
-              <div className="w-full px-4">
-                <Textarea
-                  rows={7}
-                  className="w-full min-h-40 max-h-40 bg-inherit resize-none"
-                />
+        <ConnectForm>
+          {({ control, register, watch }) => (
+            <div className="basis-80 w-full flex flex-col gap-4 overflow-auto">
+              <div className="px-4 pt-4 flex flex-row items-center gap-2">
+                <div className="size-8 rounded-full bg-gray-500"></div>
+                <div>Account name</div>
               </div>
-            </div>
-            <div className="w-full flex flex-row items-center justify-between px-4">
-              <Button className="-ml-1 p-1">
-                <FaceSmileIcon className="size-6 dark:text-gray-300" />
-              </Button>
-              <span className="text-sm text-gray-800 dark:text-gray-500">
-                0/2200
-              </span>
-            </div>
-          </div>
 
-          <div className="px-4 pb-4 flex flex-col gap-4">
-            <Accordion title="Accessibility" className="flex flex-col gap-2">
-              <p className="text-xs text-gray-800 dark:text-gray-400">
-                Alt text describes your photos for people with visual
-                impairments.
-              </p>
-              {fileArray.map((item) => (
-                <div key={item.key} className="w-full flex flex-row gap-2">
-                  <div className="w-fit size-12">
-                    <PhotoPreview file={item.file} objectFit="object-cover" />
+              <div className="w-full flex flex-col">
+                <div className="overflow-auto">
+                  <div className="w-full px-4">
+                    <Textarea
+                      rows={7}
+                      {...register("caption")}
+                      className="w-full min-h-40 max-h-40 bg-inherit resize-none"
+                    />
                   </div>
-                  <Input name="asdf" label="fdsa" />
                 </div>
-              ))}
-            </Accordion>
+                <div className="w-full flex flex-row items-center justify-between px-4">
+                  <Button className="-ml-1 p-1">
+                    <FaceSmileIcon className="size-6 dark:text-gray-300" />
+                  </Button>
+                  <span className="text-sm text-gray-800 dark:text-gray-500">
+                    {watch("caption").length}/2200
+                  </span>
+                </div>
+              </div>
 
-            {/* <Accordion title="Advanced settings" className="flex flex-col gap-2">
-              <div>
-                <span>Hide like and view counts on this post</span>
-                <Switch />
+              <div className="px-4 pb-4 flex flex-col gap-4">
+                <Accordion
+                  title="Accessibility"
+                  className="flex flex-col gap-2"
+                >
+                  <p className="text-xs text-gray-800 dark:text-gray-400">
+                    Alt text describes your photos for people with visual
+                    impairments.
+                  </p>
+
+                  {fields.map((field, index) => (
+                    <div key={field.id} className="w-full flex flex-row gap-2">
+                      <div className="w-fit size-12">
+                        <PhotoPreview
+                          file={files[index]}
+                          objectFit="object-cover"
+                        />
+                      </div>
+                      <Input
+                        label=""
+                        {...register(`fileInfo.${index}.altText`)}
+                      />
+                    </div>
+                  ))}
+                </Accordion>
+
+                <Accordion
+                  title="Advanced settings"
+                  className="flex flex-col gap-2"
+                >
+                  <div>
+                    <span>Hide like and view counts on this post</span>
+                    <Controller
+                      control={control}
+                      name="hideLikes"
+                      render={({ field: { onChange, value } }) => (
+                        <Switch checked={value} onChange={onChange} />
+                      )}
+                    />
+                  </div>
+                  <div>
+                    <span>Turn off commenting</span>
+                    <Controller
+                      control={control}
+                      name="commentsOff"
+                      render={({ field: { onChange, value } }) => (
+                        <Switch checked={value} onChange={onChange} />
+                      )}
+                    />
+                  </div>
+                </Accordion>
               </div>
-              <div>
-                <span>Turn off commenting</span>
-                <Switch />
-              </div>
-            </Accordion> */}
-          </div>
-        </div>
+            </div>
+          )}
+        </ConnectForm>
       : null}
     </div>
   );

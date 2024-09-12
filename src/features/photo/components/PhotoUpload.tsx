@@ -6,7 +6,17 @@ import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { FileRejection, useDropzone } from "react-dropzone";
 import { imageLimit, imageMaxSize } from "../../core/constants/appConstants";
 import PhotoDropArea from "./PhotoDropArea";
-import { StageName } from "../types/stageName";
+import StageName from "../types/stageName";
+import {
+  FieldValues,
+  FormProvider,
+  useFieldArray,
+  useForm,
+} from "react-hook-form";
+import { z } from "zod";
+import { useMutation } from "@tanstack/react-query";
+import { postPost } from "../api/queries";
+import Spinner from "../../core/components/Spinner";
 
 type PhotoUploadProps = {
   isOpen: boolean;
@@ -22,6 +32,19 @@ const steps = {
   sharing: { title: "Sharing" },
   error: { title: "File couldn't be uploaded" },
 };
+
+const PostSchema = z.object({
+  caption: z.string(),
+  hideLikes: z.boolean(),
+  commentsOff: z.boolean(),
+  fileInfo: z.array(
+    z.object({
+      altText: z.string(),
+    }),
+  ),
+});
+
+type TPostSchema = z.infer<typeof PostSchema>;
 
 export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
   const [files, setFiles] = useState<File[]>([]);
@@ -52,6 +75,28 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
     });
   const dropError = fileRejections.length > 0;
   const [stage, setStage] = useState<StageName>("dragAndDrop");
+  const formMethods = useForm<TPostSchema>({
+    defaultValues: {
+      hideLikes: false,
+      commentsOff: false,
+    },
+  });
+  const { control, handleSubmit } = formMethods;
+  const { replace } = useFieldArray({
+    control,
+    name: "fileInfo",
+  });
+  const mutation = useMutation({
+    mutationFn: postPost,
+    onSuccess: () => {
+      console.log("success");
+      setIsOpen(false);
+      //todo: Reset form, etc.
+    },
+    onError: () => {
+      setStage("share");
+    },
+  });
 
   useEffect(() => {
     if (fileRejections.length > 0 && files.length === 0) {
@@ -61,6 +106,25 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
       setStage("crop");
     }
   }, [files, fileRejections, stage]);
+
+  useEffect(() => {
+    replace(
+      files.map(() => ({
+        altText: "",
+      })),
+    );
+  }, [files, replace]);
+
+  const submitFunc = async (data: FieldValues) => {
+    setStage("sharing");
+    mutation.mutate({
+      files: files,
+      caption: data.caption,
+      hideLikes: data.hideLikes,
+      commentsOff: data.commentOff,
+      fileInfo: data.fileInfo,
+    });
+  };
 
   const handlePrevious = (stage: StageName) => {
     setDiscardAndClose(false);
@@ -90,8 +154,7 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
         setStage("share");
         break;
       case "share":
-        console.log("Share to API");
-        setStage("sharing");
+        handleSubmit(submitFunc)();
         break;
       case "error":
         setStage("crop");
@@ -117,49 +180,57 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
 
   return (
     <>
-      <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-        getRootProps={getRootProps}
-        title={
-          <DialogTitle className="font-semibold px-3 py-1 text-center text-lg border-b border-gray-100 dark:border-gray-900 w-full inline-flex flex-row justify-between items-center">
-            {stage === "crop" || stage === "share" ?
-              <Button onClick={() => handlePrevious(stage)}>
-                <ArrowLeftIcon className="size-6 dark:text-white" />
-              </Button>
-            : null}
-            <span className="mx-auto">{steps[stage].title}</span>
-            {stage === "crop" || stage === "share" ?
-              <Button
-                onClick={() => handleNext(stage)}
-                className="text-base text-blue-500"
+      <FormProvider {...formMethods}>
+        <form>
+          <Modal
+            isOpen={isOpen}
+            onClose={onClose}
+            getRootProps={getRootProps}
+            title={
+              <DialogTitle className="font-semibold px-3 py-1 text-center text-lg border-b border-gray-100 dark:border-gray-900 w-full inline-flex flex-row justify-between items-center">
+                {stage === "crop" || stage === "share" ?
+                  <Button onClick={() => handlePrevious(stage)}>
+                    <ArrowLeftIcon className="size-6 dark:text-white" />
+                  </Button>
+                : null}
+                <span className="mx-auto">{steps[stage].title}</span>
+                {stage === "crop" || stage === "share" ?
+                  <Button
+                    onClick={() => handleNext(stage)}
+                    className="text-base text-blue-500 hover:text-gray-700 dark:hover:text-gray-200"
+                  >
+                    {stage !== "share" ? "Next" : "Share"}
+                  </Button>
+                : null}
+              </DialogTitle>
+            }
+          >
+            <form>
+              <div
+                className={`${stage !== "share" ? "w-[28rem]" : "w-[48rem]"} h-[30rem] flex flex-col justify-center items-center rounded-b-xl transition ${isDragActive ? "bg-black/5 dark:bg-black/50" : ""}`}
               >
-                {stage !== "share" ? "Next" : "Share"}
-              </Button>
-            : null}
-          </DialogTitle>
-        }
-      >
-        <div
-          className={`${stage !== "share" ? "w-[28rem]" : "w-[48rem]"} h-[30rem] flex flex-col justify-center items-center rounded-b-xl transition ${isDragActive ? "bg-black/5 dark:bg-black/50" : ""}`}
-        >
-          {stage === "dragAndDrop" || stage === "error" ?
-            <PhotoDropArea
-              isDragActive={isDragActive}
-              dropError={dropError}
-              fileRejections={fileRejections}
-              getInputProps={getInputProps}
-            />
-          : null}
-          {stage === "crop" || stage === "share" ?
-            <PhotoEdit files={files} stage={stage} />
-          : null}
+                {stage === "dragAndDrop" || stage === "error" ?
+                  <PhotoDropArea
+                    isDragActive={isDragActive}
+                    dropError={dropError}
+                    fileRejections={fileRejections}
+                    getInputProps={getInputProps}
+                  />
+                : null}
+                {stage === "crop" || stage === "share" ?
+                  <PhotoEdit files={files} stage={stage} />
+                : null}
 
-          {stage === "sharing" ?
-            <div>Sharing</div>
-          : null}
-        </div>
-      </Modal>
+                {stage === "sharing" ?
+                  <div>
+                    <Spinner size="xl" />
+                  </div>
+                : null}
+              </div>
+            </form>
+          </Modal>
+        </form>
+      </FormProvider>
 
       <Modal
         isOpen={isDiscardConfirmationOpen}

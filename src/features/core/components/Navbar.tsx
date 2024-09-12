@@ -150,7 +150,7 @@ export default function Navbar() {
             <span>Dark mode</span>
             <div className="flex-grow" />
             <Switch
-              enabled={theme === "dark"}
+              checked={theme === "dark"}
               onClick={() => {
                 handleThemeChange();
               }}
