@@ -4,7 +4,7 @@ import Modal from "../../core/components/Modal";
 import PhotoEdit from "./PhotoEdit";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { FileRejection, useDropzone } from "react-dropzone";
-import { imageLimit, imageMaxSize } from "../../core/constants/appConstants";
+import { IMAGE_LIMIT, IMAGE_MAX_SIZE } from "../../core/constants/appConstants";
 import PhotoDropArea from "./PhotoDropArea";
 import StageName from "../types/stageName";
 import {
@@ -69,8 +69,8 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
       onError: (error) => {
         console.log("Dropzone - error", error);
       },
-      maxFiles: imageLimit,
-      maxSize: imageMaxSize,
+      maxFiles: IMAGE_LIMIT,
+      maxSize: IMAGE_MAX_SIZE,
       multiple: true,
     });
   const dropError = fileRejections.length > 0;
