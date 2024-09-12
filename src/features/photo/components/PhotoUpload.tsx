@@ -81,7 +81,7 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
       commentsOff: false,
     },
   });
-  const { control, handleSubmit } = formMethods;
+  const { control, handleSubmit, reset } = formMethods;
   const { replace } = useFieldArray({
     control,
     name: "fileInfo",
@@ -89,9 +89,10 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
   const mutation = useMutation({
     mutationFn: postPost,
     onSuccess: () => {
-      console.log("success");
       setIsOpen(false);
-      //todo: Reset form, etc.
+      setStage("dragAndDrop");
+      setFiles([]);
+      reset();
     },
     onError: () => {
       setStage("share");
@@ -121,7 +122,7 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
       files: files,
       caption: data.caption,
       hideLikes: data.hideLikes,
-      commentsOff: data.commentOff,
+      commentsOff: data.commentsOff,
       fileInfo: data.fileInfo,
     });
   };
@@ -175,7 +176,6 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
       setIsOpen(false);
     }
     setStage("dragAndDrop");
-    //todo: Cancel mutation
   };
 
   return (
