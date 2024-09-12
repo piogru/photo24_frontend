@@ -5,6 +5,11 @@ import {
   QuestionMarkCircleIcon,
 } from "@heroicons/react/24/outline";
 import { DropzoneInputProps, FileRejection } from "react-dropzone";
+import PopoverTooltip from "../../core/components/PopoverTooltip";
+import {
+  IMAGE_LIMIT,
+  IMAGE_MAX_SIZE_MB,
+} from "../../core/constants/appConstants";
 
 type PhotoDropAreaProps = {
   isDragActive: boolean;
@@ -48,7 +53,13 @@ export default function PhotoDropArea({
         >
           {!dropError ? "Select from computer" : "Select other files"}
         </label>
-        <QuestionMarkCircleIcon className="absolute top-0 -right-9 size-8" />
+        <div className="absolute top-0 -right-9">
+          <PopoverTooltip
+            label={`Max filesize: ${IMAGE_MAX_SIZE_MB}MB\nMax ${IMAGE_LIMIT} files`}
+          >
+            <QuestionMarkCircleIcon className="size-8" />
+          </PopoverTooltip>
+        </div>
         <Input
           {...getInputProps({
             id: "file_input",
