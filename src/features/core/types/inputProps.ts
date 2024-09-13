@@ -10,8 +10,8 @@ import { ZodAny } from "zod";
 
 type InputProps = ComponentPropsWithoutRef<"input"> & {
   name: string;
-  register: UseFormRegister<FieldValues>;
   label: string;
+  register?: UseFormRegister<FieldValues>;
   errorObject?: FieldError | Merge<FieldError, FieldErrorsImpl<ZodAny>>;
 };
 
