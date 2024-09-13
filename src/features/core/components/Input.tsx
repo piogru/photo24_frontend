@@ -1,6 +1,5 @@
 import InputProps from "../types/inputProps";
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
-import { Input as HeadlessInput } from "@headlessui/react";
 
 export default function Input({
   name,
@@ -15,13 +14,13 @@ export default function Input({
   return (
     <div
       className="
-        relative w-full group flex flex-row items-center border rounded-md
+        relative group flex flex-row items-center border rounded-md
       border-gray-300 dark:border-gray-600 has-[:focus]:border-gray-600 has-[:focus]:dark:border-gray-500
       "
     >
-      <HeadlessInput
+      <input
         id={name}
-        {...(register && register(name))}
+        {...register(name)}
         className="peer px-2.5 pb-2 pt-[15px] w-full bg-inherit text-sm text-inherit text-ellipsis ring-0 ring-inset focus:outline-none focus:ring-0"
         placeholder=""
         {...rest}
@@ -33,9 +32,11 @@ export default function Input({
       >
         {label}
       </label>
-      <ValidationMarkComponent
-        className={`block size-6 mx-2 top-2.5 end-2 peer-placeholder-shown:hidden peer-focus:hidden text-gray-400 peer-aria-[invalid="true"]:text-red-600`}
-      />
+      {true && (
+        <ValidationMarkComponent
+          className={`block size-6 mx-2 top-2.5 end-2 peer-placeholder-shown:hidden peer-focus:hidden text-gray-400 peer-aria-[invalid="true"]:text-red-600`}
+        />
+      )}
     </div>
   );
 }
