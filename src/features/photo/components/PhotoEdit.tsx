@@ -15,6 +15,8 @@ import Input from "../../core/components/Input";
 import ConnectForm from "../../core/components/ConnectForm";
 import Switch from "../../core/components/Switch";
 import { Controller, useFieldArray, useFormContext } from "react-hook-form";
+import PopoverMenu from "../../core/components/PopoverMenu";
+import WIP from "../../core/components/WIP";
 
 type PhotoEditProps = {
   files: File[];
@@ -58,19 +60,40 @@ export default function PhotoEdit({ files, stage }: PhotoEditProps) {
         {stage === "crop" ?
           <div className="absolute bottom-0 px-4 mb-3 w-full flex flex-row justify-between items-center gap-4">
             <div className="flex flex-row gap-4">
-              <Button className={buttonStyle}>
-                <ChevronUpDownIcon className="size-8 rotate-45" />
-                <span className="sr-only">Crop</span>
-              </Button>
-              <Button className={buttonStyle}>
-                <MagnifyingGlassPlusIcon className="size-6" />
-                <span className="sr-only">Zoom</span>
-              </Button>
+              <PopoverMenu
+                anchor={"bottom start"}
+                buttonContent={
+                  <Button className={buttonStyle}>
+                    <ChevronUpDownIcon className="size-8 rotate-45" />
+                    <span className="sr-only">Crop</span>
+                  </Button>
+                }
+              >
+                <WIP />
+              </PopoverMenu>
+              <PopoverMenu
+                anchor={"bottom start"}
+                buttonContent={
+                  <Button className={buttonStyle}>
+                    <MagnifyingGlassPlusIcon className="size-6" />
+                    <span className="sr-only">Zoom</span>
+                  </Button>
+                }
+              >
+                <WIP />
+              </PopoverMenu>
             </div>
-            <Button className={buttonStyle}>
-              <Square2StackIcon className="size-6 scale-x-[-1] scale-y-[-1]" />
-              <span className="sr-only">Items</span>
-            </Button>
+            <PopoverMenu
+              anchor={"bottom end"}
+              buttonContent={
+                <Button className={buttonStyle}>
+                  <Square2StackIcon className="size-6 scale-x-[-1] scale-y-[-1]" />
+                  <span className="sr-only">Items</span>
+                </Button>
+              }
+            >
+              <WIP />
+            </PopoverMenu>
           </div>
         : null}
         {selectedFileIndex != 0 ?
