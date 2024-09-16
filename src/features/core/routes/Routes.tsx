@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "../../../App.tsx";
-import { appLoader } from "../api/loaders.ts";
+import { appLoader, exploreLoader } from "../api/loaders.ts";
 import ErrorPage from "../components/ErrorPage.tsx";
 import Profile from "../../profiles/components/Profile.tsx";
 import NavbarWrapper from "../components/NavbarWrapper.tsx";
@@ -12,6 +12,7 @@ import Feed from "../../feed/components/Feed.tsx";
 import Home from "../../landing/components/Home.tsx";
 import { QueryClient } from "@tanstack/react-query";
 import AuthenticatedRoute from "../components/AuthenticatedRoute.tsx";
+import Explore from "../../explore/components/Explore.tsx";
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -33,7 +34,8 @@ const router = createBrowserRouter([
               },
               {
                 path: "explore",
-                element: <div>Explore</div>,
+                loader: exploreLoader(queryClient),
+                element: <Explore />,
               },
 
               {
