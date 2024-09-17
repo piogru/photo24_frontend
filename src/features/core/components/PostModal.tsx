@@ -60,22 +60,25 @@ export default function PostModal({ post, isOpen, onClose }: PostModalProps) {
               {currentPhotoIndex > 0 ?
                 <Button
                   onClick={handlePrevious}
-                  className="absolute left-0 p-1"
+                  className="absolute left-0 top-0 bottom-0 p-1"
                 >
                   <ChevronLeftIcon className="size-6" />
                 </Button>
               : null}
               {currentPhotoIndex < photos.length - 1 ?
-                <Button onClick={handleNext} className="absolute right-0 p-1">
+                <Button
+                  onClick={handleNext}
+                  className="absolute right-0 top-0 bottom-0 p-1"
+                >
                   <ChevronRightIcon className="size-6" />
                 </Button>
               : null}
               {photos.length > 0 ?
                 <div className="absolute bottom-3 w-full flex flex-row justify-center items-center gap-0.5">
-                  {[1, 2, 3].map((item) => (
+                  {[...Array(photos.length).keys()].map((item) => (
                     <div
                       key={item}
-                      className="size-1.5 rounded-full bg-gray-500"
+                      className={`size-1.5 rounded-full transition ${item === currentPhotoIndex ? "bg-gray-200 " : "bg-gray-500"}`}
                     ></div>
                   ))}
                 </div>
@@ -85,7 +88,7 @@ export default function PostModal({ post, isOpen, onClose }: PostModalProps) {
         : null}
         <div className="w-full h-full max-w-md flex-grow flex flex-col">
           <div className="w-full flex flex-row justify-between items-center gap-2 border-b border-slate-300 dark:border-slate-600">
-            <div>
+            <div className="flex flex-row items-center gap-1 p-1">
               {post.user ?
                 <UserBar user={post.user} />
               : null}

@@ -4,11 +4,13 @@ import PostSquare from "./PostSquare";
 import PostModal from "../../core/components/PostModal";
 import Post from "../../core/types/post";
 import { NavLink } from "react-router-dom";
+import Spinner from "../../core/components/Spinner";
 
 export default function Explore() {
   const { data: allPosts } = useAllPostsQuery();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  const pageLoading = useState(false);
 
   const openModal = (post: Post) => {
     setModalOpen(true);
@@ -53,7 +55,11 @@ export default function Explore() {
               />
             ))}
           </div>
-          <div>Page loading</div>
+          {pageLoading ?
+            <div>
+              <Spinner />
+            </div>
+          : null}
         </div>
       </div>
     </>
