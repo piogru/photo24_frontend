@@ -2,7 +2,7 @@ type User = {
   id: string;
   name: string;
   email: string;
-  avatar: {
+  profilePic: {
     url: string;
     altText: string;
   };

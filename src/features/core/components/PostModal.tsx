@@ -119,7 +119,7 @@ export default function PostModal({ post, isOpen, onClose }: PostModalProps) {
                 <div className="flex flex-col justify-start gap-1">
                   <div className="text-start whitespace-pre-line">
                     <span className="inline-flex font-semibold">
-                      {post?.user?.name} Account name
+                      {post.user ? post.user.name : "Unknown user"}
                     </span>{" "}
                     <p className="inline">{post.caption}</p>
                   </div>
