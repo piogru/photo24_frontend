@@ -33,8 +33,13 @@ const router = createBrowserRouter([
                 element: <Feed />,
               },
               {
-                path: "explore",
+                path: "explore/",
                 loader: exploreLoader(queryClient),
+                element: <Explore />,
+              },
+              {
+                path: "p/:photoId",
+                // loader: exploreLoader(queryClient),
                 element: <Explore />,
               },
 
