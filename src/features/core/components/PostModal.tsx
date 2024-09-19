@@ -13,6 +13,15 @@ import {
   HeartIcon,
   ShareIcon,
 } from "@heroicons/react/24/outline";
+import {
+  BookmarkIcon as BookmarkIconSolid,
+  ChatBubbleOvalLeftIcon as ChatBubbleOvalLeftIconSolid,
+  HeartIcon as HeartIconSolid,
+  ShareIcon as ShareIconSolid,
+} from "@heroicons/react/24/solid";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteLike, postLike } from "../api/queries";
+import useLikeQuery from "../hooks/useLikeQuery";
 
 type PostModalProps = {
   isOpen: boolean;
@@ -33,6 +42,26 @@ export default function PostModal({ post, isOpen, onClose }: PostModalProps) {
     new Date(post.createdAt),
   ).split(" ");
   const timePosted = `${distanceToPosted[0]} ${distanceToPosted[1][0]}`;
+  const { data: like } = useLikeQuery(post._id);
+  const queryClient = useQueryClient();
+  const likeMutation = useMutation({
+    mutationFn: postLike,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["posts", post._id],
+        exact: false,
+      });
+    },
+  });
+  const unlikeMutation = useMutation({
+    mutationFn: deleteLike,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["posts", post._id],
+        exact: false,
+      });
+    },
+  });
 
   const handlePrevious = () => {
     if (currentPhotoIndex > 0) {
@@ -48,7 +77,21 @@ export default function PostModal({ post, isOpen, onClose }: PostModalProps) {
 
   const onFollowClick = () => {};
 
-  console.log(post);
+  const onLikeClick = () => {
+    if (like) {
+      unlikeMutation.mutate(post._id);
+    } else {
+      likeMutation.mutate(post._id);
+    }
+  };
+
+  const onCommentClick = () => {};
+
+  const onShareClick = () => {};
+
+  const onSaveClick = () => {};
+
+  console.log(like);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -139,14 +182,18 @@ export default function PostModal({ post, isOpen, onClose }: PostModalProps) {
             <div className="flex flex-row justify-between px-3 py-2">
               <div className="flex flex-row items-center gap-2">
                 <Button
-                  title="Like"
+                  title={like ? "Unlike" : "Like"}
+                  onClick={onLikeClick}
                   className="text-gray-900 dark:text-gray-200 hover:text-gray-800 dark:hover:text-gray-400
                   active:text-gray-700 dark:active:text-gray-500"
                 >
-                  <HeartIcon className="size-7" />
+                  {like ?
+                    <HeartIconSolid className="size-7" />
+                  : <HeartIcon className="size-7" />}
                 </Button>
                 <Button
                   title="Comment"
+                  onClick={onCommentClick}
                   className="text-gray-900 dark:text-gray-200 hover:text-gray-800 dark:hover:text-gray-400
                   active:text-gray-700 dark:active:text-gray-500"
                 >
@@ -154,6 +201,7 @@ export default function PostModal({ post, isOpen, onClose }: PostModalProps) {
                 </Button>
                 <Button
                   title="Share"
+                  onClick={onShareClick}
                   className="text-gray-900 dark:text-gray-200 hover:text-gray-800 dark:hover:text-gray-400
                   active:text-gray-700 dark:active:text-gray-500"
                 >
@@ -163,6 +211,7 @@ export default function PostModal({ post, isOpen, onClose }: PostModalProps) {
               <div>
                 <Button
                   title="Save"
+                  onClick={onSaveClick}
                   className="text-gray-900 dark:text-gray-200 hover:text-gray-800 dark:hover:text-gray-400
                   active:text-gray-700 dark:active:text-gray-500"
                 >
@@ -181,7 +230,7 @@ export default function PostModal({ post, isOpen, onClose }: PostModalProps) {
               </div>
             </div>
 
-            <div className="px-3 py-2">New comment</div>
+            <div className="px-3 py-2 hidden">New comment</div>
           </div>
         </div>
       </div>

@@ -1,6 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "../../../App.tsx";
-import { appLoader, exploreLoader } from "../api/loaders.ts";
+import {
+  appLoader,
+  exploreLoader,
+  photoDetailsLoader,
+} from "../api/loaders.ts";
 import ErrorPage from "../components/ErrorPage.tsx";
 import Profile from "../../profiles/components/Profile.tsx";
 import NavbarWrapper from "../components/NavbarWrapper.tsx";
@@ -38,8 +42,8 @@ const router = createBrowserRouter([
                 element: <Explore />,
               },
               {
-                path: "p/:photoId",
-                // loader: exploreLoader(queryClient),
+                path: "p/:postId",
+                loader: photoDetailsLoader(queryClient),
                 element: <Explore />,
               },
 
