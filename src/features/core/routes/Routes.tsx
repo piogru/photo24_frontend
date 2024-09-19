@@ -3,7 +3,7 @@ import App from "../../../App.tsx";
 import {
   appLoader,
   exploreLoader,
-  photoDetailsLoader,
+  postDetailsLoader,
 } from "../api/loaders.ts";
 import ErrorPage from "../components/ErrorPage.tsx";
 import Profile from "../../profiles/components/Profile.tsx";
@@ -43,7 +43,7 @@ const router = createBrowserRouter([
               },
               {
                 path: "p/:postId",
-                loader: photoDetailsLoader(queryClient),
+                loader: postDetailsLoader(queryClient),
                 element: <Explore />,
               },
 

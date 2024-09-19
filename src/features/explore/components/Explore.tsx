@@ -10,7 +10,6 @@ export default function Explore() {
   const { data: allPosts, isLoading: postsLoading } = useAllPostsQuery();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
-  const [pageLoading, setPageLoading] = useState(false);
   const { pathname, state } = useLocation();
   const { postId } = useParams();
   const navigate = useNavigate();
@@ -77,11 +76,6 @@ export default function Explore() {
                 ))}
               </div>
             }
-            {pageLoading ?
-              <div>
-                <Spinner />
-              </div>
-            : null}
           </div>
         </div>
       </div>

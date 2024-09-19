@@ -15,13 +15,14 @@ import {
 } from "@heroicons/react/24/outline";
 import {
   BookmarkIcon as BookmarkIconSolid,
-  ChatBubbleOvalLeftIcon as ChatBubbleOvalLeftIconSolid,
   HeartIcon as HeartIconSolid,
-  ShareIcon as ShareIconSolid,
 } from "@heroicons/react/24/solid";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteLike, postLike } from "../api/queries";
 import useLikeQuery from "../hooks/useLikeQuery";
+import usePostQuery from "../hooks/usePostQuery";
+import { postDetailsLoader } from "../api/loaders";
+import { useLoaderData } from "react-router-dom";
 
 type PostModalProps = {
   isOpen: boolean;
@@ -29,26 +30,46 @@ type PostModalProps = {
   post: Post;
 };
 
-export default function PostModal({ post, isOpen, onClose }: PostModalProps) {
+export default function PostModal({
+  post: postProp,
+  isOpen,
+  onClose,
+}: PostModalProps) {
+  const initialData = useLoaderData() as Awaited<
+    ReturnType<ReturnType<typeof postDetailsLoader>>
+  >;
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
-  const photos = post.photos || [];
-  const comments = post.comments;
+  const { data: post } = usePostQuery(
+    postProp._id,
+    initialData.post || undefined,
+  );
+  const photos = post?.photos || [];
+  const comments = post?.comments || [];
   const currentPhoto = photos[currentPhotoIndex];
-  const createdAt = format(post.createdAt, "MMM dd, yyyy");
-  const timePostedSuffix = formatDistanceToNowStrict(new Date(post.createdAt), {
-    addSuffix: true,
-  });
-  const distanceToPosted = formatDistanceToNowStrict(
-    new Date(post.createdAt),
-  ).split(" ");
-  const timePosted = `${distanceToPosted[0]} ${distanceToPosted[1][0]}`;
-  const { data: like } = useLikeQuery(post._id);
+  const createdAt = post ? format(post.createdAt, "MMM dd, yyyy") : "";
+  const timePostedSuffix =
+    post ?
+      formatDistanceToNowStrict(new Date(post.createdAt), {
+        addSuffix: true,
+      })
+    : "";
+  const distanceToPosted =
+    post ? formatDistanceToNowStrict(new Date(post.createdAt)).split(" ") : [];
+  const timePosted =
+    distanceToPosted.length >= 1 ?
+      `${distanceToPosted[0]} ${distanceToPosted[1][0]}`
+    : "";
+  const { data: like } = useLikeQuery(
+    post?._id || "",
+    initialData.like || undefined,
+  );
+
   const queryClient = useQueryClient();
   const likeMutation = useMutation({
     mutationFn: postLike,
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: ["posts", post._id],
+        queryKey: ["posts", post?._id],
         exact: false,
       });
     },
@@ -57,7 +78,7 @@ export default function PostModal({ post, isOpen, onClose }: PostModalProps) {
     mutationFn: deleteLike,
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: ["posts", post._id],
+        queryKey: ["posts", post?._id],
         exact: false,
       });
     },
@@ -75,13 +96,11 @@ export default function PostModal({ post, isOpen, onClose }: PostModalProps) {
     }
   };
 
-  const onFollowClick = () => {};
-
   const onLikeClick = () => {
     if (like) {
-      unlikeMutation.mutate(post._id);
+      unlikeMutation.mutate(post?._id || "");
     } else {
-      likeMutation.mutate(post._id);
+      likeMutation.mutate(post?._id || "");
     }
   };
 
@@ -90,8 +109,6 @@ export default function PostModal({ post, isOpen, onClose }: PostModalProps) {
   const onShareClick = () => {};
 
   const onSaveClick = () => {};
-
-  console.log(like);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -138,19 +155,10 @@ export default function PostModal({ post, isOpen, onClose }: PostModalProps) {
         : null}
         <div className="w-80 xl:w-[28rem] h-full flex flex-row">
           <div className="w-full h-full flex-grow flex flex-col">
-            <div className="w-full flex flex-row justify-between items-center gap-2 px-3 py-2 border-b border-slate-300 dark:border-slate-600">
-              <div className="flex flex-row items-center gap-1">
-                {post.user ?
-                  <UserBar user={post.user} />
-                : null}
-                <span>{"•"}</span>
-                <Button
-                  onClick={onFollowClick}
-                  className="text-sm text-blue-500 hover:text-gray-800 dark:hover:text-gray-200"
-                >
-                  {false ? "Following" : "Follow"}
-                </Button>
-              </div>
+            <div className="w-full flex flex-row justify-between items-center px-3 py-2 border-b border-slate-300 dark:border-slate-600">
+              {post?.user ?
+                <UserBar user={post.user} />
+              : null}
               <Button className="hidden">
                 <EllipsisHorizontalIcon className="size-6" />
               </Button>
@@ -162,9 +170,9 @@ export default function PostModal({ post, isOpen, onClose }: PostModalProps) {
                 <div className="flex flex-col justify-start gap-1">
                   <div className="text-start whitespace-pre-line">
                     <span className="inline-flex font-semibold">
-                      {post.user ? post.user.name : "Unknown user"}
+                      {post?.user ? post.user.name : "Unknown user"}
                     </span>{" "}
-                    <p className="inline">{post.caption}</p>
+                    <p className="inline">{post?.caption}</p>
                   </div>
                   <div
                     title={createdAt}
@@ -208,20 +216,21 @@ export default function PostModal({ post, isOpen, onClose }: PostModalProps) {
                   <ShareIcon className="size-7" />
                 </Button>
               </div>
-              <div>
+              <div className="hidden">
                 <Button
                   title="Save"
                   onClick={onSaveClick}
                   className="text-gray-900 dark:text-gray-200 hover:text-gray-800 dark:hover:text-gray-400
                   active:text-gray-700 dark:active:text-gray-500"
                 >
+                  <BookmarkIconSolid className="size-7" />
                   <BookmarkIcon className="size-7" />
                 </Button>
               </div>
             </div>
 
             <div className="flex flex-col px-3 pb-2 border-b border-slate-300 dark:border-slate-600">
-              <div className="font-semibold">{post.likes} likes</div>
+              <div className="font-semibold">{post?.likes} likes</div>
               <div
                 title={createdAt}
                 className="text-xs text-gray-800 dark:text-gray-400"

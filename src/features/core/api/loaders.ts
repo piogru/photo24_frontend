@@ -2,7 +2,7 @@ import { QueryClient } from "@tanstack/react-query";
 import { currentUserQuery } from "../utils/auth";
 import { allPostsQuery } from "../../explore/api/queries";
 import { ActionFunctionArgs, ParamParseKey, Params } from "react-router-dom";
-import { likeQuery, postQuery } from "./queries";
+import { followQuery, likeQuery, postQuery } from "./queries";
 
 const Paths = {
   postDetail: "/p/:postId",
@@ -36,7 +36,7 @@ export const exploreLoader = (queryClient: QueryClient) => async () => {
     });
 };
 
-export const photoDetailsLoader =
+export const postDetailsLoader =
   (queryClient: QueryClient) =>
   async ({ params }: PhotoLoaderArgs) => {
     if (!params.postId) {
@@ -63,14 +63,17 @@ export const photoDetailsLoader =
       .catch(() => {
         return null;
       });
-    const follow = await queryClient
-      .ensureQueryData(likeQuery(post.user._id))
-      .then((data) => {
-        return data;
-      })
-      .catch(() => {
-        return null;
-      });
+    const follow =
+      post ?
+        await queryClient
+          .ensureQueryData(followQuery(post.user._id))
+          .then((data) => {
+            return data;
+          })
+          .catch(() => {
+            return null;
+          })
+      : null;
 
     return { post, like, follow };
   };

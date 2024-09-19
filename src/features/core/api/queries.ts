@@ -2,6 +2,7 @@ import api from "./api";
 import Follow from "../types/follow";
 import ObjectId from "../types/objectId";
 import Like from "../types/Like";
+import Post from "../types/post";
 
 const getFollow = async (targetId: ObjectId) => {
   return api.get<Follow>(`/follows/${targetId}`).then((response) => {
@@ -26,6 +27,8 @@ const getFollowers = async (targetId: ObjectId) => {
 };
 
 const postFollow = async (targetId: ObjectId) => {
+  console.log("PSOT ", targetId);
+
   return api.post<Follow>(`/follows/${targetId}`).then((response) => {
     return response.data;
   });
@@ -56,7 +59,7 @@ const deleteLike = async (targetId: ObjectId) => {
 };
 
 const getPost = async (id: ObjectId) => {
-  return api.get(`/posts/${id}`).then((response) => {
+  return api.get<Post>(`/posts/${id}`).then((response) => {
     return response.data;
   });
 };
@@ -67,7 +70,7 @@ const postQuery = (postId: ObjectId) => ({
 });
 
 const likeQuery = (postId: ObjectId) => ({
-  queryKey: ["posts", "like", postId],
+  queryKey: ["posts", postId, "like"],
   queryFn: async () => getLike(postId),
 });
 
