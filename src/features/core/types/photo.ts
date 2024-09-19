@@ -1,5 +1,7 @@
+import ObjectId from "./objectId";
+
 type Photo = {
-  _id: string | number;
+  _id: ObjectId;
   url: string;
   altText: string;
 };

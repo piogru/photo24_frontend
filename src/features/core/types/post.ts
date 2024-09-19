@@ -1,9 +1,10 @@
 import Comment from "./comment";
+import ObjectId from "./objectId";
 import Photo from "./photo";
 import User from "./user";
 
 type Post = {
-  _id: string | number;
+  _id: ObjectId;
   user: User;
   photos: Photo[];
   caption: string;
