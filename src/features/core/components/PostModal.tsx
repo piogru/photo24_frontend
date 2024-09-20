@@ -3,7 +3,6 @@ import Post from "../types/post";
 import Modal from "./Modal";
 import UserBar from "./UserBar";
 import { Button } from "@headlessui/react";
-import { format, formatDistanceToNowStrict } from "date-fns";
 import {
   BookmarkIcon,
   ChatBubbleOvalLeftIcon,
@@ -23,6 +22,7 @@ import useLikeQuery from "../hooks/useLikeQuery";
 import usePostQuery from "../hooks/usePostQuery";
 import { postDetailsLoader } from "../api/loaders";
 import { useLoaderData } from "react-router-dom";
+import Timestamp from "./Timestamp";
 
 type PostModalProps = {
   isOpen: boolean;
@@ -46,19 +46,6 @@ export default function PostModal({
   const photos = post?.photos || [];
   const comments = post?.comments || [];
   const currentPhoto = photos[currentPhotoIndex];
-  const createdAt = post ? format(post.createdAt, "MMM dd, yyyy") : "";
-  const timePostedSuffix =
-    post ?
-      formatDistanceToNowStrict(new Date(post.createdAt), {
-        addSuffix: true,
-      })
-    : "";
-  const distanceToPosted =
-    post ? formatDistanceToNowStrict(new Date(post.createdAt)).split(" ") : [];
-  const timePosted =
-    distanceToPosted.length >= 1 ?
-      `${distanceToPosted[0]} ${distanceToPosted[1][0]}`
-    : "";
   const { data: like } = useLikeQuery(
     post?._id || "",
     initialData.like || undefined,
@@ -174,12 +161,7 @@ export default function PostModal({
                     </span>{" "}
                     <p className="inline">{post?.caption}</p>
                   </div>
-                  <div
-                    title={createdAt}
-                    className="text-xs text-gray-800 dark:text-gray-400"
-                  >
-                    {timePosted}
-                  </div>
+                  <Timestamp date={post?.createdAt} />
                 </div>
               </div>
               {comments.map((comment) => (
@@ -231,12 +213,7 @@ export default function PostModal({
 
             <div className="flex flex-col px-3 pb-2 border-b border-slate-300 dark:border-slate-600">
               <div className="font-semibold">{post?.likes} likes</div>
-              <div
-                title={createdAt}
-                className="text-xs text-gray-800 dark:text-gray-400"
-              >
-                {timePostedSuffix}
-              </div>
+              <Timestamp date={post?.createdAt} suffix />
             </div>
 
             <div className="px-3 py-2 hidden">New comment</div>
