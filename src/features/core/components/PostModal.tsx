@@ -9,7 +9,7 @@ import Modal from "./Modal";
 import UserBar from "./UserBar";
 import Timestamp from "./Timestamp";
 import IconButton from "./IconButton";
-import PhotoSlide from "./PhotoCarousel";
+import PhotoSlide from "./PhotoSlide";
 import {
   BookmarkIcon,
   ChatBubbleOvalLeftIcon,

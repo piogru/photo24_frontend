@@ -31,7 +31,7 @@ export default function PostPreview({ post }: PostProps) {
     <div className="flex flex-col gap-2">
       <div className="flex flex-row justify-between items-center">
         <div className="flex flex-row items-center gap-1">
-          <UserBar user={post.user} />
+          <UserBar user={post?.user} />
           <span>{"•"}</span>
           <div
             title={createdAt}

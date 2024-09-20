@@ -13,7 +13,7 @@ type UserBarProps = {
 export default function UserBar({ user, followEnabled = true }: UserBarProps) {
   const queryClient = useQueryClient();
   const profilePic = user?.profilePic;
-  const { data: follow } = useFollowQuery(user._id);
+  const { data: follow } = useFollowQuery(user?._id);
   const followMutation = useMutation({
     mutationFn: postFollow,
     onSuccess: async () => {
