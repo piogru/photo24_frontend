@@ -27,8 +27,6 @@ const getFollowers = async (targetId: ObjectId) => {
 };
 
 const postFollow = async (targetId: ObjectId) => {
-  console.log("PSOT ", targetId);
-
   return api.post<Follow>(`/follows/${targetId}`).then((response) => {
     return response.data;
   });

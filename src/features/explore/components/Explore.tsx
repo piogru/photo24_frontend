@@ -38,8 +38,6 @@ export default function Explore() {
     state?.from === "explore" ? navigate(-1) : navigate("/explore");
   };
 
-  console.log(allPosts);
-
   return (
     <>
       {selectedPost ?
