@@ -1,7 +1,7 @@
 import api from "./api";
 import Follow from "../types/follow";
 import ObjectId from "../types/objectId";
-import Like from "../types/Like";
+import Like from "../types/like";
 import Post from "../types/post";
 
 const getFollow = async (targetId: ObjectId) => {
