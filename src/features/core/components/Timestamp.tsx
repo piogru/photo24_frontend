@@ -15,14 +15,14 @@ export default function Timestamp({ date, suffix = false }: TimestampProps) {
     addSuffix: suffix,
   });
   const formatDistance = (distance: string, suffix: boolean) => {
-    if (!suffix) {
+    if (suffix) {
       return distance;
     }
 
     const distanceSplit = distance.split(" ");
 
     return distanceSplit.length >= 1 ?
-        `${distanceSplit[0]} ${distanceSplit[1][0]}`
+        `${distanceSplit[0]}${distanceSplit[1][0]}`
       : "";
   };
 
