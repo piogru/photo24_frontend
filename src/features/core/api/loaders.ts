@@ -64,7 +64,7 @@ export const postDetailsLoader =
         return null;
       });
     const follow =
-      post ?
+      post?.user ?
         await queryClient
           .ensureQueryData(followQuery(post.user._id))
           .then((data) => {
