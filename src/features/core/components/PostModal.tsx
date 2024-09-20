@@ -1,13 +1,18 @@
-import { useState } from "react";
+import { useLoaderData } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteLike, postLike } from "../api/queries";
+import useLikeQuery from "../hooks/useLikeQuery";
+import usePostQuery from "../hooks/usePostQuery";
+import { postDetailsLoader } from "../api/loaders";
 import Post from "../types/post";
 import Modal from "./Modal";
 import UserBar from "./UserBar";
-import { Button } from "@headlessui/react";
+import Timestamp from "./Timestamp";
+import IconButton from "./IconButton";
+import PhotoSlide from "./PhotoCarousel";
 import {
   BookmarkIcon,
   ChatBubbleOvalLeftIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
   EllipsisHorizontalIcon,
   HeartIcon,
   ShareIcon,
@@ -16,14 +21,6 @@ import {
   BookmarkIcon as BookmarkIconSolid,
   HeartIcon as HeartIconSolid,
 } from "@heroicons/react/24/solid";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteLike, postLike } from "../api/queries";
-import useLikeQuery from "../hooks/useLikeQuery";
-import usePostQuery from "../hooks/usePostQuery";
-import { postDetailsLoader } from "../api/loaders";
-import { useLoaderData } from "react-router-dom";
-import Timestamp from "./Timestamp";
-import IconButton from "./IconButton";
 
 type PostModalProps = {
   isOpen: boolean;
@@ -40,14 +37,12 @@ export default function PostModal({
     ReturnType<ReturnType<typeof postDetailsLoader>>
   >;
   const queryClient = useQueryClient();
-  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const { data: post } = usePostQuery(
     postProp._id,
     initialData.post || undefined,
   );
   const photos = post?.photos || [];
   const comments = post?.comments || [];
-  const currentPhoto = photos[currentPhotoIndex];
   const { data: like } = useLikeQuery(
     post?._id || "",
     initialData.like || undefined,
@@ -71,17 +66,7 @@ export default function PostModal({
     },
   });
 
-  const handlePrevious = () => {
-    if (currentPhotoIndex > 0) {
-      setCurrentPhotoIndex(currentPhotoIndex - 1);
-    }
-  };
-
-  const handleNext = () => {
-    if (currentPhotoIndex < photos.length - 1) {
-      setCurrentPhotoIndex(currentPhotoIndex + 1);
-    }
-  };
+  const onPostMenuClick = () => {};
 
   const onLikeClick = () => {
     if (like) {
@@ -100,55 +85,22 @@ export default function PostModal({
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className="w-full lg:max-w-[80rem] xl:max-w-[92rem] h-[calc(100vh-theme(space.10))] flex flex-row justify-center items-center rounded-b-xl transition">
-        {currentPhoto ?
-          // todo: aspect in div below
-          <div className="max-w-5xl h-full flex flex-col flex-grow items-center justify-center border-r border-slate-300 dark:border-slate-600">
-            <div className="relative w-full">
-              <img
-                src={currentPhoto.url}
-                alt={currentPhoto.altText}
-                className="w-full h-full object-cover"
-              />
+        {/* // todo: aspect in div below */}
+        <div className="max-w-5xl h-full flex flex-col flex-grow items-center justify-center border-r border-slate-300 dark:border-slate-600">
+          <PhotoSlide photos={photos} />
+        </div>
 
-              {currentPhotoIndex > 0 ?
-                <Button
-                  onClick={handlePrevious}
-                  className="absolute left-0 top-0 bottom-0 p-1"
-                >
-                  <ChevronLeftIcon className="size-6" />
-                </Button>
-              : null}
-              {currentPhotoIndex < photos.length - 1 ?
-                <Button
-                  onClick={handleNext}
-                  className="absolute right-0 top-0 bottom-0 p-1"
-                >
-                  <ChevronRightIcon className="size-6" />
-                </Button>
-              : null}
-
-              {photos.length > 1 ?
-                <div className="absolute bottom-3 w-full flex flex-row justify-center items-center gap-1">
-                  {[...Array(photos.length).keys()].map((item) => (
-                    <div
-                      key={item}
-                      className={`size-1.5 rounded-full transition ${item === currentPhotoIndex ? "bg-gray-200 " : "bg-gray-400"}`}
-                    />
-                  ))}
-                </div>
-              : null}
-            </div>
-          </div>
-        : null}
         <div className="w-80 xl:w-[28rem] h-full flex flex-row">
           <div className="w-full h-full flex-grow flex flex-col">
             <div className="w-full flex flex-row justify-between items-center px-3 py-2 border-b border-slate-300 dark:border-slate-600">
               {post?.user ?
                 <UserBar user={post.user} />
               : null}
-              <Button className="hidden">
-                <EllipsisHorizontalIcon className="size-6" />
-              </Button>
+              <IconButton
+                disabled
+                Icon={EllipsisHorizontalIcon}
+                onClick={onPostMenuClick}
+              />
             </div>
 
             <div className="flex flex-col flex-grow px-3 py-4 gap-3 overflow-y-auto border-b border-slate-300 dark:border-slate-600">
