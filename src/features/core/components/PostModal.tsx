@@ -86,7 +86,7 @@ export default function PostModal({
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className="w-full lg:max-w-[80rem] xl:max-w-[92rem] h-[calc(100vh-theme(space.10))] flex flex-row justify-center items-center rounded-b-xl transition">
         {/* // todo: aspect in div below */}
-        <div className="max-w-5xl h-full flex flex-col flex-grow items-center justify-center border-r border-slate-300 dark:border-slate-600">
+        <div className="max-w-3xl h-full flex flex-col flex-grow items-center justify-center border-r border-slate-300 dark:border-slate-600">
           <PhotoSlide photos={photos} />
         </div>
 
@@ -98,6 +98,7 @@ export default function PostModal({
               : null}
               <IconButton
                 disabled
+                title="More options"
                 Icon={EllipsisHorizontalIcon}
                 onClick={onPostMenuClick}
               />
