@@ -39,6 +39,7 @@ export default function PostModal({
   const initialData = useLoaderData() as Awaited<
     ReturnType<ReturnType<typeof postDetailsLoader>>
   >;
+  const queryClient = useQueryClient();
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const { data: post } = usePostQuery(
     postProp._id,
@@ -51,8 +52,6 @@ export default function PostModal({
     post?._id || "",
     initialData.like || undefined,
   );
-
-  const queryClient = useQueryClient();
   const likeMutation = useMutation({
     mutationFn: postLike,
     onSuccess: async () => {

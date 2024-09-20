@@ -6,11 +6,14 @@ type TimestampProps = {
 };
 
 export default function Timestamp({ date, suffix = false }: TimestampProps) {
-  const title = format(date || "", "MMM dd, yyyy");
-  const distance = formatDistanceToNowStrict(new Date(date || ""), {
+  if (!date) {
+    return null;
+  }
+
+  const title = format(date, "MMM dd, yyyy");
+  const distance = formatDistanceToNowStrict(new Date(date), {
     addSuffix: suffix,
   });
-
   const formatDistance = (distance: string, suffix: boolean) => {
     if (!suffix) {
       return distance;
@@ -23,13 +26,13 @@ export default function Timestamp({ date, suffix = false }: TimestampProps) {
       : "";
   };
 
-  if (!date) {
-    return null;
-  }
-
   return (
-    <div title={title} className="text-xs text-gray-800 dark:text-gray-400">
-      {formatDistance(distance, suffix)}
-    </div>
+    <>
+      {date ?
+        <div title={title} className="text-xs text-gray-800 dark:text-gray-400">
+          {formatDistance(distance, suffix)}
+        </div>
+      : null}
+    </>
   );
 }
