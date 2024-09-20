@@ -1,8 +1,8 @@
 type User = {
-  id: string;
+  _id: string | number;
   name: string;
   email: string;
-  avatar: {
+  profilePic: {
     url: string;
     altText: string;
   };
