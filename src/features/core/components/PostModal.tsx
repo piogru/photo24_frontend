@@ -23,6 +23,7 @@ import usePostQuery from "../hooks/usePostQuery";
 import { postDetailsLoader } from "../api/loaders";
 import { useLoaderData } from "react-router-dom";
 import Timestamp from "./Timestamp";
+import IconButton from "./IconButton";
 
 type PostModalProps = {
   isOpen: boolean;
@@ -171,43 +172,35 @@ export default function PostModal({
 
             <div className="flex flex-row justify-between px-3 py-2">
               <div className="flex flex-row items-center gap-2">
-                <Button
+                <IconButton
+                  Icon={HeartIcon}
+                  SolidIcon={HeartIconSolid}
+                  solid={!!like}
                   title={like ? "Unlike" : "Like"}
                   onClick={onLikeClick}
-                  className="text-gray-900 dark:text-gray-200 hover:text-gray-800 dark:hover:text-gray-400
-                  active:text-gray-700 dark:active:text-gray-500"
-                >
-                  {like ?
-                    <HeartIconSolid className="size-7" />
-                  : <HeartIcon className="size-7" />}
-                </Button>
-                <Button
+                />
+                <IconButton
+                  disabled
+                  Icon={ChatBubbleOvalLeftIcon}
                   title="Comment"
                   onClick={onCommentClick}
-                  className="text-gray-900 dark:text-gray-200 hover:text-gray-800 dark:hover:text-gray-400
-                  active:text-gray-700 dark:active:text-gray-500"
-                >
-                  <ChatBubbleOvalLeftIcon className="size-7" />
-                </Button>
-                <Button
+                />
+                <IconButton
+                  disabled
+                  Icon={ShareIcon}
                   title="Share"
                   onClick={onShareClick}
-                  className="text-gray-900 dark:text-gray-200 hover:text-gray-800 dark:hover:text-gray-400
-                  active:text-gray-700 dark:active:text-gray-500"
-                >
-                  <ShareIcon className="size-7" />
-                </Button>
+                />
               </div>
-              <div className="hidden">
-                <Button
+              <div>
+                <IconButton
+                  disabled
+                  Icon={BookmarkIcon}
+                  SolidIcon={BookmarkIconSolid}
+                  solid={false}
                   title="Save"
                   onClick={onSaveClick}
-                  className="text-gray-900 dark:text-gray-200 hover:text-gray-800 dark:hover:text-gray-400
-                  active:text-gray-700 dark:active:text-gray-500"
-                >
-                  <BookmarkIconSolid className="size-7" />
-                  <BookmarkIcon className="size-7" />
-                </Button>
+                />
               </div>
             </div>
 
