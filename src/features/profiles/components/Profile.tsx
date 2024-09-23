@@ -13,9 +13,9 @@ import { BookmarkIcon, Squares2X2Icon } from "@heroicons/react/24/outline";
 import ShowMoreText from "../../core/components/ShowMoreText";
 import useFollowQuery from "../../core/hooks/useFollowQuery";
 import Follow from "../../core/types/follow";
-import { useMutation } from "@tanstack/react-query";
 import useFollowMutation from "../../core/hooks/useFollowMutation";
 import useUnfollowMutation from "../../core/hooks/useUnfollowMutation";
+import DefaultProfilePic from "../../core/components/DefaultProfilePic";
 
 type ProfileProps = {
   user: User;
@@ -69,7 +69,7 @@ export default function Profile({ user }: ProfileProps) {
             <div className="p-12">
               {user?.profilePic ?
                 <img src="size-36 object-cover" />
-              : <div className="size-36 bg-gray-500 rounded-full" />}
+              : <DefaultProfilePic />}
             </div>
 
             <div className="flex flex-col items-start gap-4">
