@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Button } from "@headlessui/react";
 
 type ShowMoreTextProps = {
   text: string;
@@ -13,16 +14,19 @@ export default function ShowMoreText({
 
   return (
     <p className="inline">
-      {showMore ? text : text.substring(0, overflowLength)}
-      {""}
+      {showMore ? text : `${text.substring(0, overflowLength)}...`}
       {text.length > overflowLength ?
-        <button
-          onClick={() => {
-            setShowMore;
-          }}
-        >
-          {showMore ? "Show less" : "Show more"}
-        </button>
+        <>
+          {" "}
+          <Button
+            onClick={() => {
+              setShowMore(!showMore);
+            }}
+            className="text-gray-700 dark:text-gray-400"
+          >
+            {showMore ? "Show less" : "Show more"}
+          </Button>
+        </>
       : null}
     </p>
   );
