@@ -63,6 +63,12 @@ const getPost = async (id: ObjectId) => {
   });
 };
 
+const getUserPosts = async (userId: ObjectId) => {
+  return api.get<Post[]>(`/posts?user=${userId}`).then((response) => {
+    return response.data;
+  });
+};
+
 const getUserByUsername = async (username: string) => {
   return api.get<User[]>(`/users?name=${username}`).then((response) => {
     const user = response.data.length >= 1 ? response.data[0] : null;
@@ -90,6 +96,11 @@ const userQuery = (username: string) => ({
   queryFn: async () => getUserByUsername(username),
 });
 
+const userPostsQuery = (userId: ObjectId) => ({
+  queryKey: ["users", userId, "posts"],
+  queryFn: async () => getUserPosts(userId),
+});
+
 export {
   getFollow,
   getFollowers,
@@ -103,4 +114,5 @@ export {
   likeQuery,
   followQuery,
   userQuery,
+  userPostsQuery,
 };

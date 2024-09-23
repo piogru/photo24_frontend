@@ -6,6 +6,7 @@ import {
   exploreLoader,
   postDetailsLoader,
   profileLoader,
+  profilePostsLoader,
 } from "../api/loaders.ts";
 import { isAuthenticated } from "../utils/auth.ts";
 import ErrorPage from "../components/ErrorPage.tsx";
@@ -57,6 +58,7 @@ const router = createBrowserRouter([
                 children: [
                   {
                     index: true,
+                    loader: profilePostsLoader(queryClient),
                     element: <ProfilePosts />,
                   },
                   {

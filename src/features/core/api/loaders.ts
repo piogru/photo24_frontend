@@ -2,11 +2,19 @@ import { QueryClient } from "@tanstack/react-query";
 import { currentUserQuery } from "../utils/auth";
 import { allPostsQuery } from "../../explore/api/queries";
 import { ActionFunctionArgs, ParamParseKey, Params } from "react-router-dom";
-import { followQuery, likeQuery, postQuery, userQuery } from "./queries";
+import {
+  followQuery,
+  likeQuery,
+  postQuery,
+  userPostsQuery,
+  userQuery,
+} from "./queries";
 
 const Paths = {
   postDetail: "/p/:postId",
-  profileDetail: ":username",
+  profileDetail: "/:username",
+  profilePostsDetail: ":username",
+  profileSavedDetail: "/:username/saved",
 } as const;
 
 interface PhotoLoaderArgs extends ActionFunctionArgs {
@@ -15,6 +23,10 @@ interface PhotoLoaderArgs extends ActionFunctionArgs {
 
 interface ProfileLoaderArgs extends ActionFunctionArgs {
   params: Params<ParamParseKey<typeof Paths.profileDetail>>;
+}
+
+interface ProfilePostsLoaderArgs extends ActionFunctionArgs {
+  params: Params<ParamParseKey<typeof Paths.profilePostsDetail>>;
 }
 
 export const appLoader = (queryClient: QueryClient) => async () => {
@@ -111,4 +123,34 @@ export const profileLoader =
       : null;
 
     return { user, follow };
+  };
+
+export const profilePostsLoader =
+  (queryClient: QueryClient) =>
+  async ({ params }: ProfilePostsLoaderArgs) => {
+    if (!params.username) {
+      return { user: null, posts: [] };
+    }
+
+    const user = await queryClient
+      .ensureQueryData(userQuery(params.username))
+      .then((data) => {
+        return data;
+      })
+      .catch(() => {
+        return null;
+      });
+    const posts =
+      user ?
+        await queryClient
+          .ensureQueryData(userPostsQuery(user._id))
+          .then((data) => {
+            return data;
+          })
+          .catch(() => {
+            return null;
+          })
+      : null;
+
+    return { user, posts };
   };
