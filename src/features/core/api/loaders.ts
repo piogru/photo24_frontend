@@ -87,17 +87,28 @@ export const profileLoader =
   (queryClient: QueryClient) =>
   async ({ params }: ProfileLoaderArgs) => {
     if (!params.username) {
-      return null;
+      return { user: null, follow: null };
     }
 
-    const query = userQuery(params.username);
-    return await queryClient
-      .ensureQueryData(query)
+    const user = await queryClient
+      .ensureQueryData(userQuery(params.username))
       .then((data) => {
-        console.log("profile", data);
         return data;
       })
       .catch(() => {
         return null;
       });
+    const follow =
+      user ?
+        await queryClient
+          .ensureQueryData(followQuery(user._id))
+          .then((data) => {
+            return data;
+          })
+          .catch(() => {
+            return null;
+          })
+      : null;
+
+    return { user, follow };
   };

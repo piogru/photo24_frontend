@@ -18,6 +18,8 @@ import Home from "../../landing/components/Home.tsx";
 import AuthenticatedRoute from "../components/AuthenticatedRoute.tsx";
 import Explore from "../../explore/components/Explore.tsx";
 import ProfileWrapper from "../../profiles/components/ProfileWrapper.tsx";
+import ProfilePosts from "../../profiles/components/ProfilePosts.tsx";
+import ProfileSaved from "../../profiles/components/ProfileSaved.tsx";
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -54,11 +56,12 @@ const router = createBrowserRouter([
                 element: <ProfileWrapper />,
                 children: [
                   {
-                    element: <div>Posts</div>,
+                    index: true,
+                    element: <ProfilePosts />,
                   },
                   {
                     path: "saved",
-                    element: <div>Saved</div>,
+                    element: <ProfileSaved />,
                   },
                 ],
               },
