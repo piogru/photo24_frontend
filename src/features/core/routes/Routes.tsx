@@ -4,6 +4,7 @@ import { QueryClient } from "@tanstack/react-query";
 import {
   appLoader,
   exploreLoader,
+  feedLoader,
   postDetailsLoader,
   profileLoader,
   profilePostsLoader,
@@ -38,6 +39,7 @@ const router = createBrowserRouter([
             children: [
               {
                 index: true,
+                loader: feedLoader(queryClient),
                 element: <Feed />,
               },
               {

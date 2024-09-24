@@ -4,6 +4,7 @@ import ObjectId from "../types/objectId";
 import Like from "../types/like";
 import Post from "../types/post";
 import User from "../types/user";
+import UserRecommendation from "../types/userRecommendation";
 
 const getFollow = async (targetId: ObjectId) => {
   return api.get<Follow>(`/follows/${targetId}`).then((response) => {
@@ -76,6 +77,12 @@ const getUserByUsername = async (username: string) => {
   });
 };
 
+const getReccomendedUsers = async () => {
+  return api.get<UserRecommendation[]>("/users/recommended").then((response) => {
+    return response.data;
+  });
+};
+
 const postQuery = (postId: ObjectId) => ({
   queryKey: ["posts", postId],
   queryFn: async () => getPost(postId),
@@ -101,6 +108,11 @@ const userPostsQuery = (userId: ObjectId) => ({
   queryFn: async () => getUserPosts(userId),
 });
 
+const recommendedUsersQuery = () => ({
+  queryKey: ["users", "recommended"],
+  queryFn: async () => getReccomendedUsers(),
+});
+
 export {
   getFollow,
   getFollowers,
@@ -115,4 +127,5 @@ export {
   followQuery,
   userQuery,
   userPostsQuery,
+  recommendedUsersQuery,
 };
