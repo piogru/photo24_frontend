@@ -4,6 +4,7 @@ import { deleteFollow, postFollow } from "../api/queries";
 import User from "../types/user";
 import { Button } from "@headlessui/react";
 import useFollowQuery from "../hooks/useFollowQuery";
+import ProfilePic from "./ProfilePic";
 
 type UserBarProps = {
   user: User;
@@ -12,7 +13,6 @@ type UserBarProps = {
 
 export default function UserBar({ user, followEnabled = true }: UserBarProps) {
   const queryClient = useQueryClient();
-  const profilePic = user?.profilePic;
   const { data: follow } = useFollowQuery(user?._id);
   const followMutation = useMutation({
     mutationFn: postFollow,
@@ -44,13 +44,9 @@ export default function UserBar({ user, followEnabled = true }: UserBarProps) {
   return (
     <div className="flex flex-row items-center gap-3">
       <NavLink to={`/${user?.name}`}>
-        {profilePic ?
-          <img
-            src={profilePic.url}
-            alt={profilePic.altText}
-            className="size-8 rounded-full"
-          />
-        : <div className="size-8 rounded-full bg-gray-500" />}
+        <div className="size-8">
+          <ProfilePic photo={user?.profilePic} />
+        </div>
       </NavLink>
       <div className="flex flex-row items-center gap-2">
         <NavLink to={`/${user?.name}`}>

@@ -15,7 +15,7 @@ import useFollowQuery from "../../core/hooks/useFollowQuery";
 import Follow from "../../core/types/follow";
 import useFollowMutation from "../../core/hooks/useFollowMutation";
 import useUnfollowMutation from "../../core/hooks/useUnfollowMutation";
-import DefaultProfilePic from "../../core/components/DefaultProfilePic";
+import ProfilePic from "../../core/components/ProfilePic";
 
 type ProfileProps = {
   user: User;
@@ -63,9 +63,9 @@ export default function Profile({ user }: ProfileProps) {
         <div className="flex flex-col px-6 gap-2">
           <div className="flex flex-row gap-6">
             <div className="p-12">
-              {user?.profilePic ?
-                <img src="size-36 object-cover" />
-              : <DefaultProfilePic />}
+              <div className="size-40">
+                <ProfilePic photo={user?.profilePic} />
+              </div>
             </div>
 
             <div className="flex flex-col items-start gap-4">
