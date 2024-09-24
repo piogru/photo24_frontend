@@ -6,6 +6,7 @@ import {
   followQuery,
   likeQuery,
   postQuery,
+  recommendedUsersQuery,
   userPostsQuery,
   userQuery,
 } from "./queries";
@@ -38,6 +39,18 @@ export const appLoader = (queryClient: QueryClient) => async () => {
     })
     .catch(() => {
       return null;
+    });
+};
+
+export const feedLoader = (queryClient: QueryClient) => async () => {
+  const query = recommendedUsersQuery();
+  return await queryClient
+    .ensureQueryData(query)
+    .then((data) => {
+      return data;
+    })
+    .catch(() => {
+      return [];
     });
 };
 
