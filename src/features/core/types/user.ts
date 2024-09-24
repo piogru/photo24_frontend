@@ -1,12 +1,11 @@
+import Photo from "./photo";
+
 type User = {
   _id: string | number;
   name: string;
   email: string;
   description: string;
-  profilePic: {
-    url: string;
-    altText: string;
-  };
+  profilePic?: Photo;
   posts: number;
   following: number;
   followers: number;
