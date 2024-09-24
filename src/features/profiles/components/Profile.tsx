@@ -57,10 +57,6 @@ export default function Profile({ user }: ProfileProps) {
     }
   };
 
-  const onFollowersClick = () => {};
-
-  const onFollowingClick = () => {};
-
   return (
     <div className="w-full pt-12">
       <div className="mx-auto max-w-[90%]">
@@ -87,13 +83,18 @@ export default function Profile({ user }: ProfileProps) {
                 </div>
               </section>
               <section className="flex flex-row gap-8">
-                <div>{`${user.posts} Posts`}</div>
-                <Button onClick={onFollowersClick}>
-                  <div>{`${user.followers} Followers`}</div>
-                </Button>
-                <Button onClick={onFollowingClick}>
-                  <div>{`${user.following} Following`}</div>
-                </Button>
+                <div>
+                  <span className="font-semibold">{user.posts}</span>
+                  {" posts"}
+                </div>
+                <div>
+                  <span className="font-semibold">{user.followers}</span>
+                  {" followers"}
+                </div>
+                <div>
+                  <span className="font-semibold">{user.following}</span>
+                  {" following"}
+                </div>
               </section>
               <section className="leading-none whitespace-pre-line">
                 <ShowMoreText
@@ -115,7 +116,7 @@ export default function Profile({ user }: ProfileProps) {
                   className={({ isActive }: { isActive: boolean }) =>
                     `flex flex-row justify-center items-center h-12 ${
                       isActive ?
-                        "-mt-[1px] border-t dark:border-gray-200 dark:text-gray-200"
+                        "-mt-[1px] border-t dark:border-gray-100 dark:text-gray-100"
                       : "dark: text-gray-400 border-none"
                     }`
                   }
