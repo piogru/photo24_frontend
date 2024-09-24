@@ -4,6 +4,8 @@ import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import useFollowingPostsQuery from "../hooks/useFollowingPostsQuery";
 import PostPreview from "../../posts/components/PostPreview";
 import RecommendedUsers from "./RecommendedUsers";
+import ProfilePic from "../../core/components/ProfilePic";
+import useCurrentUserQuery from "../../core/hooks/useCurrentUserQuery";
 
 export default function Feed() {
   const navigate = useNavigate();
@@ -11,6 +13,7 @@ export default function Feed() {
   const pageVariant = new URLSearchParams(search).get("variant");
   const { data: posts } = useFollowingPostsQuery(); // todo: move to loader?
   const postCount = posts?.length || 0;
+  const { data: currentUser } = useCurrentUserQuery();
 
   useEffect(() => {
     if (pageVariant !== "for-you" && pageVariant !== "following") {
@@ -65,8 +68,8 @@ export default function Feed() {
 
       <div className="w-64 mt-8 hidden xl:flex flex-col gap-4">
         <div className="flex flex-row items-center gap-3">
-          <NavLink to="/profile">
-            <div className="size-10 rounded-full bg-gray-500" />
+          <NavLink to="/profile" className="size-10">
+            <ProfilePic photo={currentUser?.profilePic} />
           </NavLink>
           <NavLink to="/profile">
             <div>Current User</div>

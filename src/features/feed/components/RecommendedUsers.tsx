@@ -1,4 +1,5 @@
 import { Button } from "@headlessui/react";
+import ProfilePic from "../../core/components/ProfilePic";
 
 export default function RecommendedUsers() {
   return (
@@ -13,7 +14,9 @@ export default function RecommendedUsers() {
           className="mx-2 flex flex-row justify-between items-center"
         >
           <div className="flex flex-row items-center gap-3">
-            <div className="size-10 rounded-full bg-gray-500" />
+            <div className="size-10">
+              <ProfilePic />
+            </div>
             <span>Acc name</span>
           </div>
 
