@@ -3,6 +3,7 @@ import { currentUserQuery } from "../utils/auth";
 import { allPostsQuery } from "../../explore/api/queries";
 import { ActionFunctionArgs, ParamParseKey, Params } from "react-router-dom";
 import {
+  followingPostsQuery,
   followQuery,
   likeQuery,
   postQuery,
@@ -43,15 +44,28 @@ export const appLoader = (queryClient: QueryClient) => async () => {
 };
 
 export const feedLoader = (queryClient: QueryClient) => async () => {
-  const query = recommendedUsersQuery();
-  return await queryClient
-    .ensureQueryData(query)
+  const postsPromise = queryClient
+    .ensureQueryData(followingPostsQuery())
     .then((data) => {
       return data;
     })
     .catch(() => {
       return [];
     });
+
+  const recUsersPromise = queryClient
+    .ensureQueryData(recommendedUsersQuery())
+    .then((data) => {
+      return data;
+    })
+    .catch(() => {
+      return [];
+    });
+
+  return Promise.all([recUsersPromise, postsPromise]).then((values) => {
+    console.log("promise all", values);
+    return { posts: values[0], userRecommendations: values[1] };
+  });
 };
 
 export const exploreLoader = (queryClient: QueryClient) => async () => {

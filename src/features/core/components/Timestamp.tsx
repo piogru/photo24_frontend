@@ -3,9 +3,14 @@ import { format, formatDistanceToNowStrict } from "date-fns";
 type TimestampProps = {
   date: string | undefined;
   suffix?: boolean;
+  fontSize?: "text-xs" | "text-sm" | "text-md" | "text-lg" | "text-xl";
 };
 
-export default function Timestamp({ date, suffix = false }: TimestampProps) {
+export default function Timestamp({
+  date,
+  suffix = false,
+  fontSize = "text-xs",
+}: TimestampProps) {
   if (!date) {
     return null;
   }
@@ -29,7 +34,10 @@ export default function Timestamp({ date, suffix = false }: TimestampProps) {
   return (
     <>
       {date ?
-        <div title={title} className="text-xs text-gray-800 dark:text-gray-400">
+        <div
+          title={title}
+          className={`${fontSize} text-gray-800 dark:text-gray-400`}
+        >
           {formatDistance(distance, suffix)}
         </div>
       : null}

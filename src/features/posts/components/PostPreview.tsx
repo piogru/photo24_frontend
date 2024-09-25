@@ -1,7 +1,11 @@
-import { Button } from "@headlessui/react";
-import { format, formatDistanceStrict } from "date-fns";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import useLikeQuery from "../../core/hooks/useLikeQuery";
+import { deleteLike, postLike } from "../../core/api/queries";
 import UserBar from "../../core/components/UserBar";
 import Post from "../../core/types/post";
+import ShowMoreText from "../../core/components/ShowMoreText";
+import IconButton from "../../core/components/IconButton";
+import Timestamp from "../../core/components/Timestamp";
 import {
   BookmarkIcon,
   ChatBubbleOvalLeftIcon,
@@ -10,39 +14,65 @@ import {
   ShareIcon,
   Square2StackIcon,
 } from "@heroicons/react/24/outline";
-import ShowMoreText from "../../core/components/ShowMoreText";
+import {
+  BookmarkIcon as BookmarkIconSolid,
+  HeartIcon as HeartIconSolid,
+} from "@heroicons/react/24/solid";
 
 type PostProps = {
   post: Post;
 };
 
 export default function PostPreview({ post }: PostProps) {
+  const queryClient = useQueryClient();
   const multiplePhotos = post.photos.length > 1;
-  const timePosted = formatDistanceStrict(
-    new Date(post.createdAt),
-    new Date(),
-    {
-      addSuffix: true,
+  const { data: like } = useLikeQuery(post?._id || "");
+  const likeMutation = useMutation({
+    mutationFn: postLike,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["posts", post?._id],
+        exact: false,
+      });
     },
-  );
-  const createdAt = format(post.createdAt, "MMM dd, yyyy");
+  });
+  const unlikeMutation = useMutation({
+    mutationFn: deleteLike,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["posts", post?._id],
+        exact: false,
+      });
+    },
+  });
+
+  const onLikeClick = () => {
+    if (like) {
+      unlikeMutation.mutate(post?._id || "");
+    } else {
+      likeMutation.mutate(post?._id || "");
+    }
+  };
+
+  const onCommentClick = () => {};
+
+  const onShareClick = () => {};
+
+  const onSaveClick = () => {};
 
   return (
     <div className="flex flex-col gap-2">
       <div className="flex flex-row justify-between items-center">
         <div className="flex flex-row items-center gap-1">
-          <UserBar user={post?.user} />
+          <UserBar user={post?.user} followEnabled={false} />
           <span>{"•"}</span>
-          <div
-            title={createdAt}
-            className="text-sm text-gray-800 dark:text-gray-400"
-          >
-            {timePosted}
-          </div>
+          <Timestamp date={post?.createdAt} fontSize="text-sm" />
         </div>
-        <Button>
-          <EllipsisHorizontalIcon className="size-6" />
-        </Button>
+        <IconButton
+          disabled
+          title="More options"
+          Icon={EllipsisHorizontalIcon}
+        />
       </div>
 
       <div className="group relative">
@@ -58,24 +88,41 @@ export default function PostPreview({ post }: PostProps) {
       </div>
       <div className="flex flex-row justify-between">
         <div className="flex flex-row items-center gap-2">
-          <Button title="Like">
-            <HeartIcon className="size-6" />
-          </Button>
-          <Button title="Comment">
-            <ChatBubbleOvalLeftIcon className="size-6" />
-          </Button>
-          <Button title="Share">
-            <ShareIcon className="size-6" />
-          </Button>
+          <IconButton
+            Icon={HeartIcon}
+            SolidIcon={HeartIconSolid}
+            solid={!!like}
+            title={like ? "Unlike" : "Like"}
+            onClick={onLikeClick}
+          />
+          <IconButton
+            disabled
+            Icon={ChatBubbleOvalLeftIcon}
+            title="Comment"
+            onClick={onCommentClick}
+          />
+          <IconButton
+            disabled
+            Icon={ShareIcon}
+            title="Share"
+            onClick={onShareClick}
+          />
         </div>
         <div>
-          <Button title="Save">
-            <BookmarkIcon className="size-6" />
-          </Button>
+          <IconButton
+            disabled
+            Icon={BookmarkIcon}
+            SolidIcon={BookmarkIconSolid}
+            solid={false}
+            title="Save"
+            onClick={onSaveClick}
+          />
         </div>
       </div>
 
-      <div className="font-semibold">X likes</div>
+      <span>
+        <span className="font-semibold">{post.likes}</span> likes
+      </span>
 
       {post.caption?.length > 0 ?
         <div>
@@ -85,8 +132,6 @@ export default function PostPreview({ post }: PostProps) {
           <ShowMoreText text={post.caption} overflowLength={100} />
         </div>
       : null}
-
-      <div>New comment component</div>
     </div>
   );
 }

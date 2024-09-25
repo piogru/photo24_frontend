@@ -5,6 +5,7 @@ import ObjectId from "../../core/types/objectId";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteFollow, postFollow } from "../../core/api/queries";
 import UserRecommendation from "../../core/types/userRecommendation";
+import { NavLink } from "react-router-dom";
 
 export default function RecommendedUsers() {
   const queryClient = useQueryClient();
@@ -73,10 +74,14 @@ export default function RecommendedUsers() {
               className="mx-2 flex flex-row justify-between items-center"
             >
               <div className="flex flex-row items-center gap-3">
-                <div className="size-10">
-                  <ProfilePic photo={userRec.profilePic} />
-                </div>
-                <span>{userRec.name}</span>
+                <NavLink to={`/${userRec.name}`}>
+                  <div className="size-10">
+                    <ProfilePic photo={userRec.profilePic} />
+                  </div>
+                </NavLink>
+                <NavLink to={`/${userRec.name}`}>
+                  <span>{userRec.name}</span>
+                </NavLink>
               </div>
 
               <Button

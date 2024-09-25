@@ -11,7 +11,7 @@ export default function Feed() {
   const navigate = useNavigate();
   const { search } = useLocation();
   const pageVariant = new URLSearchParams(search).get("variant");
-  const { data: posts } = useFollowingPostsQuery(); // todo: move to loader?
+  const { data: posts } = useFollowingPostsQuery();
   const postCount = posts?.length || 0;
   const { data: currentUser } = useCurrentUserQuery();
 

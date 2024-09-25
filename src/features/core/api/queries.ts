@@ -64,6 +64,12 @@ const getPost = async (id: ObjectId) => {
   });
 };
 
+const getFollowingPosts = async () => {
+  return api.get<Post[]>(`/posts/following`).then((response) => {
+    return response.data;
+  });
+};
+
 const getUserPosts = async (userId: ObjectId) => {
   return api.get<Post[]>(`/posts?user=${userId}`).then((response) => {
     return response.data;
@@ -78,14 +84,21 @@ const getUserByUsername = async (username: string) => {
 };
 
 const getReccomendedUsers = async () => {
-  return api.get<UserRecommendation[]>("/users/recommended").then((response) => {
-    return response.data;
-  });
+  return api
+    .get<UserRecommendation[]>("/users/recommended")
+    .then((response) => {
+      return response.data;
+    });
 };
 
 const postQuery = (postId: ObjectId) => ({
   queryKey: ["posts", postId],
   queryFn: async () => getPost(postId),
+});
+
+const followingPostsQuery = () => ({
+  queryKey: ["posts", "following"],
+  queryFn: async () => getFollowingPosts(),
 });
 
 const likeQuery = (postId: ObjectId) => ({
@@ -111,6 +124,8 @@ const userPostsQuery = (userId: ObjectId) => ({
 const recommendedUsersQuery = () => ({
   queryKey: ["users", "recommended"],
   queryFn: async () => getReccomendedUsers(),
+  retryDelay: (attempt: number) => attempt * 1000,
+  staleTime: 1000 * 60 * 5,
 });
 
 export {
@@ -123,6 +138,7 @@ export {
   postLike,
   deleteLike,
   postQuery,
+  followingPostsQuery,
   likeQuery,
   followQuery,
   userQuery,
