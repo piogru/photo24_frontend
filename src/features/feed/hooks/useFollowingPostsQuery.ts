@@ -1,12 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAllPosts } from "../../posts/api/queries";
+import { followingPostsQuery } from "../../core/api/queries";
 
 export default function useFollowingPostsQuery() {
-  const query = () => ({
-    queryKey: ["posts", "following"],
-    retry: false,
-    queryFn: async () => getAllPosts(),
-  });
-
-  return useQuery(query());
+  return useQuery(followingPostsQuery());
 }
