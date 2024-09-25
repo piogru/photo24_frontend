@@ -68,11 +68,11 @@ export default function Feed() {
 
       <div className="w-64 mt-8 hidden xl:flex flex-col gap-4">
         <div className="flex flex-row items-center gap-3">
-          <NavLink to="/profile" className="size-10">
+          <NavLink to={`/${currentUser?.name}`} className="size-10">
             <ProfilePic photo={currentUser?.profilePic} />
           </NavLink>
-          <NavLink to="/profile">
-            <div>Current User</div>
+          <NavLink to={`/${currentUser?.name}`}>
+            <div>{currentUser?.name}</div>
           </NavLink>
         </div>
 
