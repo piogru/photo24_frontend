@@ -64,6 +64,12 @@ const getPost = async (id: ObjectId) => {
   });
 };
 
+const getForYouPosts = async () => {
+  return api.get<Post[]>(`/posts/for-you`).then((response) => {
+    return response.data;
+  });
+};
+
 const getFollowingPosts = async () => {
   return api.get<Post[]>(`/posts/following`).then((response) => {
     return response.data;
@@ -94,6 +100,11 @@ const getReccomendedUsers = async () => {
 const postQuery = (postId: ObjectId) => ({
   queryKey: ["posts", postId],
   queryFn: async () => getPost(postId),
+});
+
+const forYouPostsQuery = () => ({
+  queryKey: ["posts", "forYou"],
+  queryFn: async () => getForYouPosts(),
 });
 
 const followingPostsQuery = () => ({
@@ -138,6 +149,7 @@ export {
   postLike,
   deleteLike,
   postQuery,
+  forYouPostsQuery,
   followingPostsQuery,
   likeQuery,
   followQuery,

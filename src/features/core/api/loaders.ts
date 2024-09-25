@@ -1,10 +1,16 @@
 import { QueryClient } from "@tanstack/react-query";
 import { currentUserQuery } from "../utils/auth";
 import { allPostsQuery } from "../../explore/api/queries";
-import { ActionFunctionArgs, ParamParseKey, Params } from "react-router-dom";
+import {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  ParamParseKey,
+  Params,
+} from "react-router-dom";
 import {
   followingPostsQuery,
   followQuery,
+  forYouPostsQuery,
   likeQuery,
   postQuery,
   recommendedUsersQuery,
@@ -43,30 +49,35 @@ export const appLoader = (queryClient: QueryClient) => async () => {
     });
 };
 
-export const feedLoader = (queryClient: QueryClient) => async () => {
-  const postsPromise = queryClient
-    .ensureQueryData(followingPostsQuery())
-    .then((data) => {
-      return data;
-    })
-    .catch(() => {
-      return [];
-    });
+export const feedLoader =
+  (queryClient: QueryClient) =>
+  async ({ request }: LoaderFunctionArgs) => {
+    const variant = new URL(request.url).searchParams.get("variant");
+    const postsQuery =
+      variant === "following" ? followingPostsQuery : forYouPostsQuery;
 
-  const recUsersPromise = queryClient
-    .ensureQueryData(recommendedUsersQuery())
-    .then((data) => {
-      return data;
-    })
-    .catch(() => {
-      return [];
-    });
+    const postsPromise = queryClient
+      .ensureQueryData(postsQuery())
+      .then((data) => {
+        return data;
+      })
+      .catch(() => {
+        return [];
+      });
 
-  return Promise.all([recUsersPromise, postsPromise]).then((values) => {
-    console.log("promise all", values);
-    return { posts: values[0], userRecommendations: values[1] };
-  });
-};
+    const recUsersPromise = queryClient
+      .ensureQueryData(recommendedUsersQuery())
+      .then((data) => {
+        return data;
+      })
+      .catch(() => {
+        return [];
+      });
+
+    return Promise.all([recUsersPromise, postsPromise]).then((values) => {
+      return { posts: values[0], userRecommendations: values[1] };
+    });
+  };
 
 export const exploreLoader = (queryClient: QueryClient) => async () => {
   const query = allPostsQuery();
