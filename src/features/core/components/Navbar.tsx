@@ -20,6 +20,7 @@ import {
   MoonIcon,
   BookmarkIcon,
   Cog6ToothIcon,
+  CameraIcon,
 } from "@heroicons/react/24/outline";
 import Dropdown from "./Dropdown";
 import Switch from "./Switch";
@@ -27,6 +28,8 @@ import useCurrentUserQuery from "../hooks/useCurrentUserQuery";
 import PhotoUpload from "../../photo/components/PhotoUpload";
 import NavIcon from "./NavIcon";
 import MagnifyingGlassIconSolid from "./MagnifyingGlassIconSolid";
+import SiteLogo from "./SiteLogo";
+import { Button } from "@headlessui/react";
 
 type NavbarLink = {
   key: string;
@@ -180,8 +183,26 @@ export default function Navbar() {
     <>
       <PhotoUpload isOpen={photoUploadOpen} setIsOpen={setPhotoUploadOpen} />
 
-      <nav className="h-screen w-64 px-4 pt-8 pb-5 flex flex-col space-y-6 border-r border-slate-300 dark:border-slate-600">
-        <h1 className="text-4xl ml-2">Title</h1>
+      <nav className="h-screen w-fit xl:w-64 px-4 pt-8 pb-5 flex flex-col space-y-6 border-r border-slate-300 dark:border-slate-600">
+        <NavLink
+          to="/"
+          className="h-16 flex flex-row justify-start items-start"
+        >
+          {({ isActive }) => (
+            <>
+              <div className="hidden xl:block ml-2">
+                <SiteLogo />
+              </div>
+              <div className="group block xl:hidden p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 group:text-gray-700 dark:active:text-gray-400">
+                <NavIcon
+                  isActive={isActive}
+                  Icon={CameraIcon}
+                  ActiveIcon={CameraIcon}
+                />
+              </div>
+            </>
+          )}
+        </NavLink>
         <ul className="flex flex-col flex-grow space-y-3">
           {links.map((item) => {
             return (
@@ -196,11 +217,12 @@ export default function Navbar() {
                         <>
                           <NavIcon
                             isActive={isActive}
+                            title={item.label}
                             Icon={item.icon}
                             ActiveIcon={item.iconActive}
                           />
                           <div
-                            className={`${isActive ? "font-semibold" : "font-normal"}`}
+                            className={`hidden xl:block ${isActive ? "font-semibold" : "font-normal"}`}
                           >
                             {item.label}
                           </div>
@@ -208,17 +230,20 @@ export default function Navbar() {
                       );
                     }}
                   </NavLink>
-                : <button
+                : <Button
                     onClick={item.onClick}
                     className="group w-full inline-flex items-center space-x-4 px-2 py-3 rounded-lg text-base hover:bg-black/5 dark:hover:bg-white/10 group:text-gray-700 dark:active:text-gray-400"
                   >
                     <NavIcon
                       isActive={false}
+                      title={item.label}
                       Icon={item.icon}
                       ActiveIcon={item.iconActive}
                     />
-                    <div className="font-normal">{item.label}</div>
-                  </button>
+                    <div className="hidden xl:block font-normal">
+                      {item.label}
+                    </div>
+                  </Button>
                 }
               </li>
             );
@@ -230,12 +255,12 @@ export default function Navbar() {
             <>
               <Bars3Icon
                 className={`
-                  size-7 text-gray-900 dark:text-gray-200 transition duration-75 group-active:scale-90 group-active:text-gray-700 dark:group-active:text-gray-400 group-hover:scale-105
-                  ${active ? "stroke-2" : null} transition duration-75 group-active:scale-90 group-hover:scale-105
-                `}
+                   size-7 text-gray-900 dark:text-gray-200 transition duration-75 group-active:scale-90 group-active:text-gray-700 dark:group-active:text-gray-400 group-hover:scale-105
+                   ${active ? "stroke-2" : null}
+                 `}
               />
               <div
-                className={`${active ? "font-semibold" : "font-normal"} group-active:text-gray-700 dark:group-active:text-gray-400`}
+                className={`hidden xl:block ${active ? "font-semibold" : "font-normal"} group-active:text-gray-700 dark:group-active:text-gray-400`}
               >
                 More
               </div>
