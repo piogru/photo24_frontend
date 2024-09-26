@@ -3,11 +3,14 @@ import { ComponentType } from "react";
 type NavIconProps = {
   isActive: boolean;
   Icon: ComponentType<{
+    title?: string;
     className?: string;
   }>;
   ActiveIcon: ComponentType<{
+    title?: string;
     className?: string;
   }>;
+  title?: string;
 };
 
 const iconStyle =
@@ -17,12 +20,13 @@ export default function NavIcon({
   isActive = false,
   Icon,
   ActiveIcon,
+  title,
 }: NavIconProps) {
   return (
     <>
       {isActive ?
-        <ActiveIcon className={iconStyle} />
-      : <Icon className={iconStyle} />}
+        <ActiveIcon title={title} className={iconStyle} />
+      : <Icon title={title} className={iconStyle} />}
     </>
   );
 }

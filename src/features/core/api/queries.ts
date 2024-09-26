@@ -89,6 +89,12 @@ const getUserByUsername = async (username: string) => {
   });
 };
 
+const getUsersByUsername = async (username: string) => {
+  return api.get<User[]>(`/users?name=${username}&partial=true`).then((response) => {
+    return response.data;
+  });
+};
+
 const getReccomendedUsers = async () => {
   return api
     .get<UserRecommendation[]>("/users/recommended")
@@ -123,8 +129,15 @@ const followQuery = (targetId: ObjectId) => ({
 });
 
 const userQuery = (username: string) => ({
+  // todo: fix keys/queries
   queryKey: ["users", username],
   queryFn: async () => getUserByUsername(username),
+});
+
+const usersByUsernameQuery = (username: string) => ({
+  // todo: fix keys/queries
+  queryKey: ["users", username],
+  queryFn: async () => getUsersByUsername(username),
 });
 
 const userPostsQuery = (userId: ObjectId) => ({
@@ -154,6 +167,7 @@ export {
   likeQuery,
   followQuery,
   userQuery,
+  usersByUsernameQuery,
   userPostsQuery,
   recommendedUsersQuery,
 };
