@@ -82,15 +82,11 @@ const getUserPosts = async (userId: ObjectId) => {
   });
 };
 
-const getUserByUsername = async (username: string) => {
-  return api.get<User[]>(`/users?name=${username}`).then((response) => {
-    const user = response.data.length >= 1 ? response.data[0] : null;
-    return user;
-  });
-};
+const getUsersByUsername = async (username: string, partial: boolean) => {
+  const queryString =
+    partial ? `?name=${username}&partial=true` : `?name=${username}`;
 
-const getUsersByUsername = async (username: string) => {
-  return api.get<User[]>(`/users?name=${username}&partial=true`).then((response) => {
+  return api.get<User[]>(`/users${queryString}`).then((response) => {
     return response.data;
   });
 };
@@ -128,16 +124,9 @@ const followQuery = (targetId: ObjectId) => ({
   queryFn: async () => getFollow(targetId),
 });
 
-const userQuery = (username: string) => ({
-  // todo: fix keys/queries
-  queryKey: ["users", username],
-  queryFn: async () => getUserByUsername(username),
-});
-
-const usersByUsernameQuery = (username: string) => ({
-  // todo: fix keys/queries
-  queryKey: ["users", username],
-  queryFn: async () => getUsersByUsername(username),
+const usersByUsernameQuery = (username: string, partial: boolean = false) => ({
+  queryKey: ["users", username, partial],
+  queryFn: async () => getUsersByUsername(username, partial),
 });
 
 const userPostsQuery = (userId: ObjectId) => ({
@@ -166,7 +155,6 @@ export {
   followingPostsQuery,
   likeQuery,
   followQuery,
-  userQuery,
   usersByUsernameQuery,
   userPostsQuery,
   recommendedUsersQuery,
