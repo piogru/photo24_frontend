@@ -29,7 +29,7 @@ export default function Drawer({
           >
             <DialogPanel
               transition
-              className="pointer-events-auto relative w-screen max-w-md bg-white dark:bg-gray-900 rounded-e-xl
+              className="pointer-events-auto relative w-screen max-w-sm bg-white dark:bg-gray-900 rounded-e-xl
               transition ease-in-out duration-300 sm:duration-400 translate-x-0 data-[closed]:-translate-x-full
               border-e border-slate-300 dark:border-slate-600
             "
@@ -40,7 +40,7 @@ export default function Drawer({
                     {title}
                   </DialogTitle>
                 </div>
-                <div className="relative mt-6 flex-1 px-4 sm:px-6">
+                <div className="relative mt-6 flex-1">
                   {children}
                 </div>
               </div>
