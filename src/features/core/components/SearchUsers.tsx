@@ -9,10 +9,9 @@ import { NavLink } from "react-router-dom";
 
 export default function SearchUsers() {
   const [query, setQuery] = useState("");
-  const { data: users, isFetching } = useUsersByUsernameQuery(query);
+  const { data: users, isFetching } = useUsersByUsernameQuery(query, true);
 
   const clearInput = () => {
-    console.log("clear?");
     setQuery("");
   };
 

@@ -15,7 +15,7 @@ import {
   postQuery,
   recommendedUsersQuery,
   userPostsQuery,
-  userQuery,
+  usersByUsernameQuery,
 } from "./queries";
 
 const Paths = {
@@ -141,9 +141,9 @@ export const profileLoader =
     }
 
     const user = await queryClient
-      .ensureQueryData(userQuery(params.username))
+      .ensureQueryData(usersByUsernameQuery(params.username))
       .then((data) => {
-        return data;
+        return data[0];
       })
       .catch(() => {
         return null;
@@ -171,9 +171,9 @@ export const profilePostsLoader =
     }
 
     const user = await queryClient
-      .ensureQueryData(userQuery(params.username))
+      .ensureQueryData(usersByUsernameQuery(params.username))
       .then((data) => {
-        return data;
+        return data[0];
       })
       .catch(() => {
         return null;
