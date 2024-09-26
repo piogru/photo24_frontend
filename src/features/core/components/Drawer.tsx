@@ -29,9 +29,9 @@ export default function Drawer({
           >
             <DialogPanel
               transition
-              className="pointer-events-auto relative w-screen max-w-md bg-white dark:bg-gray-900 rounded-xl
+              className="pointer-events-auto relative w-screen max-w-md bg-white dark:bg-gray-900 rounded-e-xl
               transition ease-in-out duration-300 sm:duration-400 translate-x-0 data-[closed]:-translate-x-full
-              border-t border-slate-300 dark:border-slate-600
+              border-e border-slate-300 dark:border-slate-600
             "
             >
               <div className="flex h-full flex-col overflow-y-auto py-6 shadow-xl">
