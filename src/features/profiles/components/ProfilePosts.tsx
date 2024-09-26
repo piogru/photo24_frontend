@@ -7,11 +7,13 @@ import { CameraIcon } from "@heroicons/react/24/outline";
 import PostModal from "../../core/components/PostModal";
 import Post from "../../core/types/post";
 import { useState } from "react";
+import useCurrentUserQuery from "../../core/hooks/useCurrentUserQuery";
 
 export default function ProfilePosts() {
   const initialData = useLoaderData() as Awaited<
     ReturnType<ReturnType<typeof profilePostsLoader>>
   >;
+  const { data: currentUser } = useCurrentUserQuery();
   const { data: posts, isLoading: postsLoading } = useUserPosts(
     initialData.user ? initialData.user._id : "",
   );
@@ -56,8 +58,12 @@ export default function ProfilePosts() {
           </>
         : <div className="h-80 flex flex-col items-center justify-center gap-2">
             <CameraIcon className="size-16 stroke-1 rounded-full border-2 p-2" />
-            <span className="text-2xl font-bold">Share photos</span>
-            <span>Your shared photos will appear here.</span>
+            {currentUser?._id === initialData.user?._id ?
+              <div>
+                <span className="text-2xl font-bold">Share photos</span>
+                <span>Your shared photos will appear here.</span>
+              </div>
+            : <span className="text-lg">This user has not shared any photos.</span>}
           </div>
         }
       </div>

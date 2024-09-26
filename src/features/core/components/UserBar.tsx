@@ -5,6 +5,7 @@ import User from "../types/user";
 import { Button } from "@headlessui/react";
 import useFollowQuery from "../hooks/useFollowQuery";
 import ProfilePic from "./ProfilePic";
+import useCurrentUserQuery from "../hooks/useCurrentUserQuery";
 
 type UserBarProps = {
   user: User;
@@ -13,6 +14,8 @@ type UserBarProps = {
 
 export default function UserBar({ user, followEnabled = true }: UserBarProps) {
   const queryClient = useQueryClient();
+  const { data: currentUser } = useCurrentUserQuery();
+  const isCurrentUser = currentUser?._id === user._id;
   const { data: follow } = useFollowQuery(user?._id);
   const followMutation = useMutation({
     mutationFn: postFollow,
@@ -54,7 +57,7 @@ export default function UserBar({ user, followEnabled = true }: UserBarProps) {
             {user ? user.name : "Unknown user"}
           </div>
         </NavLink>
-        {followEnabled ?
+        {followEnabled && !isCurrentUser ?
           <>
             <span>{"•"}</span>
             <Button
