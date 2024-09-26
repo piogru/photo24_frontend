@@ -1,5 +1,5 @@
-import { ComponentType, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { ComponentType, useEffect, useState } from "react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postLogout } from "../../accounts/api/queries";
 import useTheme from "../hooks/useTheme";
@@ -30,6 +30,8 @@ import NavIcon from "./NavIcon";
 import MagnifyingGlassIconSolid from "./MagnifyingGlassIconSolid";
 import SiteLogo from "./SiteLogo";
 import { Button } from "@headlessui/react";
+import SearchUsers from "./SearchUsers";
+import Drawer from "./Drawer";
 
 type NavbarLink = {
   key: string;
@@ -78,6 +80,7 @@ export default function Navbar() {
   });
   const [theme, handleThemeChange] = useTheme();
   const [photoUploadOpen, setPhotoUploadOpen] = useState(false);
+  const [searchDrawerOpen, setSearchDrawerOpen] = useState(false);
   const links: (NavbarButton | NavbarLink)[] = [
     {
       key: "home",
@@ -88,8 +91,10 @@ export default function Navbar() {
     },
     {
       key: "search",
-      route: "/search",
       label: "Search",
+      onClick: () => {
+        setSearchDrawerOpen(!searchDrawerOpen);
+      },
       icon: MagnifyingGlassIcon,
       iconActive: MagnifyingGlassIconSolid,
     },
@@ -178,22 +183,45 @@ export default function Navbar() {
       ),
     },
   ];
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    setSearchDrawerOpen(false);
+  }, [pathname]);
+
+  const onSearchClose = () => {
+    setSearchDrawerOpen(() => false);
+  };
 
   return (
     <>
       <PhotoUpload isOpen={photoUploadOpen} setIsOpen={setPhotoUploadOpen} />
+      <Drawer
+        isOpen={searchDrawerOpen}
+        title="Search"
+        onClose={onSearchClose}
+        position="left-[76px]"
+      >
+        <SearchUsers />
+      </Drawer>
 
-      <nav className="h-screen w-fit xl:w-64 px-4 pt-8 pb-5 flex flex-col space-y-6 border-r border-slate-300 dark:border-slate-600">
+      <nav
+        className={`z-20 h-screen ${searchDrawerOpen ? "w-fit mr-44" : "w-fit xl:w-64"} px-4 pt-8 pb-5 flex flex-col space-y-6 border-r border-slate-300 dark:border-slate-600 bg-white dark:bg-gray-900`}
+      >
         <NavLink
           to="/"
           className="h-16 flex flex-row justify-start items-start"
         >
           {({ isActive }) => (
             <>
-              <div className="hidden xl:block ml-2">
+              <div
+                className={`${searchDrawerOpen ? "hidden" : "hidden xl:block"} ml-2`}
+              >
                 <SiteLogo />
               </div>
-              <div className="group block xl:hidden p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 group:text-gray-700 dark:active:text-gray-400">
+              <div
+                className={`group ${searchDrawerOpen ? "block" : "block xl:hidden"}  p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 group:text-gray-700 dark:active:text-gray-400`}
+              >
                 <NavIcon
                   isActive={isActive}
                   Icon={CameraIcon}
@@ -222,7 +250,7 @@ export default function Navbar() {
                             ActiveIcon={item.iconActive}
                           />
                           <div
-                            className={`hidden xl:block ${isActive ? "font-semibold" : "font-normal"}`}
+                            className={`${searchDrawerOpen ? "hidden" : "hidden xl:block"}  ${isActive ? "font-semibold" : "font-normal"}`}
                           >
                             {item.label}
                           </div>
@@ -240,7 +268,9 @@ export default function Navbar() {
                       Icon={item.icon}
                       ActiveIcon={item.iconActive}
                     />
-                    <div className="hidden xl:block font-normal">
+                    <div
+                      className={`${searchDrawerOpen ? "hidden" : "hidden xl:block"} font-normal`}
+                    >
                       {item.label}
                     </div>
                   </Button>
@@ -260,7 +290,7 @@ export default function Navbar() {
                  `}
               />
               <div
-                className={`hidden xl:block ${active ? "font-semibold" : "font-normal"} group-active:text-gray-700 dark:group-active:text-gray-400`}
+                className={`${searchDrawerOpen ? "hidden" : "hidden xl:block"} ${active ? "font-semibold" : "font-normal"} group-active:text-gray-700 dark:group-active:text-gray-400`}
               >
                 More
               </div>
