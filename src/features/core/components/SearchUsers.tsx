@@ -6,13 +6,15 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { XCircleIcon } from "@heroicons/react/24/solid";
 import Spinner from "./Spinner";
 import { NavLink } from "react-router-dom";
+import { useDebounce } from "use-debounce";
 
 export default function SearchUsers() {
-  const [query, setQuery] = useState("");
-  const { data: users, isFetching } = useUsersByUsernameQuery(query, true);
+  const [inputValue, setInputValue] = useState("");
+  const [value] = useDebounce(inputValue, 500);
+  const { data: users, isFetching } = useUsersByUsernameQuery(value, true);
 
   const clearInput = () => {
-    setQuery("");
+    setInputValue("");
   };
 
   return (
@@ -26,8 +28,8 @@ export default function SearchUsers() {
         >
           <Input
             id={"search"}
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
+            value={inputValue}
+            onChange={(event) => setInputValue(event.target.value)}
             className="peer pl-10 focus:pl-2.5 pr-2.5 py-2 mr-6 w-full bg-inherit text-sm text-inherit text-ellipsis ring-0 ring-inset
             focus:outline-none focus:ring-0 text-gray-800 dark:text-gray-400 focus:text-gray-900 focus:dark:text-gray-200"
             placeholder="Search"
