@@ -17,6 +17,8 @@ import Switch from "../../core/components/Switch";
 import { Controller, useFieldArray, useFormContext } from "react-hook-form";
 import PopoverMenu from "../../core/components/PopoverMenu";
 import WIP from "../../core/components/WIP";
+import useCurrentUserQuery from "../../core/hooks/useCurrentUserQuery";
+import ProfilePic from "../../core/components/ProfilePic";
 
 type PhotoEditProps = {
   files: File[];
@@ -32,6 +34,7 @@ const buttonStyle =
   "size-10 flex justify-center items-center rounded-full text-gray-200 bg-gray-800 hover:bg-gray-800/50 transition";
 
 export default function PhotoEdit({ files, stage }: PhotoEditProps) {
+  const { data: currentUser } = useCurrentUserQuery();
   const [fileArray, setFileArray] = useState<FileTemp[]>([]);
   const [selectedFileIndex, setSelectedFileIndex] = useState(0);
   const { control } = useFormContext();
@@ -139,28 +142,26 @@ export default function PhotoEdit({ files, stage }: PhotoEditProps) {
           {({ control, register, watch }) => (
             <div className="basis-80 w-full flex flex-col gap-4 overflow-auto">
               <div className="px-4 pt-4 flex flex-row items-center gap-2">
-                <div className="size-8 rounded-full bg-gray-500"></div>
-                <div>Account name</div>
+                <div className="size-8">
+                  <ProfilePic photo={currentUser?.profilePic} />
+                </div>
+                <span>{currentUser?.name}</span>
               </div>
 
-              <div className="w-full flex flex-col">
-                <div className="overflow-auto">
-                  <div className="w-full px-4">
-                    <Textarea
-                      rows={7}
-                      {...register("caption")}
-                      className="w-full min-h-40 max-h-40 bg-inherit resize-none"
-                    />
-                  </div>
-                </div>
-                <div className="w-full flex flex-row items-center justify-between px-4">
-                  <Button className="-ml-1 p-1">
-                    <FaceSmileIcon className="size-6 dark:text-gray-300" />
-                  </Button>
-                  <span className="text-sm text-gray-800 dark:text-gray-500">
-                    {watch("caption")?.length || 0}/2200
-                  </span>
-                </div>
+              <div className="w-full flex flex-col px-4">
+                <Textarea
+                  rows={7}
+                  {...register("caption")}
+                  className="w-full overflow-auto min-h-40 max-h-40 bg-inherit resize-none"
+                />
+              </div>
+              <div className="w-full flex flex-row items-center justify-between px-4">
+                <Button className="-ml-1 p-1">
+                  <FaceSmileIcon className="size-6 dark:text-gray-300" />
+                </Button>
+                <span className="text-sm text-gray-800 dark:text-gray-500">
+                  {watch("caption")?.length || 0}/2200
+                </span>
               </div>
 
               <div className="px-4 pb-4 flex flex-col gap-4">
@@ -193,7 +194,7 @@ export default function PhotoEdit({ files, stage }: PhotoEditProps) {
                   title="Advanced settings"
                   className="flex flex-col gap-2"
                 >
-                  <div>
+                  <div className="flex flex-row justify-between items-center gap-1">
                     <span>Hide like and view counts on this post</span>
                     <Controller
                       control={control}
@@ -203,7 +204,7 @@ export default function PhotoEdit({ files, stage }: PhotoEditProps) {
                       )}
                     />
                   </div>
-                  <div>
+                  <div className="flex flex-row justify-between items-center gap-2">
                     <span>Turn off commenting</span>
                     <Controller
                       control={control}

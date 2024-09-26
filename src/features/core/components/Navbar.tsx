@@ -206,7 +206,7 @@ export default function Navbar() {
       </Drawer>
 
       <nav
-        className={`z-20 h-screen ${searchDrawerOpen ? "w-fit mr-44" : "w-fit xl:w-64"} px-4 pt-8 pb-5 flex flex-col space-y-6 border-r border-slate-300 dark:border-slate-600 bg-white dark:bg-gray-900`}
+        className={`z-10 h-screen ${searchDrawerOpen ? "w-fit mr-44" : "w-fit xl:w-64"} px-4 pt-8 pb-5 flex flex-col space-y-6 border-r border-slate-300 dark:border-slate-600 bg-white dark:bg-gray-900`}
       >
         <NavLink
           to="/"

@@ -20,7 +20,7 @@ export default function Drawer({
     <Dialog
       open={isOpen}
       onClose={onClose}
-      className="relative z-10 text-gray-900 dark:text-gray-200"
+      className="relative z-[5] text-gray-900 dark:text-gray-200"
     >
       <div className="fixed inset-0 overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
