@@ -60,16 +60,16 @@ export default function Profile({ user }: ProfileProps) {
   return (
     <div className="w-full pt-12">
       <div className="mx-auto max-w-full md:max-w-5xl xl:max-w-5xl">
-        <div className="flex flex-col px-0 md:px-6 gap-2">
-          <div className="flex flex-row gap-6">
-            <div className="p-12">
-              <div className="size-40">
+        <div className="flex flex-col px-0 md:px-6 gap-4">
+          <header className="grid grid-cols-[120px_4fr] md:grid-cols-[1fr_2fr] justify-items-start items-start gap-4 mx-4">
+            <section className="md:justify-self-center row-start-1 row-end-4 md:row-end-5 mr-2 md:mr-6">
+              <div className="size-24 md:size-40">
                 <ProfilePic photo={user?.profilePic} />
               </div>
-            </div>
+            </section>
 
-            <div className="flex flex-col items-start gap-4">
-              <section className="flex flex-row justify-center items-center gap-4 pb-2">
+            <section className="row-start-1 col-start-2">
+              <div className="flex flex-row justify-center items-center gap-4">
                 <div className="text-xl">{user.name}</div>
                 <div className="flex flex-row items-center gap-2">
                   {user._id !== currentUser?._id ?
@@ -81,8 +81,11 @@ export default function Profile({ user }: ProfileProps) {
                     </Button>
                   : null}
                 </div>
-              </section>
-              <section className="flex flex-row gap-8">
+              </div>
+            </section>
+
+            <section className="row-start-2 col-start-2">
+              <div className="flex flex-row gap-8">
                 <div>
                   <span className="font-semibold">{user.posts}</span>
                   {" posts"}
@@ -95,16 +98,19 @@ export default function Profile({ user }: ProfileProps) {
                   <span className="font-semibold">{user.following}</span>
                   {" following"}
                 </div>
-              </section>
-              <section className="leading-none whitespace-pre-line">
+              </div>
+            </section>
+
+            <section className="row-start-4 md:row-start-3 row-end-4 md:row-end-3 col-start-1 md:col-start-2 col-end-3 md:col-end-2 leading-none whitespace-pre-line">
+              <div>
                 <ShowMoreText
                   text={user.description}
                   overflowLength={250}
                   textSize="text-sm"
                 />
-              </section>
-            </div>
-          </div>
+              </div>
+            </section>
+          </header>
 
           <TabGroup manual className="border-t border-gray-500">
             <TabList className="flex flex-row justify-center items-center text-center gap-16">
@@ -138,8 +144,6 @@ export default function Profile({ user }: ProfileProps) {
               ))}
             </TabPanels>
           </TabGroup>
-
-          <div></div>
         </div>
       </div>
     </div>
