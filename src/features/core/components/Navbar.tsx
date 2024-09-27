@@ -57,6 +57,8 @@ type NavbarButton = {
   }>;
 };
 
+const navButtonStyle =
+  "group w-full inline-flex items-center space-x-4 px-2 py-2 xl:py-3 rounded-lg text-base hover:bg-black/5 dark:hover:bg-white/10 group:text-gray-700 dark:active:text-gray-400";
 const menuIconStyle =
   "size-5 text-gray-900 dark:text-gray-200 group-active:text-gray-700 dark:group-active:text-gray-400";
 const menuButtonStyle =
@@ -220,7 +222,7 @@ export default function Navbar() {
                 <SiteLogo />
               </div>
               <div
-                className={`group ${searchDrawerOpen ? "block" : "block xl:hidden"}  p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 group:text-gray-700 dark:active:text-gray-400`}
+                className={`group ${searchDrawerOpen ? "block" : "block xl:hidden"} p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 group:text-gray-700 dark:active:text-gray-400`}
               >
                 <NavIcon
                   isActive={isActive}
@@ -236,10 +238,7 @@ export default function Navbar() {
             return (
               <li key={item.key}>
                 {"route" in item ?
-                  <NavLink
-                    to={item.route}
-                    className="group w-full inline-flex items-center space-x-4 px-2 py-3 rounded-lg text-base hover:bg-black/5 dark:hover:bg-white/10 group:text-gray-700 dark:active:text-gray-400"
-                  >
+                  <NavLink to={item.route} className={navButtonStyle}>
                     {({ isActive }) => {
                       return (
                         <>
@@ -258,10 +257,7 @@ export default function Navbar() {
                       );
                     }}
                   </NavLink>
-                : <Button
-                    onClick={item.onClick}
-                    className="group w-full inline-flex items-center space-x-4 px-2 py-3 rounded-lg text-base hover:bg-black/5 dark:hover:bg-white/10 group:text-gray-700 dark:active:text-gray-400"
-                  >
+                : <Button onClick={item.onClick} className={navButtonStyle}>
                     <NavIcon
                       isActive={false}
                       title={item.label}
