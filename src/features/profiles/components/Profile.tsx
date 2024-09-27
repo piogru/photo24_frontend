@@ -59,8 +59,8 @@ export default function Profile({ user }: ProfileProps) {
 
   return (
     <div className="w-full pt-12">
-      <div className="mx-auto max-w-[90%]">
-        <div className="flex flex-col px-6 gap-2">
+      <div className="mx-auto max-w-full md:max-w-5xl xl:max-w-5xl">
+        <div className="flex flex-col px-0 md:px-6 gap-2">
           <div className="flex flex-row gap-6">
             <div className="p-12">
               <div className="size-40">
