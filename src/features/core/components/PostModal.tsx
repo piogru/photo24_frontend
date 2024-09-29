@@ -21,6 +21,7 @@ import {
   BookmarkIcon as BookmarkIconSolid,
   HeartIcon as HeartIconSolid,
 } from "@heroicons/react/24/solid";
+import useBreakpoint from "../hooks/useBreakpoint";
 
 type PostModalProps = {
   isOpen: boolean;
@@ -33,6 +34,7 @@ export default function PostModal({
   isOpen,
   onClose,
 }: PostModalProps) {
+  const isSmBreakpoint = useBreakpoint("sm");
   const initialData = useLoaderData() as Awaited<
     ReturnType<ReturnType<typeof postDetailsLoader>>
   >;
@@ -84,25 +86,41 @@ export default function PostModal({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="w-full lg:max-w-[80rem] xl:max-w-[92rem] h-[calc(100vh-theme(space.10))] flex flex-row justify-center items-center rounded-b-xl transition">
+      <div className="w-full lg:max-w-[80rem] xl:max-w-[92rem] h-fit sm:h-[calc(100vh-theme(space.10))] flex flex-col sm:flex-row justify-center items-center rounded-b-xl transition">
+        {!isSmBreakpoint ?
+          <div className="w-full flex flex-row justify-between items-center px-3 py-2 border-b border-slate-300 dark:border-slate-600">
+            {post?.user ?
+              <UserBar user={post.user} />
+            : null}
+            <IconButton
+              disabled
+              title="More options"
+              Icon={EllipsisHorizontalIcon}
+              onClick={onPostMenuClick}
+            />
+          </div>
+        : null}
+
         {/* // todo: aspect in div below */}
         <div className="max-w-3xl h-full flex flex-col flex-grow items-center justify-center border-r border-slate-300 dark:border-slate-600">
           <PhotoSlide photos={photos} />
         </div>
 
-        <div className="w-80 xl:w-[28rem] h-full flex flex-row">
+        <div className="w-full sm:w-80 xl:w-[28rem] h-full flex flex-row">
           <div className="w-full h-full flex-grow flex flex-col">
-            <div className="w-full flex flex-row justify-between items-center px-3 py-2 border-b border-slate-300 dark:border-slate-600">
-              {post?.user ?
-                <UserBar user={post.user} />
-              : null}
-              <IconButton
-                disabled
-                title="More options"
-                Icon={EllipsisHorizontalIcon}
-                onClick={onPostMenuClick}
-              />
-            </div>
+            {isSmBreakpoint ?
+              <div className="w-full flex flex-row justify-between items-center px-3 py-2 border-b border-slate-300 dark:border-slate-600">
+                {post?.user ?
+                  <UserBar user={post.user} />
+                : null}
+                <IconButton
+                  disabled
+                  title="More options"
+                  Icon={EllipsisHorizontalIcon}
+                  onClick={onPostMenuClick}
+                />
+              </div>
+            : null}
 
             <div className="flex flex-col flex-grow px-3 py-4 gap-3 overflow-y-auto border-b border-slate-300 dark:border-slate-600">
               <div className="flex flex-row gap-3">
@@ -117,9 +135,14 @@ export default function PostModal({
                   <Timestamp date={post?.createdAt} />
                 </div>
               </div>
-              {comments.map((comment) => (
-                <div key={comment._id}>Comment component</div>
-              ))}
+
+              {isSmBreakpoint ?
+                <>
+                  {comments.map((comment) => (
+                    <div key={comment._id}>Comment component</div>
+                  ))}
+                </>
+              : null}
             </div>
 
             <div className="flex flex-row justify-between px-3 py-2">
