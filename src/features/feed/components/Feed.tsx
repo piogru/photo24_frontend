@@ -25,9 +25,9 @@ export default function Feed() {
   }, [navigate, pageVariant]);
 
   return (
-    <div className="mt-8 flex flex-row justify-center">
-      <div className="w-full max-w-56 sm:max-w-[28rem] md:w-[32rem] lg:max-w-[42rem] xl:max-w-[56rem] mx-4 xl:mx-16 flex-grow">
-        <div className="w-full flex flex-row justify-start items-center gap-3 font-bold border-b border-slate-300 dark:border-slate-600">
+    <div className="pt-4 sm:mt-8 flex flex-row justify-center ">
+      <div className="w-full max-w-fit md:w-[32rem] lg:max-w-[46rem] flex-grow mx-0 sm:mx-4 md:mx-8 xl:mx-16 overflow-auto">
+        <div className="w-full max-w-2xl flex flex-row justify-start items-center gap-3 px-2 sm:px-0 font-bold border-b border-slate-300 dark:border-slate-600">
           <NavLink to="?variant=for-you" end className="py-2">
             {({ isActive }) => (
               <span
@@ -48,12 +48,17 @@ export default function Feed() {
           </NavLink>
         </div>
 
-        <div className="mx-auto max-w-full w-56 sm:w-80 md:w-96 lg:w-[28rem] xl:w-[28rem]">
+        <div className="mx-auto max-w-full w-[28rem] sm:w-[28rem]">
           <div className="w-full py-4">
             {postCount > 0 ?
               <div className="flex flex-col gap-4">
-                {posts?.map((post) => (
-                  <PostPreview key={post._id} post={post} />
+                {posts?.map((post, index) => (
+                  <div key={post._id}>
+                    <PostPreview post={post} />
+                    {index < posts.length - 1 ?
+                      <div className="mt-4 border-b border-slate-300 dark:border-slate-600" />
+                    : null}
+                  </div>
                 ))}
               </div>
             : <div className="flex flex-col justify-center items-center py-12">

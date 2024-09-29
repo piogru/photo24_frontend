@@ -56,14 +56,17 @@ export default function ProfilePosts() {
               </div>
             }
           </>
-        : <div className="h-80 flex flex-col items-center justify-center gap-2">
-            <CameraIcon className="size-16 stroke-1 rounded-full border-2 p-2" />
+        : <div className="h-80 flex flex-col items-center justify-center gap-2 text-center">
+            <CameraIcon className="size-16 p-2 stroke-1 rounded-full border border-gray-900 dark:border-gray-200" />
             {currentUser?._id === initialData.user?._id ?
               <div>
-                <span className="text-2xl font-bold">Share photos</span>
+                <div className="text-2xl font-bold">Share photos</div>
                 <span>Your shared photos will appear here.</span>
               </div>
-            : <span className="text-lg">This user has not shared any photos.</span>}
+            : <span className="text-lg">
+                This user has not shared any photos.
+              </span>
+            }
           </div>
         }
       </div>

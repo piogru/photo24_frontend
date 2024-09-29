@@ -19,6 +19,7 @@ import PopoverMenu from "../../core/components/PopoverMenu";
 import WIP from "../../core/components/WIP";
 import useCurrentUserQuery from "../../core/hooks/useCurrentUserQuery";
 import ProfilePic from "../../core/components/ProfilePic";
+import useBreakpoint from "../../core/hooks/useBreakpoint";
 
 type PhotoEditProps = {
   files: File[];
@@ -42,6 +43,7 @@ export default function PhotoEdit({ files, stage }: PhotoEditProps) {
     control,
     name: "fileInfo",
   });
+  const isSmBreakpoint = useBreakpoint("sm");
 
   useEffect(() => {
     const arr = Array.from(files).map((item, idx) => ({
@@ -52,95 +54,103 @@ export default function PhotoEdit({ files, stage }: PhotoEditProps) {
     setFileArray(arr);
   }, [files]);
 
+  console.log(
+    isSmBreakpoint,
+    stage,
+    isSmBreakpoint || stage === "crop" ? "prev" : "noll",
+  );
+
   return (
     <div className="w-full h-full flex flex-row">
-      <div className="w-full h-full relative basis-[28rem] grow">
-        <PhotoPreview
-          file={files[selectedFileIndex]}
-          objectFit="object-cover"
-        />
+      {isSmBreakpoint || stage === "crop" ?
+        <div className="w-full h-full relative basis-1/2 md:basis-[28rem] grow">
+          <PhotoPreview
+            file={files[selectedFileIndex]}
+            objectFit="object-cover"
+          />
 
-        {stage === "crop" ?
-          <div className="absolute bottom-0 px-4 mb-3 w-full flex flex-row justify-between items-center gap-4">
-            <div className="flex flex-row gap-4">
+          {stage === "crop" ?
+            <div className="absolute bottom-0 px-4 mb-3 w-full flex flex-row justify-between items-center gap-4">
+              <div className="flex flex-row gap-4">
+                <PopoverMenu
+                  anchor={"bottom start"}
+                  buttonContent={
+                    <Button className={buttonStyle}>
+                      <ChevronUpDownIcon className="size-8 rotate-45" />
+                      <span className="sr-only">Crop</span>
+                    </Button>
+                  }
+                >
+                  <WIP />
+                </PopoverMenu>
+                <PopoverMenu
+                  anchor={"bottom start"}
+                  buttonContent={
+                    <Button className={buttonStyle}>
+                      <MagnifyingGlassPlusIcon className="size-6" />
+                      <span className="sr-only">Zoom</span>
+                    </Button>
+                  }
+                >
+                  <WIP />
+                </PopoverMenu>
+              </div>
               <PopoverMenu
-                anchor={"bottom start"}
+                anchor={"bottom end"}
                 buttonContent={
                   <Button className={buttonStyle}>
-                    <ChevronUpDownIcon className="size-8 rotate-45" />
-                    <span className="sr-only">Crop</span>
-                  </Button>
-                }
-              >
-                <WIP />
-              </PopoverMenu>
-              <PopoverMenu
-                anchor={"bottom start"}
-                buttonContent={
-                  <Button className={buttonStyle}>
-                    <MagnifyingGlassPlusIcon className="size-6" />
-                    <span className="sr-only">Zoom</span>
+                    <Square2StackIcon className="size-6 scale-x-[-1] scale-y-[-1]" />
+                    <span className="sr-only">Items</span>
                   </Button>
                 }
               >
                 <WIP />
               </PopoverMenu>
             </div>
-            <PopoverMenu
-              anchor={"bottom end"}
-              buttonContent={
-                <Button className={buttonStyle}>
-                  <Square2StackIcon className="size-6 scale-x-[-1] scale-y-[-1]" />
-                  <span className="sr-only">Items</span>
-                </Button>
-              }
+          : null}
+          {selectedFileIndex != 0 ?
+            <Button
+              onClick={() => {
+                const newSelectedIndex = selectedFileIndex - 1;
+                if (newSelectedIndex >= 0) {
+                  setSelectedFileIndex(newSelectedIndex);
+                }
+              }}
+              className={`${buttonStyle} absolute top-1/2 bottom-1/2 left-2`}
             >
-              <WIP />
-            </PopoverMenu>
-          </div>
-        : null}
-        {selectedFileIndex != 0 ?
-          <Button
-            onClick={() => {
-              const newSelectedIndex = selectedFileIndex - 1;
-              if (newSelectedIndex >= 0) {
-                setSelectedFileIndex(newSelectedIndex);
-              }
-            }}
-            className={`${buttonStyle} absolute top-1/2 bottom-1/2 left-2`}
-          >
-            <ChevronLeftIcon className="size-6" />
-          </Button>
-        : null}
-        {selectedFileIndex < files.length - 1 ?
-          <Button
-            onClick={() => {
-              const newSelectedIndex = selectedFileIndex + 1;
-              if (newSelectedIndex < files.length) {
-                setSelectedFileIndex(newSelectedIndex);
-              }
-            }}
-            className={`${buttonStyle} absolute top-1/2 bottom-1/2 right-2`}
-          >
-            <ChevronRightIcon className="size-6" />
-          </Button>
-        : null}
-        {fileArray.length > 1 ?
-          <div className="absolute bottom-0 mb-3 w-full inline-flex flex-row justify-center items-center gap-2">
-            {fileArray.map((item, idx) => (
-              <div
-                key={item.key}
-                className={`size-2 rounded-full ${selectedFileIndex === idx ? "bg-blue-500" : "bg-gray-400"}`}
-              />
-            ))}
-          </div>
-        : null}
-      </div>
+              <ChevronLeftIcon className="size-6" />
+            </Button>
+          : null}
+          {selectedFileIndex < files.length - 1 ?
+            <Button
+              onClick={() => {
+                const newSelectedIndex = selectedFileIndex + 1;
+                if (newSelectedIndex < files.length) {
+                  setSelectedFileIndex(newSelectedIndex);
+                }
+              }}
+              className={`${buttonStyle} absolute top-1/2 bottom-1/2 right-2`}
+            >
+              <ChevronRightIcon className="size-6" />
+            </Button>
+          : null}
+          {fileArray.length > 1 ?
+            <div className="absolute bottom-0 mb-3 w-full inline-flex flex-row justify-center items-center gap-2">
+              {fileArray.map((item, idx) => (
+                <div
+                  key={item.key}
+                  className={`size-2 rounded-full ${selectedFileIndex === idx ? "bg-blue-500" : "bg-gray-400"}`}
+                />
+              ))}
+            </div>
+          : null}
+        </div>
+      : null}
 
-      {stage !== "crop" ?
+      {stage === "share" ?
         <ConnectForm>
           {({ control, register, watch }) => (
-            <div className="basis-80 w-full flex flex-col gap-4 overflow-auto">
+            <div className="basis-full sm:basis-1/2 md:basis-1/3 w-fit flex flex-col gap-4 overflow-y-auto">
               <div className="px-4 pt-4 flex flex-row items-center gap-2">
                 <div className="size-8">
                   <ProfilePic photo={currentUser?.profilePic} />
@@ -192,7 +202,7 @@ export default function PhotoEdit({ files, stage }: PhotoEditProps) {
 
                 <Accordion
                   title="Advanced settings"
-                  className="flex flex-col gap-2"
+                  className="flex flex-col gap-4"
                 >
                   <div className="flex flex-row justify-between items-center gap-1">
                     <span>Hide like and view counts on this post</span>

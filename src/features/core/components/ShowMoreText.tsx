@@ -19,12 +19,19 @@ export default function ShowMoreText({
   textSize = "text-md",
 }: ShowMoreTextProps) {
   const [showMore, setShowMore] = useState(false);
+  const isOverflow = text.length > overflowLength;
 
   return (
     <>
       {text ?
         <p className={`inline ${textSize}`}>
-          {showMore ? text : `${text.substring(0, overflowLength)}...`}
+          {isOverflow ?
+            <>
+              {showMore ?
+                text
+              : `${text.substring(0, overflowLength).trimEnd()}...`}
+            </>
+          : <>{text}</>}
           {text.length > overflowLength ?
             <>
               {" "}

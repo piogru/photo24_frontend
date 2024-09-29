@@ -25,7 +25,7 @@ export default function PhotoDropArea({
   getInputProps,
 }: PhotoDropAreaProps) {
   return (
-    <div className="flex flex-col justify-center gap-6 items-center p-4">
+    <div className="min-w-80 sm:min-w-96 flex flex-col justify-center gap-6 items-center p-4">
       <div className="flex flex-col items-center">
         {!dropError ?
           <>
