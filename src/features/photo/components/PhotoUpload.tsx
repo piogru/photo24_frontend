@@ -205,29 +205,27 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
               </DialogTitle>
             }
           >
-            <form>
-              <div
-                className={`${stage !== "share" ? "w-[28rem]" : "w-[48rem]"} h-[30rem] flex flex-col justify-center items-center rounded-b-xl transition ${isDragActive ? "bg-black/5 dark:bg-black/50" : ""}`}
-              >
-                {stage === "dragAndDrop" || stage === "error" ?
-                  <PhotoDropArea
-                    isDragActive={isDragActive}
-                    dropError={dropError}
-                    fileRejections={fileRejections}
-                    getInputProps={getInputProps}
-                  />
-                : null}
-                {stage === "crop" || stage === "share" ?
-                  <PhotoEdit files={files} stage={stage} />
-                : null}
+            <div
+              className={`w-full h-[30rem] flex flex-col justify-center items-center rounded-b-xl transition ${isDragActive ? "bg-black/5 dark:bg-black/50" : ""}`}
+            >
+              {stage === "dragAndDrop" || stage === "error" ?
+                <PhotoDropArea
+                  isDragActive={isDragActive}
+                  dropError={dropError}
+                  fileRejections={fileRejections}
+                  getInputProps={getInputProps}
+                />
+              : null}
+              {stage === "crop" || stage === "share" ?
+                <PhotoEdit files={files} stage={stage} />
+              : null}
 
-                {stage === "sharing" ?
-                  <div>
-                    <Spinner size="xl" />
-                  </div>
-                : null}
-              </div>
-            </form>
+              {stage === "sharing" ?
+                <div className="min-w-80 sm:min-w-96 flex flex-row grow justify-center items-center">
+                  <Spinner size="xl" />
+                </div>
+              : null}
+            </div>
           </Modal>
         </form>
       </FormProvider>
@@ -236,7 +234,7 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
         isOpen={isDiscardConfirmationOpen}
         onClose={() => setIsDiscardConfirmationOpen(false)}
       >
-        <div className="w-96 flex flex-col items-center gap-4">
+        <div className="w-full sm:w-96 flex flex-col items-center gap-4">
           <div className="mt-6 mb-4 flex flex-col items-center gap-1 text-center">
             <DialogTitle className="text-xl font-semibold">
               Discard post?

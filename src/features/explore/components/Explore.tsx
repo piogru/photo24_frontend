@@ -48,7 +48,7 @@ export default function Explore() {
         />
       : null}
 
-      <div className="flex flex-col justify-center items-center pt-12 pb-4 mx-0 sm:mx-4">
+      <div className="flex flex-col justify-center items-center pt-4 sm:pt-12 pb-4 mx-0 sm:mx-4">
         <div className="w-full max-w-4xl">
           <div className="w-full flex flex-row justify-start items-center gap-3 font-bold mx-2 sm:mx-0">
             <NavLink to="" end className="py-2">

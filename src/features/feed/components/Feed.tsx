@@ -25,7 +25,7 @@ export default function Feed() {
   }, [navigate, pageVariant]);
 
   return (
-    <div className="sm:mt-8 flex flex-row justify-center ">
+    <div className="pt-4 sm:mt-8 flex flex-row justify-center ">
       <div className="w-full max-w-fit md:w-[32rem] lg:max-w-[46rem] flex-grow mx-0 sm:mx-4 md:mx-8 xl:mx-16 overflow-auto">
         <div className="w-full max-w-2xl flex flex-row justify-start items-center gap-3 px-2 sm:px-0 font-bold border-b border-slate-300 dark:border-slate-600">
           <NavLink to="?variant=for-you" end className="py-2">
