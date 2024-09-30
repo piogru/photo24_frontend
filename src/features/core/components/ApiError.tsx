@@ -6,10 +6,12 @@ type ApiErrorProps = {
 
 function getErrorMessage(error: Error | AxiosError) {
   let message: string;
+
   if (axios.isAxiosError(error)) {
-    message = error.response?.data.message;
+    message =
+      error.response?.data ? error.response.data.message : error.message;
   } else {
-    message = error.message;
+    message = `${error.message}`;
   }
 
   return message || "Error";
