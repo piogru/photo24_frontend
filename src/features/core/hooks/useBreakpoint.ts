@@ -7,8 +7,6 @@ const {
   theme: { screens },
 } = fullConfig;
 
-console.log("scre", screens);
-
 export default (query: keyof typeof screens): boolean => {
   const mediaQuery = `(min-width: ${screens[query]})`;
   const matchQueryList = window.matchMedia(mediaQuery);
