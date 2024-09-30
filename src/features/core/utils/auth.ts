@@ -1,6 +1,7 @@
 import { replace } from "react-router-dom";
 import { getCurrentUser } from "../../accounts/api/queries";
 import { QueryClient } from "@tanstack/react-query";
+import toaster from "./toaster";
 
 export const currentUserQuery = () => ({
   queryKey: ["auth", "me"],
@@ -19,7 +20,10 @@ export const isAuthenticated = (queryClient: QueryClient) => async () => {
       return false;
     });
 
-  if (authStatus) throw replace("/");
+  if (authStatus) {
+    toaster.error({ title: "", text: "Already logged in." });
+    throw replace("/");
+  }
 
   return null;
 };

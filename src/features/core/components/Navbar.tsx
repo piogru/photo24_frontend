@@ -75,7 +75,6 @@ export default function Navbar() {
         queryKey: ["auth"],
         exact: false,
       });
-      await queryClient.setQueryData(["auth", "me"], null);
 
       navigate("/");
     },
