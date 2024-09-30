@@ -111,7 +111,6 @@ export default function PostModal({
                 <UserBar user={post.user} />
               : null}
               <IconButton
-                disabled
                 title="More options"
                 Icon={EllipsisHorizontalIcon}
                 onClick={onPostMenuClick}
