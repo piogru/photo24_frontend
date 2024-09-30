@@ -66,9 +66,6 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
       },
       disabled: files.length > 0,
       onDrop: onDrop,
-      onError: (error) => {
-        console.log("Dropzone - error", error);
-      },
       maxFiles: IMAGE_LIMIT,
       maxSize: IMAGE_MAX_SIZE,
       multiple: true,
