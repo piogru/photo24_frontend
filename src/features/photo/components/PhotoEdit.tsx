@@ -54,12 +54,6 @@ export default function PhotoEdit({ files, stage }: PhotoEditProps) {
     setFileArray(arr);
   }, [files]);
 
-  console.log(
-    isSmBreakpoint,
-    stage,
-    isSmBreakpoint || stage === "crop" ? "prev" : "noll",
-  );
-
   return (
     <div className="w-full h-full flex flex-row">
       {isSmBreakpoint || stage === "crop" ?

@@ -41,13 +41,13 @@ export default function PostModal({
   const queryClient = useQueryClient();
   const { data: post } = usePostQuery(
     postProp._id,
-    initialData.post || undefined,
+    initialData?.post || undefined,
   );
   const photos = post?.photos || [];
   const comments = post?.comments || [];
   const { data: like } = useLikeQuery(
     post?._id || "",
-    initialData.like || undefined,
+    initialData?.like || undefined,
   );
   const likeMutation = useMutation({
     mutationFn: postLike,

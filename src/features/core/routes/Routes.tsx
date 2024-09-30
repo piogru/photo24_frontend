@@ -1,6 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "../../../App.tsx";
-import { QueryClient } from "@tanstack/react-query";
 import {
   appLoader,
   exploreLoader,
@@ -22,8 +21,8 @@ import Explore from "../../explore/components/Explore.tsx";
 import ProfileWrapper from "../../profiles/components/ProfileWrapper.tsx";
 import ProfilePosts from "../../profiles/components/ProfilePosts.tsx";
 import ProfileSaved from "../../profiles/components/ProfileSaved.tsx";
+import queryClient from "../api/queryClient.ts";
 
-const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
     path: "/",
