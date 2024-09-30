@@ -1,28 +1,49 @@
 import { MutationCache, QueryCache, QueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
+import axios, { AxiosError } from "axios";
+import toaster from "../utils/toaster";
+
+declare module "@tanstack/react-query" {
+  interface Register {
+    defaultError: AxiosError;
+  }
+}
+
+const onTooManyRequests = (error: Error | AxiosError) => {
+  if (axios.isAxiosError(error)) {
+    if (error.status === 429) {
+      toaster.error(
+        {
+          title: "",
+          text:
+            error.response?.data ? error.response.data.message : error.message,
+        },
+        {
+          toastId: "status-429",
+        },
+      );
+    }
+  } else {
+    toaster.error(
+      {
+        title: "",
+        text: error.message,
+      },
+      {
+        toastId: "status-429",
+      },
+    );
+  }
+};
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
-    onError: (error, query) => {
-      // 🎉 only show error toasts if we already have data in the cache
-      // which indicates a failed background update
-      if (query.state.data !== undefined) {
-        // showToast("Something went wrong: ${error.message}");
-        toast.error(`Something went wrong: ${error.message}`);
-        console.log("error");
-      }
+    onError: (error) => {
+      onTooManyRequests(error);
     },
   }),
   mutationCache: new MutationCache({
     onError: (error) => {
-      // const serverError = error as IServerError;
-      delete error.stack;
-      toast.error(`Mutation went wrong: ${error.message}`);
-      console.log("muta cache", error);
-      // toastError(serverError?.response?.data?.fullMessage);
-    },
-    onMutate: () => {
-      console.log("mutation start");
+      onTooManyRequests(error);
     },
   }),
 });
