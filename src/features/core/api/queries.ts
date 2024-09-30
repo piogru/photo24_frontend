@@ -82,6 +82,12 @@ const getUserPosts = async (userId: ObjectId) => {
   });
 };
 
+const deletePost = async (postId: ObjectId) => {
+  return api.delete(`posts/${postId}`).then((response) => {
+    return response.data;
+  });
+};
+
 const getUsersByUsername = async (username: string, partial: boolean) => {
   const queryString =
     partial ? `?name=${username}&partial=true` : `?name=${username}`;
@@ -153,6 +159,7 @@ export {
   postQuery,
   forYouPostsQuery,
   followingPostsQuery,
+  deletePost,
   likeQuery,
   followQuery,
   usersByUsernameQuery,

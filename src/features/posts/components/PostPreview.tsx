@@ -18,6 +18,8 @@ import {
   BookmarkIcon as BookmarkIconSolid,
   HeartIcon as HeartIconSolid,
 } from "@heroicons/react/24/solid";
+import { useState } from "react";
+import PostMenu from "../../core/components/PostMenu";
 
 type PostProps = {
   post: Post;
@@ -25,6 +27,7 @@ type PostProps = {
 
 export default function PostPreview({ post }: PostProps) {
   const queryClient = useQueryClient();
+  const [menuOpen, setMenuOpen] = useState(false);
   const multiplePhotos = post.photos.length > 1;
   const { data: like } = useLikeQuery(post?._id || "");
   const likeMutation = useMutation({
@@ -46,6 +49,10 @@ export default function PostPreview({ post }: PostProps) {
     },
   });
 
+  const onPostMenuClick = () => {
+    setMenuOpen(true);
+  };
+
   const onLikeClick = () => {
     if (like) {
       unlikeMutation.mutate(post?._id || "");
@@ -60,79 +67,92 @@ export default function PostPreview({ post }: PostProps) {
 
   const onSaveClick = () => {};
 
+  const onPostDelete = () => {
+    setMenuOpen(false);
+  };
+
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex flex-row justify-between items-center px-3 sm:px-0">
-        <div className="flex flex-row items-center gap-1">
-          <UserBar user={post?.user} followEnabled={false} />
-          <span>{"•"}</span>
-          <Timestamp date={post?.createdAt} fontSize="text-sm" />
-        </div>
-        <IconButton
-          disabled
-          title="More options"
-          Icon={EllipsisHorizontalIcon}
-        />
-      </div>
+    <>
+      <PostMenu
+        post={post}
+        isOpen={menuOpen}
+        onClose={onPostDelete}
+        onDelete={onPostDelete}
+      />
 
-      <div className="group relative">
-        <img
-          src={post.photos[0].url}
-          className="w-full h-full rounded-md border border-slate-300 dark:border-slate-600"
-        />
-        {multiplePhotos ?
-          <div className="absolute top-2 right-2 p-1 rounded-full bg-black/20">
-            <Square2StackIcon className="size-6 scale-x-[-1] scale-y-[-1]" />
+      <div className="flex flex-col gap-2">
+        <div className="flex flex-row justify-between items-center px-3 sm:px-0">
+          <div className="flex flex-row items-center gap-1">
+            <UserBar user={post?.user} followEnabled={false} />
+            <span>{"•"}</span>
+            <Timestamp date={post?.createdAt} fontSize="text-sm" />
           </div>
-        : null}
-      </div>
-
-      <div className="flex flex-col gap-2 px-3 sm:px-0">
-        <div className="flex flex-row justify-between">
-          <div className="flex flex-row items-center gap-2">
-            <IconButton
-              Icon={HeartIcon}
-              SolidIcon={HeartIconSolid}
-              solid={!!like}
-              title={like ? "Unlike" : "Like"}
-              onClick={onLikeClick}
-            />
-            <IconButton
-              disabled
-              Icon={ChatBubbleOvalLeftIcon}
-              title="Comment"
-              onClick={onCommentClick}
-            />
-            <IconButton
-              disabled
-              Icon={ShareIcon}
-              title="Share"
-              onClick={onShareClick}
-            />
-          </div>
-          <div>
-            <IconButton
-              disabled
-              Icon={BookmarkIcon}
-              SolidIcon={BookmarkIconSolid}
-              solid={false}
-              title="Save"
-              onClick={onSaveClick}
-            />
-          </div>
+          <IconButton
+            title="More options"
+            Icon={EllipsisHorizontalIcon}
+            onClick={onPostMenuClick}
+          />
         </div>
-        <span>
-          <span className="font-semibold">{post.likes}</span> likes
-        </span>
-        {post.caption?.length > 0 ?
-          <div>
-            <span className="inline mr-1 font-semibold">
-              {post.user?.name || "user"}
-            </span>
-            <ShowMoreText text={post.caption} overflowLength={100} />
+
+        <div className="group relative">
+          <img
+            src={post.photos[0].url}
+            className="w-full h-full rounded-md border border-slate-300 dark:border-slate-600"
+          />
+          {multiplePhotos ?
+            <div className="absolute top-2 right-2 p-1 rounded-full bg-black/20">
+              <Square2StackIcon className="size-6 scale-x-[-1] scale-y-[-1]" />
+            </div>
+          : null}
+        </div>
+
+        <div className="flex flex-col gap-2 px-3 sm:px-0">
+          <div className="flex flex-row justify-between">
+            <div className="flex flex-row items-center gap-2">
+              <IconButton
+                Icon={HeartIcon}
+                SolidIcon={HeartIconSolid}
+                solid={!!like}
+                title={like ? "Unlike" : "Like"}
+                onClick={onLikeClick}
+              />
+              <IconButton
+                disabled
+                Icon={ChatBubbleOvalLeftIcon}
+                title="Comment"
+                onClick={onCommentClick}
+              />
+              <IconButton
+                disabled
+                Icon={ShareIcon}
+                title="Share"
+                onClick={onShareClick}
+              />
+            </div>
+            <div>
+              <IconButton
+                disabled
+                Icon={BookmarkIcon}
+                SolidIcon={BookmarkIconSolid}
+                solid={false}
+                title="Save"
+                onClick={onSaveClick}
+              />
+            </div>
           </div>
-        : null}
+          <span>
+            <span className="font-semibold">{post.likes}</span> likes
+          </span>
+          {post.caption?.length > 0 ?
+            <div>
+              <span className="inline mr-1 font-semibold">
+                {post.user?.name || "user"}
+              </span>
+              <ShowMoreText text={post.caption} overflowLength={100} />
+            </div>
+          : null}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
