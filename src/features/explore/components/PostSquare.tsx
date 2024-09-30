@@ -24,12 +24,12 @@ export default function PostSquare({ post, onClick }: PostSquareProps) {
         />
       </div>
       {multiplePhotos ?
-        <Square2StackIcon className="absolute top-2 right-2 size-6 scale-x-[-1] scale-y-[-1] rounded-full drop-shadow-lg" />
+        <Square2StackIcon className="absolute top-2 right-2 size-6 scale-x-[-1] scale-y-[-1] rounded-full drop-shadow-lg text-gray-200" />
       : null}
 
       <div
         className={`invisible group-hover:visible absolute inset-0 flex flex-col md:flex-row justify-center items-center
-          gap-0 md:gap-4 font-bold group-hover:bg-black/25`}
+          gap-0 md:gap-4 font-bold group-hover:bg-black/25 text-gray-200`}
       >
         <div className="inline-block">
           <HeartIcon className="inline mr-1 size-6" />
