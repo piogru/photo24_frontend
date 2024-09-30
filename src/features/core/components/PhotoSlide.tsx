@@ -39,7 +39,7 @@ export default function PhotoSlide({ photos }: PhotoSlideProps) {
       {currentPhotoIndex > 0 ?
         <Button
           onClick={handlePrevious}
-          className="absolute left-0 top-0 bottom-0 p-1"
+          className="absolute left-0 top-0 bottom-0 p-1 text-gray-200"
         >
           <ChevronLeftIcon className="size-6" />
         </Button>
@@ -47,7 +47,7 @@ export default function PhotoSlide({ photos }: PhotoSlideProps) {
       {currentPhotoIndex < photos.length - 1 ?
         <Button
           onClick={handleNext}
-          className="absolute right-0 top-0 bottom-0 p-1"
+          className="absolute right-0 top-0 bottom-0 p-1 text-gray-200"
         >
           <ChevronRightIcon className="size-6" />
         </Button>
