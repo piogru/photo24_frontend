@@ -1,25 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
+import { ThemeContext } from "../components/ThemeContextProvider";
 
 export default function useTheme(): [string, () => void] {
-  const [theme, setTheme] = useState(() => {
-    if (
-      localStorage.theme === "dark" ||
-      (!("theme" in localStorage) &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
-    ) {
-      return "dark";
-    } else {
-      return "light";
-    }
-  });
+  const context = useContext(ThemeContext);
 
-  useEffect(() => {
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [theme]);
+  if (context === null) {
+    throw new Error("Context must be used within a context provider");
+  }
+
+  const { theme, setTheme } = context;
 
   const handleThemeChange = () => {
     if (theme == "dark") {
