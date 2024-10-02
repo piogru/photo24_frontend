@@ -17,6 +17,7 @@ import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
 import { postPost } from "../api/queries";
 import Spinner from "../../core/components/Spinner";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 type PhotoUploadProps = {
   isOpen: boolean;
@@ -33,7 +34,7 @@ const steps = {
   error: { title: "File couldn't be uploaded" },
 };
 
-const PostSchema = z.object({
+const postSchema = z.object({
   caption: z.string(),
   hideLikes: z.boolean(),
   commentsOff: z.boolean(),
@@ -44,7 +45,7 @@ const PostSchema = z.object({
   ),
 });
 
-type TPostSchema = z.infer<typeof PostSchema>;
+type TPostSchema = z.infer<typeof postSchema>;
 
 export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
   const [files, setFiles] = useState<File[]>([]);
@@ -73,6 +74,7 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
   const dropError = fileRejections.length > 0;
   const [stage, setStage] = useState<StageName>("dragAndDrop");
   const formMethods = useForm<TPostSchema>({
+    resolver: zodResolver(postSchema),
     defaultValues: {
       hideLikes: false,
       commentsOff: false,
