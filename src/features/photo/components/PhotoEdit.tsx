@@ -57,7 +57,7 @@ export default function PhotoEdit({ files, stage }: PhotoEditProps) {
   return (
     <div className="w-full h-full flex flex-row">
       {isSmBreakpoint || stage === "crop" ?
-        <div className="w-full h-full relative basis-1/2 md:basis-[28rem] grow">
+        <div className="w-full h-full relative basis-1/2 md:basis-2/3 md:min-w-[28rem] grow">
           <PhotoPreview
             file={files[selectedFileIndex]}
             objectFit="object-cover"
@@ -144,7 +144,7 @@ export default function PhotoEdit({ files, stage }: PhotoEditProps) {
       {stage === "share" ?
         <ConnectForm>
           {({ control, register, watch }) => (
-            <div className="basis-full sm:basis-1/2 md:basis-1/3 w-fit flex flex-col gap-4 overflow-y-auto">
+            <div className="basis-full sm:basis-1/2 md:basis-1/3 w-fit min-w-[12rem] flex flex-col gap-4 overflow-y-auto">
               <div className="px-4 pt-4 flex flex-row items-center gap-2">
                 <div className="size-8">
                   <ProfilePic photo={currentUser?.profilePic} />
