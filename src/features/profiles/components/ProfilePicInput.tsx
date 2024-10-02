@@ -4,7 +4,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteProfilePic, patchProfilePic } from "../api/queries";
-import { Button, Input } from "@headlessui/react";
+import { Button, DialogTitle, Input } from "@headlessui/react";
 import { CameraIcon as CameraIconSolid } from "@heroicons/react/24/solid";
 import Modal from "../../core/components/Modal";
 import Spinner from "../../core/components/Spinner";
@@ -47,6 +47,9 @@ export default function ProfilePicInput() {
   const patchMutation = useMutation({
     mutationFn: patchProfilePic,
     onSuccess: () => {
+      if (menuOpen) {
+        setMenuOpen(false);
+      }
       toaster.success({ text: "Profile picture updated." });
       queryClient.invalidateQueries({
         queryKey: ["users", currentUser?.name],
@@ -66,7 +69,17 @@ export default function ProfilePicInput() {
   const deleteMutation = useMutation({
     mutationFn: deleteProfilePic,
     onSuccess: () => {
+      if (menuOpen) {
+        setMenuOpen(false);
+      }
       toaster.success({ text: "Profile picture removed." });
+      queryClient.invalidateQueries({
+        queryKey: ["users", currentUser?.name],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["auth", "me"],
+        exact: true,
+      });
     },
     onError: (error) => {
       toaster.error(
@@ -85,7 +98,11 @@ export default function ProfilePicInput() {
     }
   };
 
-  const openFileInput = () => {
+  const onPictureDelete = () => {
+    deleteMutation.mutate();
+  };
+
+  const onPictureClick = () => {
     if (currentUser?.profilePic) {
       setMenuOpen(true);
     } else {
@@ -100,17 +117,47 @@ export default function ProfilePicInput() {
   return (
     <>
       <Modal isOpen={menuOpen} onClose={onMenuClose}>
-        Change profile photo change delete close
+        <div className="w-full sm:w-96 flex flex-col items-center gap-4">
+          <div className="mt-6 mb-4 flex flex-col items-center gap-1 text-center">
+            <DialogTitle className="text-xl">
+              Change profile picture
+            </DialogTitle>
+          </div>
+          <div className="w-full flex flex-col items-center">
+            <Button
+              autoFocus
+              onClick={() => inputFile.current?.click()}
+              className="w-full py-3 font-semibold text-blue-500 border-t border-slate-300 dark:border-slate-600"
+            >
+              Upload new photo
+            </Button>
+            <Button
+              autoFocus
+              onClick={onPictureDelete}
+              className="w-full py-3 font-semibold text-red-500 border-t border-slate-300 dark:border-slate-600"
+            >
+              Remove current photo
+            </Button>
+            <Button
+              onClick={onMenuClose}
+              className="w-full py-3 border-t border-slate-300 dark:border-slate-600"
+            >
+              Cancel
+            </Button>
+          </div>
+        </div>
       </Modal>
 
       <Button
-        onClick={openFileInput}
+        onClick={onPictureClick}
         className={`absolute top-0 left-0 w-full h-full  overflow-hidden rounded-full cursor-pointer ${currentUser?.profilePic ? "" : "bg-black/40"}`}
       >
-        <CameraIconSolid className="absolute top-1/2 left-1/2 size-12 -translate-x-1/2 -translate-y-1/2 text-gray-200" />
+        {currentUser?.profilePic ? null : (
+          <CameraIconSolid className="absolute top-1/2 left-1/2 size-12 -translate-x-1/2 -translate-y-1/2 text-gray-200" />
+        )}
       </Button>
 
-      {patchMutation.isPending ?
+      {patchMutation.isPending || deleteMutation.isPending ?
         <div className="absolute w-full h-full inset-0 flex flex-row justify-center items-center">
           <Spinner size="xl" />
         </div>

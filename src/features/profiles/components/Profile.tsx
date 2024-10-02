@@ -17,10 +17,13 @@ import useFollowMutation from "../../core/hooks/useFollowMutation";
 import useUnfollowMutation from "../../core/hooks/useUnfollowMutation";
 import ProfilePic from "../../core/components/ProfilePic";
 import ProfilePicInput from "./ProfilePicInput";
+import useUsersByUsernameQuery from "../../core/hooks/useUsersByUsernameQuery";
 
 type ProfileProps = {
-  user: User;
-  follow: Follow | null;
+  initialData: {
+    user: User;
+    follow: Follow | null;
+  };
 };
 
 const generalTabs = [
@@ -39,8 +42,13 @@ const userTabs = [
   },
 ];
 
-export default function Profile({ user }: ProfileProps) {
+export default function Profile({ initialData }: ProfileProps) {
   const { data: currentUser } = useCurrentUserQuery();
+  const { data: queriedUser } = useUsersByUsernameQuery(
+    initialData.user.name,
+    false,
+  );
+  const user = queriedUser[0];
   const { data: follow } = useFollowQuery(user._id);
   const followMutation = useFollowMutation(user._id);
   const unfollowMutation = useUnfollowMutation(user._id);
