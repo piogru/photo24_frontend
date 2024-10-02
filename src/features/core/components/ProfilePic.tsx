@@ -12,10 +12,10 @@ export default function ProfilePic({ photo }: ProfilePicProps) {
         <img
           src={photo.url}
           alt={photo.altText}
-          className="size-full object-cover"
+          className="size-full object-cover rounded-full"
         />
       : <UserCircleIconSolid
-          className="size-full text-gray-700 dark:text-gray-200"
+          className="size-full text-gray-700 dark:text-gray-200 rounded-full"
           viewBox="2 2 20 20"
         />
       }

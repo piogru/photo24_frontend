@@ -1,12 +1,14 @@
 type ToastMessageProps = {
-  title: string;
+  title?: string;
   text: string;
 };
 
 export default function ToastMessage({ title, text }: ToastMessageProps) {
   return (
     <div className="w-fit">
-      <p className="">{title}</p>
+      {title ?
+        <p className="">{title}</p>
+      : null}
       <p className="">{text}</p>
     </div>
   );
