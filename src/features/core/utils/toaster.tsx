@@ -2,7 +2,7 @@ import { Id, toast, ToastOptions } from "react-toastify";
 import ToastMessage from "../components/ToastMessage";
 
 type ToastMessageProps = {
-  title: string;
+  title?: string;
   text: string;
 };
 

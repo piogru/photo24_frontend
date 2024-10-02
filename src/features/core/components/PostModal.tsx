@@ -24,6 +24,7 @@ import {
 } from "@heroicons/react/24/solid";
 import useBreakpoint from "../hooks/useBreakpoint";
 import PostMenu from "./PostMenu";
+import ProfilePic from "./ProfilePic";
 
 type PostModalProps = {
   isOpen: boolean;
@@ -140,7 +141,9 @@ export default function PostModal({
 
               <div className="flex flex-col flex-grow px-3 py-4 gap-3 overflow-y-auto border-b border-slate-300 dark:border-slate-600">
                 <div className="flex flex-row gap-3">
-                  <div className="size-8 rounded-full flex-shrink-0 bg-gray-500" />
+                  <div className="size-8">
+                    <ProfilePic photo={post?.user.profilePic} />
+                  </div>
                   <div className="flex flex-col justify-start gap-1">
                     <div className="text-start whitespace-pre-line">
                       <span className="inline-flex font-semibold">

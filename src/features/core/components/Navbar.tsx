@@ -33,29 +33,23 @@ import { Button } from "@headlessui/react";
 import SearchUsers from "./SearchUsers";
 import Drawer from "./Drawer";
 
-type NavbarLink = {
+type NavbarElement = {
   key: string;
+  label: string;
+  icon: ComponentType<{
+    className?: string;
+  }>;
+  iconActive: ComponentType<{
+    className?: string;
+  }>;
+};
+type NavbarLink = NavbarElement & {
   route: string;
-  label: string;
-  icon: ComponentType<{
-    className?: string;
-  }>;
-  iconActive: ComponentType<{
-    className?: string;
-  }>;
 };
-
-type NavbarButton = {
-  key: string;
-  label: string;
+type NavbarButton = NavbarElement & {
   onClick: () => void;
-  icon: ComponentType<{
-    className?: string;
-  }>;
-  iconActive: ComponentType<{
-    className?: string;
-  }>;
 };
+type NavbarItem = NavbarLink | NavbarButton;
 
 const navButtonStyle =
   "group w-full inline-flex items-center space-x-4 px-2 py-2 xl:py-3 rounded-lg text-base hover:bg-black/5 dark:hover:bg-white/10 group:text-gray-700 dark:active:text-gray-400";
@@ -82,7 +76,7 @@ export default function Navbar() {
   const [theme, handleThemeChange] = useTheme();
   const [photoUploadOpen, setPhotoUploadOpen] = useState(false);
   const [searchDrawerOpen, setSearchDrawerOpen] = useState(false);
-  const links: (NavbarButton | NavbarLink)[] = [
+  const links: NavbarItem[] = [
     {
       key: "home",
       route: "/",

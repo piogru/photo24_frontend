@@ -16,10 +16,14 @@ import Follow from "../../core/types/follow";
 import useFollowMutation from "../../core/hooks/useFollowMutation";
 import useUnfollowMutation from "../../core/hooks/useUnfollowMutation";
 import ProfilePic from "../../core/components/ProfilePic";
+import ProfilePicInput from "./ProfilePicInput";
+import useUsersByUsernameQuery from "../../core/hooks/useUsersByUsernameQuery";
 
 type ProfileProps = {
-  user: User;
-  follow: Follow | null;
+  initialData: {
+    user: User;
+    follow: Follow | null;
+  };
 };
 
 const generalTabs = [
@@ -38,12 +42,16 @@ const userTabs = [
   },
 ];
 
-export default function Profile({ user }: ProfileProps) {
+export default function Profile({ initialData }: ProfileProps) {
   const { data: currentUser } = useCurrentUserQuery();
+  const { data: queriedUser } = useUsersByUsernameQuery(
+    initialData.user.name,
+    false,
+  );
+  const user = queriedUser[0];
   const { data: follow } = useFollowQuery(user._id);
   const followMutation = useFollowMutation(user._id);
   const unfollowMutation = useUnfollowMutation(user._id);
-
   const tabs = [
     ...generalTabs,
     ...(user._id === currentUser?._id ? userTabs : []),
@@ -63,8 +71,11 @@ export default function Profile({ user }: ProfileProps) {
         <div className="flex flex-col px-0 md:px-6 gap-4">
           <header className="grid grid-cols-[76px_4fr] sm:grid-cols-[120px_4fr] md:grid-cols-[1fr_2fr] justify-items-start items-start gap-4 mx-4">
             <section className="md:justify-self-center row-start-1 sm:row-end-4 md:row-end-5 mr-2 md:mr-6">
-              <div className="size-16 sm:size-24 md:size-40">
+              <div className="relative size-16 sm:size-24 md:size-40">
                 <ProfilePic photo={user?.profilePic} />
+                {currentUser?._id === user._id ?
+                  <ProfilePicInput />
+                : null}
               </div>
             </section>
 
@@ -75,7 +86,7 @@ export default function Profile({ user }: ProfileProps) {
                   {user._id !== currentUser?._id ?
                     <Button
                       onClick={onFollowClick}
-                      className="px-4 py-1 rounded-lg bg-gray-700"
+                      className="px-4 py-1 rounded-lg font-semibold bg-gray-300 hover:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-800"
                     >
                       {follow ? "Following" : "Follow"}
                     </Button>
