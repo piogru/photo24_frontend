@@ -31,11 +31,13 @@ export default function PostSquare({ post, onClick }: PostSquareProps) {
         className={`invisible group-hover:visible absolute inset-0 flex flex-col md:flex-row justify-center items-center
           gap-0 md:gap-4 font-bold group-hover:bg-black/25 text-gray-200`}
       >
-        <div className="inline-block">
-          <HeartIcon className="inline mr-1 size-6" />
-          <span className="inline">{post.likes}</span>
-        </div>
-        {post.comments ?
+        {!post.hideLikes ?
+          <div className="inline-block">
+            <HeartIcon className="inline size-6 mr-1" />
+            <span className="inline">{post.likes}</span>
+          </div>
+        : null}
+        {!post.commentsOff ?
           <div className="inline-block">
             <ChatBubbleOvalLeftIcon className="inline mr-1 size-6" />
             <span className="inline">{post.comments.length}</span>

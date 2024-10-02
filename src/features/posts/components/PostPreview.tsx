@@ -20,6 +20,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import PostMenu from "../../core/components/PostMenu";
+import LikeCounter from "../../core/components/LikeCount";
 
 type PostProps = {
   post: Post;
@@ -140,9 +141,7 @@ export default function PostPreview({ post }: PostProps) {
               />
             </div>
           </div>
-          <span>
-            <span className="font-semibold">{post.likes}</span> likes
-          </span>
+          <LikeCounter likes={post.likes} hideLikes={post.hideLikes} />
           {post.caption?.length > 0 ?
             <div>
               <span className="inline mr-1 font-semibold">
