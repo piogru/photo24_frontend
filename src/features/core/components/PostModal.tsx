@@ -25,6 +25,7 @@ import {
 import useBreakpoint from "../hooks/useBreakpoint";
 import PostMenu from "./PostMenu";
 import ProfilePic from "./ProfilePic";
+import LikeCounter from "./LikeCount";
 
 type PostModalProps = {
   isOpen: boolean;
@@ -199,7 +200,7 @@ export default function PostModal({
               </div>
 
               <div className="flex flex-col px-3 pb-2 border-b border-slate-300 dark:border-slate-600">
-                <div className="font-semibold">{post?.likes} likes</div>
+                <LikeCounter likes={post?.likes} hideLikes={post?.hideLikes} />
                 <Timestamp date={post?.createdAt} suffix />
               </div>
 
