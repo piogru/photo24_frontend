@@ -22,6 +22,7 @@ import ProfileWrapper from "../../profiles/components/ProfileWrapper.tsx";
 import ProfilePosts from "../../profiles/components/ProfilePosts.tsx";
 import ProfileSaved from "../../profiles/components/ProfileSaved.tsx";
 import queryClient from "../api/queryClient.ts";
+import About from "../../about/components/About.tsx";
 
 const router = createBrowserRouter([
   {
@@ -78,6 +79,10 @@ const router = createBrowserRouter([
         ],
       },
 
+      {
+        path: "about",
+        element: <About />,
+      },
       {
         path: "",
         element: <LoginWrapper />,
