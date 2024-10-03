@@ -14,6 +14,8 @@ import {
   IMAGE_MAX_SIZE,
   IMAGE_MAX_SIZE_MB,
 } from "../../core/constants/appConstants";
+import { AxiosError } from "axios";
+import AxiosErrorResponse from "../../core/types/axiosErrorResponse";
 
 const profilePicInputSchema = z
   .object({
@@ -59,7 +61,7 @@ export default function ProfilePicInput() {
         exact: true,
       });
     },
-    onError: (error) => {
+    onError: (error: AxiosError<AxiosErrorResponse>) => {
       toaster.error({
         text:
           error.response?.data ? error.response.data.message : error.message,
@@ -81,10 +83,11 @@ export default function ProfilePicInput() {
         exact: true,
       });
     },
-    onError: (error) => {
-      toaster.error(
-        error.response?.data ? error.response.data.message : error.message,
-      );
+    onError: (error: AxiosError<AxiosErrorResponse>) => {
+      toaster.error({
+        text:
+          error.response?.data ? error.response.data.message : error.message,
+      });
     },
   });
 
