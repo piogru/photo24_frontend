@@ -46,7 +46,7 @@ export default function RegisterForm() {
 
   return (
     <div className="flex flex-col justyify-center max-w-[22rem] w-full space-y-4">
-      <div className="border rounded mt-6 px-10 pb-5 border-slate-300 dark:border-slate-600">
+      <div className="border rounded px-10 pb-5 border-slate-300 dark:border-slate-600">
         <div className="w-fit mx-auto mt-9 mb-3">
           <SiteLogo />
         </div>
