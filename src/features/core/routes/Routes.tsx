@@ -69,20 +69,20 @@ const router = createBrowserRouter([
                   },
                 ],
               },
-
               {
                 path: "accounts/edit",
                 element: <div>Accounts/edit</div>,
+              },
+
+              {
+                path: "about",
+                element: <About />,
               },
             ],
           },
         ],
       },
 
-      {
-        path: "about",
-        element: <About />,
-      },
       {
         path: "",
         element: <LoginWrapper />,
