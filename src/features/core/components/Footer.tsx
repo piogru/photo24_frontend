@@ -8,7 +8,7 @@ export default function Footer() {
         About
       </Link>
       <span>{`v${__APP_VERSION__}`}</span>
-      <span>{format(__BUILD_DATE__, "MM.dd.yyyy")}</span>
+      <span>{format(__BUILD_DATE__, "dd.MM.yyyy")}</span>
     </footer>
   );
 }
