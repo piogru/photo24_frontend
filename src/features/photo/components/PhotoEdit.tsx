@@ -164,7 +164,7 @@ export default function PhotoEdit({ files, stage }: PhotoEditProps) {
                   <FaceSmileIcon className="size-6 dark:text-gray-300" />
                 </Button>
                 <span className="text-sm text-gray-800 dark:text-gray-500">
-                  {watch("caption")?.length || 0}/2200
+                  {watch("caption")?.length || 0}/2500
                 </span>
               </div>
 
