@@ -187,8 +187,10 @@ export default function PhotoEdit({ files, stage }: PhotoEditProps) {
                         />
                       </div>
                       <Input
+                        key={field.id}
+                        name={`fileInfo.${index}.altText`}
+                        register={register}
                         label=""
-                        {...register(`fileInfo.${index}.altText`)}
                       />
                     </div>
                   ))}
