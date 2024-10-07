@@ -12,8 +12,8 @@ import { Button } from "@headlessui/react";
 
 const schema = z
   .object({
-    userId: z.string(),
-    password: z.string(),
+    userId: z.string().max(128),
+    password: z.string().max(128),
   })
   .required();
 
