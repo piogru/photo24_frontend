@@ -35,12 +35,12 @@ const steps = {
 };
 
 const postSchema = z.object({
-  caption: z.string(),
+  caption: z.string().max(2500),
   hideLikes: z.boolean(),
   commentsOff: z.boolean(),
   fileInfo: z.array(
     z.object({
-      altText: z.string(),
+      altText: z.string().max(128),
     }),
   ),
 });

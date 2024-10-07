@@ -10,10 +10,10 @@ import ApiError from "../../core/components/ApiError";
 
 const schema = z
   .object({
-    name: z.string(),
-    email: z.string().email(),
-    password: z.string(),
-    confirmPassword: z.string(),
+    name: z.string().max(128),
+    email: z.string().email().max(128),
+    password: z.string().max(128),
+    confirmPassword: z.string().max(128),
   })
   .required()
   .refine((data) => data.password === data.confirmPassword, {
