@@ -8,11 +8,11 @@ export default function Home() {
         <div className="relative">
           <img
             src="https://res.cloudinary.com/potoh/image/upload/v1727970843/assets/gobtdiwptpzsshovoj1u.jpg"
-            className="relative z-20 max-w-[60%] -rotate-12 p-3 bg-gray-200 dark:bg-gray-700 border border-slate-300 dark:border-slate-600 rounded-xl"
+            className="relative z-20 max-w-[60%] -rotate-12 p-3 bg-white dark:bg-gray-700 border border-slate-300 dark:border-slate-600 rounded-xl drop-shadow-lg"
           />
           <img
             src="https://res.cloudinary.com/potoh/image/upload/v1727970841/assets/el9xavcvycwwzpagqyqk.jpg"
-            className="absolute top-0 left-[40%] max-w-[60%] rotate-12 p-3 bg-gray-200 dark:bg-gray-700 border border-slate-300 dark:border-slate-600 rounded-xl"
+            className="absolute top-0 left-[40%] max-w-[60%] rotate-12 p-3 bg-white dark:bg-gray-700 border border-slate-300 dark:border-slate-600 rounded-xl drop-shadow-lg"
           />
         </div>
 
