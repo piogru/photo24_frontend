@@ -1,4 +1,5 @@
-/** @type {import('tailwindcss').Config} */
+import { Config } from "tailwindcss/types/config";
+
 export default {
   content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   darkMode: "selector",
@@ -6,4 +7,4 @@ export default {
     extend: {},
   },
   plugins: [],
-};
+} satisfies Config;
