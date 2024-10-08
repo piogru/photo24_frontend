@@ -8,6 +8,7 @@ export default function Footer() {
         About
       </Link>
       <span>{`v${__APP_VERSION__}`}</span>
+      <span>{`v${import.meta.env.VITE_APP_VERSION}`}</span>
       <span>{format(__BUILD_DATE__, "dd.MM.yyyy")}</span>
     </footer>
   );
