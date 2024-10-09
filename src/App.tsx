@@ -1,35 +1,26 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import { Outlet } from "react-router-dom";
+import { Slide, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import ToastCloseButton from "./features/core/components/ToastCloseButton";
 
-function App() {
-  const [count, setCount] = useState(0);
-
+export default function App() {
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        limit={4}
+        transition={Slide}
+        className={() => "fixed w-full bottom-0 z-50"}
+        toastClassName={() =>
+          "relative flex p-2 min-h-10 justify-between overflow-hidden border-t border-slate-300 dark:border-slate-600 shadow-xl bg-white dark:bg-gray-900 dark:text-gray-200"
+        }
+        closeButton={ToastCloseButton}
+      />
+
+      <div className="h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-200">
+        <Outlet />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   );
 }
-
-export default App;
