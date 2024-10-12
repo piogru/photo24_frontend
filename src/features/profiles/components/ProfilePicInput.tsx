@@ -169,7 +169,7 @@ export default function ProfilePicInput() {
       <form onChange={handleSubmit(onSubmit, onInvalid)}>
         <Input
           {...profilePicRest}
-          id="file_input"
+          id="profile_pic_input"
           type="file"
           className="hidden"
           ref={(e) => {
