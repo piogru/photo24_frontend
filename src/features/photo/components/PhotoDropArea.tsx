@@ -48,7 +48,7 @@ export default function PhotoDropArea({
       </div>
       <div className="relative w-fit">
         <label
-          htmlFor="file_input"
+          htmlFor="post_photo_input"
           className="px-6 py-1.5 bg-blue-500 disabled:bg-blue-400 hover:bg-blue-600 rounded-xl text-lg font-semibold text-white cursor-pointer select-none"
         >
           {!dropError ? "Select from computer" : "Select other files"}
@@ -62,7 +62,7 @@ export default function PhotoDropArea({
         </div>
         <Input
           {...getInputProps({
-            id: "file_input",
+            id: "post_photo_input",
             type: "file",
             className: "hidden",
           })}
