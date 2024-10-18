@@ -31,7 +31,7 @@ export default function Dropdown({
     <Menu as="div" className="relative">
       <MenuButton
         aria-label="Menu"
-        className="group w-full inline-flex items-center space-x-4 px-2 py-3 rounded hover:bg-black/5 dark:hover:bg-white/10"
+        className="group inline-flex w-full items-center space-x-4 rounded px-2 py-3 hover:bg-black/5 dark:hover:bg-white/10"
       >
         {buttonChildren}
       </MenuButton>
@@ -46,7 +46,7 @@ export default function Dropdown({
       >
         <MenuItems
           className={
-            "absolute w-64 flex flex-col space-y-2 rounded-xl p-2 shadow-xl z-10 bg-white dark:bg-gray-800 [--anchor-gap:4px]"
+            "absolute z-10 flex w-64 flex-col space-y-2 rounded-xl bg-white p-2 shadow-xl [--anchor-gap:4px] dark:bg-gray-800"
           }
           {...menuItemsProps}
         >

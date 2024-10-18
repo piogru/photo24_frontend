@@ -6,7 +6,7 @@ export default function NavbarWrapper() {
   return (
     <div className="flex min-h-screen">
       <Navbar />
-      <section className="min-h-full max-h-screen w-full xl:w-[calc(100%-240px)] flex flex-col overflow-y-auto">
+      <section className="flex max-h-screen min-h-full w-full flex-col overflow-y-auto xl:w-[calc(100%-240px)]">
         <main className="flex-grow">
           <Outlet />
         </main>

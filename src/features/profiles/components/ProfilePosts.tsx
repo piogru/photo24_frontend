@@ -40,12 +40,12 @@ export default function ProfilePosts() {
         />
       : null}
 
-      <div className="flex flex-col justify-center items-center gap-4">
+      <div className="flex flex-col items-center justify-center gap-4">
         {posts && posts?.length > 0 ?
           <>
             {postsLoading ?
               <Spinner />
-            : <div className="w-full grid grid-cols-3 gap-1">
+            : <div className="grid w-full grid-cols-3 gap-1">
                 {posts?.map((post) => (
                   <PostSquare
                     key={post._id}
@@ -56,8 +56,8 @@ export default function ProfilePosts() {
               </div>
             }
           </>
-        : <div className="h-80 flex flex-col items-center justify-center gap-2 text-center">
-            <CameraIcon className="size-16 p-2 stroke-1 rounded-full border border-gray-900 dark:border-gray-200" />
+        : <div className="flex h-80 flex-col items-center justify-center gap-2 text-center">
+            <CameraIcon className="size-16 rounded-full border border-gray-900 stroke-1 p-2 dark:border-gray-200" />
             {currentUser?._id === initialData.user?._id ?
               <div>
                 <div className="text-2xl font-bold">Share photos</div>

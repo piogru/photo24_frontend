@@ -45,14 +45,14 @@ export default function RegisterForm() {
   });
 
   return (
-    <div className="flex flex-col justyify-center max-w-[22rem] w-full space-y-4">
-      <div className="border rounded px-10 pb-5 border-slate-300 dark:border-slate-600">
-        <div className="w-fit mx-auto mt-9 mb-3">
+    <div className="justyify-center flex w-full max-w-[22rem] flex-col space-y-4">
+      <div className="rounded border border-slate-300 px-10 pb-5 dark:border-slate-600">
+        <div className="mx-auto mb-3 mt-9 w-fit">
           <SiteLogo />
         </div>
         <form onSubmit={onSubmit}>
           <div className="flex flex-col justify-center space-y-2">
-            <span className="block text-lg text-center mb-4 px-2">
+            <span className="mb-4 block px-2 text-center text-lg">
               Sign up to see photos from your friends
             </span>
             <Input
@@ -105,14 +105,14 @@ export default function RegisterForm() {
           : null}
           <button
             type="submit"
-            className="w-full mt-4 py-1 bg-blue-500 disabled:bg-blue-400 rounded-lg font-semibold text-white"
+            className="mt-4 w-full rounded-lg bg-blue-500 py-1 font-semibold text-white disabled:bg-blue-400"
           >
             Next
           </button>
         </form>
       </div>
 
-      <div className="flex flex-row justify-center border rounded py-4 border-slate-300 dark:border-slate-600">
+      <div className="flex flex-row justify-center rounded border border-slate-300 py-4 dark:border-slate-600">
         <p>
           {"Have an account? "}
           <Link to="/accounts/login" className="text-blue-500">

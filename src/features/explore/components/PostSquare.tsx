@@ -16,30 +16,29 @@ export default function PostSquare({ post, onClick }: PostSquareProps) {
 
   return (
     <div onClick={onClick} className="group relative cursor-pointer">
-      <div className="relative w-full h-full pb-[100%]">
+      <div className="relative h-full w-full pb-[100%]">
         <img
           src={previewPhoto.url}
           alt={previewPhoto.altText}
-          className="absolute top-0 left-0 w-full h-full object-cover object-center rounded-sm"
+          className="absolute left-0 top-0 h-full w-full rounded-sm object-cover object-center"
         />
       </div>
       {multiplePhotos ?
-        <Square2StackIcon className="absolute top-2 right-2 size-6 scale-x-[-1] scale-y-[-1] rounded-full drop-shadow-lg text-gray-200" />
+        <Square2StackIcon className="absolute right-2 top-2 size-6 scale-x-[-1] scale-y-[-1] rounded-full text-gray-200 drop-shadow-lg" />
       : null}
 
       <div
-        className={`invisible group-hover:visible absolute inset-0 flex flex-col md:flex-row justify-center items-center
-          gap-0 md:gap-4 font-bold group-hover:bg-black/25 text-gray-200`}
+        className={`invisible absolute inset-0 flex flex-col items-center justify-center gap-0 font-bold text-gray-200 group-hover:visible group-hover:bg-black/25 md:flex-row md:gap-4`}
       >
         {!post.hideLikes ?
           <div className="inline-block">
-            <HeartIcon className="inline size-6 mr-1" />
+            <HeartIcon className="mr-1 inline size-6" />
             <span className="inline">{post.likes}</span>
           </div>
         : null}
         {!post.commentsOff ?
           <div className="inline-block">
-            <ChatBubbleOvalLeftIcon className="inline mr-1 size-6" />
+            <ChatBubbleOvalLeftIcon className="mr-1 inline size-6" />
             <span className="inline">{post.comments.length}</span>
           </div>
         : null}

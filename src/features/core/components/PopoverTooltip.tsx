@@ -36,7 +36,7 @@ export default function PopoverTooltip({
   };
 
   return (
-    <Popover className={`w-fit relative ${className ? className : ""}`}>
+    <Popover className={`relative w-fit ${className ? className : ""}`}>
       {({ open }) => (
         <div
           onMouseEnter={() => handleEnter(open)}
@@ -59,7 +59,7 @@ export default function PopoverTooltip({
           >
             <PopoverPanel
               anchor={anchor}
-              className="flex flex-col p-2 rounded-xl whitespace-pre-line bg-gray-200 dark:bg-gray-600"
+              className="flex flex-col whitespace-pre-line rounded-xl bg-gray-200 p-2 dark:bg-gray-600"
             >
               {label}
             </PopoverPanel>

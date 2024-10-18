@@ -82,7 +82,7 @@ export default function PostPreview({ post }: PostProps) {
       />
 
       <div className="flex flex-col gap-2">
-        <div className="flex flex-row justify-between items-center px-3 sm:px-0">
+        <div className="flex flex-row items-center justify-between px-3 sm:px-0">
           <div className="flex flex-row items-center gap-1">
             <UserBar user={post?.user} followEnabled={false} />
             <span>{"•"}</span>
@@ -98,10 +98,10 @@ export default function PostPreview({ post }: PostProps) {
         <div className="group relative">
           <img
             src={post.photos[0].url}
-            className="w-full h-full rounded-md border border-slate-300 dark:border-slate-600"
+            className="h-full w-full rounded-md border border-slate-300 dark:border-slate-600"
           />
           {multiplePhotos ?
-            <div className="absolute top-2 right-2 p-1 rounded-full bg-black/20">
+            <div className="absolute right-2 top-2 rounded-full bg-black/20 p-1">
               <Square2StackIcon className="size-6 scale-x-[-1] scale-y-[-1]" />
             </div>
           : null}
@@ -144,7 +144,7 @@ export default function PostPreview({ post }: PostProps) {
           <LikeCounter likes={post.likes} hideLikes={post.hideLikes} />
           {post.caption?.length > 0 ?
             <div>
-              <span className="inline mr-1 font-semibold">
+              <span className="mr-1 inline font-semibold">
                 {post.user?.name || "user"}
               </span>
               <ShowMoreText text={post.caption} overflowLength={100} />

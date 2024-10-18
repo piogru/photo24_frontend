@@ -25,7 +25,7 @@ export default function PhotoPreview({
   return (
     <>
       {preview && (
-        <img src={preview} className={`w-full h-full ${objectFit}`} />
+        <img src={preview} className={`h-full w-full ${objectFit}`} />
       )}
     </>
   );

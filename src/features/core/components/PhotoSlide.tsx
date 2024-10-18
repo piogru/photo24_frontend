@@ -42,9 +42,9 @@ export default function PhotoSlide({ photos }: PhotoSlideProps) {
       };
 
   return (
-    <div className="w-fit h-fit" style={containerStyle}>
-      <div className="relative w-full h-full">
-        <div className="w-full h-full">
+    <div className="h-fit w-fit" style={containerStyle}>
+      <div className="relative h-full w-full">
+        <div className="h-full w-full">
           {currentPhoto ?
             <img
               src={currentPhoto.url}
@@ -57,7 +57,7 @@ export default function PhotoSlide({ photos }: PhotoSlideProps) {
         {currentPhotoIndex > 0 ?
           <Button
             onClick={handlePrevious}
-            className="absolute left-0 top-0 bottom-0 p-1 text-gray-200"
+            className="absolute bottom-0 left-0 top-0 p-1 text-gray-200"
           >
             <ChevronLeftIcon className="size-6" />
           </Button>
@@ -65,18 +65,18 @@ export default function PhotoSlide({ photos }: PhotoSlideProps) {
         {currentPhotoIndex < photos.length - 1 ?
           <Button
             onClick={handleNext}
-            className="absolute right-0 top-0 bottom-0 p-1 text-gray-200"
+            className="absolute bottom-0 right-0 top-0 p-1 text-gray-200"
           >
             <ChevronRightIcon className="size-6" />
           </Button>
         : null}
 
         {photos.length > 1 ?
-          <div className="absolute bottom-3 w-full flex flex-row justify-center items-center gap-1">
+          <div className="absolute bottom-3 flex w-full flex-row items-center justify-center gap-1">
             {[...Array(photos.length).keys()].map((item) => (
               <div
                 key={item}
-                className={`size-1.5 rounded-full transition ${item === currentPhotoIndex ? "bg-gray-200 " : "bg-gray-400"}`}
+                className={`size-1.5 rounded-full transition ${item === currentPhotoIndex ? "bg-gray-200" : "bg-gray-400"}`}
               />
             ))}
           </div>

@@ -164,7 +164,7 @@ export default function Navbar() {
     },
     {
       key: "divider-1",
-      element: <div className="-mx-2 bg-gray-100 dark:bg-gray-700 h-1" />,
+      element: <div className="-mx-2 h-1 bg-gray-100 dark:bg-gray-700" />,
     },
     {
       key: "logout",
@@ -201,11 +201,11 @@ export default function Navbar() {
       </Drawer>
 
       <nav
-        className={`z-10 h-screen ${searchDrawerOpen ? "w-fit mr-44" : "w-fit xl:w-64"} px-4 pt-8 pb-5 flex flex-col space-y-6 border-r border-slate-300 dark:border-slate-600 bg-white dark:bg-gray-900`}
+        className={`z-10 h-screen ${searchDrawerOpen ? "mr-44 w-fit" : "w-fit xl:w-64"} flex flex-col space-y-6 border-r border-slate-300 bg-white px-4 pb-5 pt-8 dark:border-slate-600 dark:bg-gray-900`}
       >
         <NavLink
           to="/"
-          className="h-16 flex flex-row justify-start items-start"
+          className="flex h-16 flex-row items-start justify-start"
         >
           {({ isActive }) => (
             <>
@@ -215,7 +215,7 @@ export default function Navbar() {
                 <SiteLogo />
               </div>
               <div
-                className={`group ${searchDrawerOpen ? "block" : "block xl:hidden"} p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 group:text-gray-700 dark:active:text-gray-400`}
+                className={`group ${searchDrawerOpen ? "block" : "block xl:hidden"} group:text-gray-700 rounded-lg p-2 hover:bg-black/5 dark:hover:bg-white/10 dark:active:text-gray-400`}
               >
                 <NavIcon
                   isActive={isActive}
@@ -226,7 +226,7 @@ export default function Navbar() {
             </>
           )}
         </NavLink>
-        <ul className="flex flex-col flex-grow space-y-3">
+        <ul className="flex flex-grow flex-col space-y-3">
           {links.map((item) => {
             return (
               <li key={item.key}>
@@ -242,7 +242,7 @@ export default function Navbar() {
                             ActiveIcon={item.iconActive}
                           />
                           <div
-                            className={`${searchDrawerOpen ? "hidden" : "hidden xl:block"}  ${isActive ? "font-semibold" : "font-normal"}`}
+                            className={`${searchDrawerOpen ? "hidden" : "hidden xl:block"} ${isActive ? "font-semibold" : "font-normal"}`}
                           >
                             {item.label}
                           </div>
@@ -273,10 +273,7 @@ export default function Navbar() {
           buttonChildren={({ active }: { active: boolean }) => (
             <>
               <Bars3Icon
-                className={`
-                   size-7 text-gray-900 dark:text-gray-200 transition duration-75 group-active:scale-90 group-active:text-gray-700 dark:group-active:text-gray-400 group-hover:scale-105
-                   ${active ? "stroke-2" : null}
-                 `}
+                className={`size-7 text-gray-900 transition duration-75 group-hover:scale-105 group-active:scale-90 group-active:text-gray-700 dark:text-gray-200 dark:group-active:text-gray-400 ${active ? "stroke-2" : null} `}
               />
               <div
                 className={`${searchDrawerOpen ? "hidden" : "hidden xl:block"} ${active ? "font-semibold" : "font-normal"} group-active:text-gray-700 dark:group-active:text-gray-400`}
