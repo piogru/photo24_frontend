@@ -34,7 +34,7 @@ export default function Modal({
         transition
         className="fixed inset-0 bg-black/30 duration-150 ease-out data-[closed]:opacity-0"
       />
-      <div className="fixed inset-0 flex w-screen items-center justify-center py-4 sm:p-4">
+      <div className="fixed inset-0 flex w-screen items-center justify-center pt-10 pb-4 sm:p-4">
         <Button
           title="Close"
           onClick={onClose}
