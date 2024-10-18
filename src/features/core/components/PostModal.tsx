@@ -106,7 +106,7 @@ export default function PostModal({
       />
 
       <Modal isOpen={isOpen} onClose={onClose}>
-        <div className="w-full lg:max-w-[80rem] xl:max-w-[92rem] h-fit sm:h-[calc(100vh-theme(space.10))] flex flex-col sm:flex-row justify-center items-center rounded-b-xl transition">
+        <div className="w-full lg:max-w-[80rem] xl:max-w-[92rem] max-h-[calc(100vh-theme(space.10))] sm:h-[calc(100vh-theme(space.10))] flex flex-col sm:flex-row justify-center items-center rounded-b-xl transition">
           {!isSmBreakpoint ?
             <div className="w-full flex flex-row justify-between items-center px-3 py-2 border-b border-slate-300 dark:border-slate-600">
               {post?.user ?
@@ -120,13 +120,10 @@ export default function PostModal({
             </div>
           : null}
 
-          {/* // todo: aspect in div below */}
-          <div className="max-w-3xl h-full flex flex-col flex-grow items-center justify-center border-r border-slate-300 dark:border-slate-600">
-            <PhotoSlide photos={photos} />
-          </div>
+          <PhotoSlide photos={photos} />
 
-          <div className="w-full sm:w-80 xl:w-[28rem] h-full flex flex-row">
-            <div className="w-full h-full flex-grow flex flex-col">
+          <div className="w-full sm:w-80 xl:w-[26rem] h-full flex flex-row sm:basis-80 xl:basis-[26rem] shrink-0 border-l border-slate-300 dark:border-slate-600">
+            <div className="flex flex-col grow">
               {isSmBreakpoint ?
                 <div className="w-full flex flex-row justify-between items-center px-3 py-2 border-b border-slate-300 dark:border-slate-600">
                   {post?.user ?
@@ -140,7 +137,7 @@ export default function PostModal({
                 </div>
               : null}
 
-              <div className="flex flex-col flex-grow px-3 py-4 gap-3 overflow-y-auto border-b border-slate-300 dark:border-slate-600">
+              <div className="hidden sm:flex flex-col flex-grow px-3 py-4 gap-3 overflow-y-auto border-b border-slate-300 dark:border-slate-600">
                 <div className="flex flex-row gap-3">
                   <div className="size-8">
                     <ProfilePic photo={post?.user.profilePic} />
