@@ -34,17 +34,17 @@ export default function Modal({
         transition
         className="fixed inset-0 bg-black/30 duration-150 ease-out data-[closed]:opacity-0"
       />
-      <div className="fixed inset-0 flex w-screen items-center justify-center pt-10 pb-4 sm:p-4">
+      <div className="fixed inset-0 flex w-screen items-center justify-center pb-4 pt-10 sm:p-4">
         <Button
           title="Close"
           onClick={onClose}
-          className="absolute top-2 right-2 p-1"
+          className="absolute right-2 top-2 p-1"
         >
           <XMarkIcon className="size-7 stroke-2 font-bold text-black dark:text-white" />
         </Button>
-        <DialogPanel className="w-full max-w-full sm:max-w-fit rounded-xl overflow-hidden shadow-xl bg-white dark:bg-gray-800 duration-150 ease-out data-[closed]:scale-95 data-[closed]:opacity-0">
+        <DialogPanel className="w-full max-w-full overflow-hidden rounded-xl bg-white shadow-xl duration-150 ease-out data-[closed]:scale-95 data-[closed]:opacity-0 sm:max-w-fit dark:bg-gray-800">
           {title ? title : null}
-          <div className="w-full h-full">{children}</div>
+          <div className="h-full w-full">{children}</div>
         </DialogPanel>
       </div>
     </Dialog>

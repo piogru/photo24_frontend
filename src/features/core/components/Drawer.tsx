@@ -29,14 +29,11 @@ export default function Drawer({
           >
             <DialogPanel
               transition
-              className="pointer-events-auto relative w-screen max-w-64 sm:max-w-sm bg-white dark:bg-gray-900 rounded-e-xl
-              transition ease-in-out duration-300 sm:duration-400 translate-x-0 data-[closed]:-translate-x-full
-              border-e border-slate-300 dark:border-slate-600
-            "
+              className="sm:duration-400 pointer-events-auto relative w-screen max-w-64 translate-x-0 rounded-e-xl border-e border-slate-300 bg-white transition duration-300 ease-in-out data-[closed]:-translate-x-full sm:max-w-sm dark:border-slate-600 dark:bg-gray-900"
             >
               <div className="flex h-full flex-col overflow-y-auto py-6 shadow-xl">
                 <div className="px-4 sm:px-6">
-                  <DialogTitle className="text-2xl font-semibold leading-6 ">
+                  <DialogTitle className="text-2xl font-semibold leading-6">
                     {title}
                   </DialogTitle>
                 </div>

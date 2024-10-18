@@ -120,30 +120,30 @@ export default function ProfilePicInput() {
   return (
     <>
       <Modal isOpen={menuOpen} onClose={onMenuClose}>
-        <div className="w-full sm:w-96 flex flex-col items-center gap-4">
-          <div className="mt-6 mb-4 flex flex-col items-center gap-1 text-center">
+        <div className="flex w-full flex-col items-center gap-4 sm:w-96">
+          <div className="mb-4 mt-6 flex flex-col items-center gap-1 text-center">
             <DialogTitle className="text-xl">
               Change profile picture
             </DialogTitle>
           </div>
-          <div className="w-full flex flex-col items-center">
+          <div className="flex w-full flex-col items-center">
             <Button
               autoFocus
               onClick={() => inputFile.current?.click()}
-              className="w-full py-3 font-semibold text-blue-500 border-t border-slate-300 dark:border-slate-600"
+              className="w-full border-t border-slate-300 py-3 font-semibold text-blue-500 dark:border-slate-600"
             >
               Upload new photo
             </Button>
             <Button
               autoFocus
               onClick={onPictureDelete}
-              className="w-full py-3 font-semibold text-red-500 border-t border-slate-300 dark:border-slate-600"
+              className="w-full border-t border-slate-300 py-3 font-semibold text-red-500 dark:border-slate-600"
             >
               Remove current photo
             </Button>
             <Button
               onClick={onMenuClose}
-              className="w-full py-3 border-t border-slate-300 dark:border-slate-600"
+              className="w-full border-t border-slate-300 py-3 dark:border-slate-600"
             >
               Cancel
             </Button>
@@ -153,15 +153,15 @@ export default function ProfilePicInput() {
 
       <Button
         onClick={onPictureClick}
-        className={`absolute top-0 left-0 w-full h-full  overflow-hidden rounded-full cursor-pointer ${currentUser?.profilePic ? "" : "bg-black/40"}`}
+        className={`absolute left-0 top-0 h-full w-full cursor-pointer overflow-hidden rounded-full ${currentUser?.profilePic ? "" : "bg-black/40"}`}
       >
         {currentUser?.profilePic ? null : (
-          <CameraIconSolid className="absolute top-1/2 left-1/2 size-12 -translate-x-1/2 -translate-y-1/2 text-gray-200" />
+          <CameraIconSolid className="absolute left-1/2 top-1/2 size-12 -translate-x-1/2 -translate-y-1/2 text-gray-200" />
         )}
       </Button>
 
       {patchMutation.isPending || deleteMutation.isPending ?
-        <div className="absolute w-full h-full inset-0 flex flex-row justify-center items-center">
+        <div className="absolute inset-0 flex h-full w-full flex-row items-center justify-center">
           <Spinner size="xl" />
         </div>
       : null}

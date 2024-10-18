@@ -106,9 +106,9 @@ export default function PostModal({
       />
 
       <Modal isOpen={isOpen} onClose={onClose}>
-        <div className="w-full lg:max-w-[80rem] xl:max-w-[92rem] max-h-[calc(100vh-theme(space.10))] sm:h-[calc(100vh-theme(space.10))] flex flex-col sm:flex-row justify-center items-center rounded-b-xl transition">
+        <div className="flex max-h-[calc(100vh-theme(space.10))] w-full flex-col items-center justify-center rounded-b-xl transition sm:h-[calc(100vh-theme(space.10))] sm:flex-row lg:max-w-[80rem] xl:max-w-[92rem]">
           {!isSmBreakpoint ?
-            <div className="w-full flex flex-row justify-between items-center px-3 py-2 border-b border-slate-300 dark:border-slate-600">
+            <div className="flex w-full flex-row items-center justify-between border-b border-slate-300 px-3 py-2 dark:border-slate-600">
               {post?.user ?
                 <UserBar user={post.user} />
               : null}
@@ -122,10 +122,10 @@ export default function PostModal({
 
           <PhotoSlide photos={photos} />
 
-          <div className="w-full sm:w-80 xl:w-[26rem] h-full flex flex-row sm:basis-80 xl:basis-[26rem] shrink-0 border-l border-slate-300 dark:border-slate-600">
-            <div className="flex flex-col grow">
+          <div className="flex h-full w-full shrink-0 flex-row border-l border-slate-300 sm:w-80 sm:basis-80 xl:w-[26rem] xl:basis-[26rem] dark:border-slate-600">
+            <div className="flex grow flex-col">
               {isSmBreakpoint ?
-                <div className="w-full flex flex-row justify-between items-center px-3 py-2 border-b border-slate-300 dark:border-slate-600">
+                <div className="flex w-full flex-row items-center justify-between border-b border-slate-300 px-3 py-2 dark:border-slate-600">
                   {post?.user ?
                     <UserBar user={post.user} />
                   : null}
@@ -137,13 +137,13 @@ export default function PostModal({
                 </div>
               : null}
 
-              <div className="hidden sm:flex flex-col flex-grow px-3 py-4 gap-3 overflow-y-auto border-b border-slate-300 dark:border-slate-600">
+              <div className="hidden flex-grow flex-col gap-3 overflow-y-auto border-b border-slate-300 px-3 py-4 sm:flex dark:border-slate-600">
                 <div className="flex flex-row gap-3">
                   <div className="size-8">
                     <ProfilePic photo={post?.user.profilePic} />
                   </div>
                   <div className="flex flex-col justify-start gap-1">
-                    <div className="text-start whitespace-pre-line">
+                    <div className="whitespace-pre-line text-start">
                       <span className="inline-flex font-semibold">
                         {post?.user ? post.user.name : "Unknown user"}
                       </span>{" "}
@@ -196,12 +196,12 @@ export default function PostModal({
                 </div>
               </div>
 
-              <div className="flex flex-col px-3 pb-2 border-b border-slate-300 dark:border-slate-600">
+              <div className="flex flex-col border-b border-slate-300 px-3 pb-2 dark:border-slate-600">
                 <LikeCounter likes={post?.likes} hideLikes={post?.hideLikes} />
                 <Timestamp date={post?.createdAt} suffix />
               </div>
 
-              <div className="px-3 py-2 hidden">New comment</div>
+              <div className="hidden px-3 py-2">New comment</div>
             </div>
           </div>
         </div>

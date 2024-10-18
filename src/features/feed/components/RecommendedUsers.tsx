@@ -71,7 +71,7 @@ export default function RecommendedUsers() {
           {recommendedUsers.map((userRec) => (
             <div
               key={userRec._id}
-              className="mx-2 flex flex-row justify-between items-center"
+              className="mx-2 flex flex-row items-center justify-between"
             >
               <div className="flex flex-row items-center gap-3">
                 <NavLink to={`/${userRec.name}`}>

@@ -31,8 +31,7 @@ export default function IconButton({
   };
   return (
     <Button
-      className="text-gray-900 dark:text-gray-200 hover:text-gray-700 dark:hover:text-gray-400
-    active:text-gray-700 dark:active:text-gray-500 disabled:text-gray-400 disabled:dark:text-gray-600"
+      className="text-gray-900 hover:text-gray-700 active:text-gray-700 disabled:text-gray-400 dark:text-gray-200 dark:hover:text-gray-400 dark:active:text-gray-500 disabled:dark:text-gray-600"
       {...rest}
     >
       {getIcon(Icon, SolidIcon, solid)}
