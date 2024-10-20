@@ -21,6 +21,7 @@ import {
   BookmarkIcon,
   Cog6ToothIcon,
   CameraIcon,
+  InformationCircleIcon,
 } from "@heroicons/react/24/outline";
 import Dropdown from "./Dropdown";
 import Switch from "./Switch";
@@ -119,6 +120,15 @@ export default function Navbar() {
   ];
   const menuItems = [
     {
+      key: "about",
+      element: (
+        <NavLink to="/about" className={`${menuButtonStyle} block sm:hidden`}>
+          <InformationCircleIcon className={menuIconStyle} />
+          <span>About</span>
+        </NavLink>
+      ),
+    },
+    {
       key: "settings",
       element: (
         <NavLink to="/accounts/edit" className={menuButtonStyle}>
@@ -201,9 +211,9 @@ export default function Navbar() {
       </Drawer>
 
       <nav
-        className={`z-10 shrink-0 sm:h-screen ${searchDrawerOpen ? "mr-44 w-fit" : "w-full sm:w-fit xl:w-64"} fixed bottom-0 overflow-y-auto border-r-0 border-t border-slate-300 bg-white sm:static sm:border-r sm:border-t-0 dark:border-slate-600 dark:bg-gray-900`}
+        className={`z-10 h-12 shrink-0 sm:h-screen ${searchDrawerOpen ? "mr-44 w-fit" : "w-full sm:w-fit xl:w-64"} fixed bottom-0 overflow-y-auto border-r-0 border-t border-slate-300 bg-white sm:static sm:border-r sm:border-t-0 dark:border-slate-600 dark:bg-gray-900`}
       >
-        <div className="flex h-fit flex-row justify-evenly gap-0 sm:min-h-screen sm:flex-col sm:justify-normal sm:gap-6 sm:px-3 sm:pt-8 sm:pb-5">
+        <div className="flex h-fit flex-row justify-evenly gap-0 sm:min-h-screen sm:flex-col sm:justify-normal sm:gap-6 sm:px-3 sm:pb-5 sm:pt-8">
           <NavLink
             to="/"
             className="hidden h-fit w-fit sm:flex sm:flex-row sm:items-start sm:justify-start xl:h-16"

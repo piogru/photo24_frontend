@@ -3,7 +3,7 @@ import { format } from "date-fns";
 
 export default function Footer() {
   return (
-    <footer className="flex flex-row justify-center space-x-2 border-t border-slate-300 p-2 dark:border-slate-600">
+    <footer className="box-border hidden flex-row justify-center space-x-2 border-t border-slate-300 p-2 sm:flex dark:border-slate-600">
       <Link to="/about" className="hover:underline">
         About
       </Link>
