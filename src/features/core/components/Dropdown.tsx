@@ -29,10 +29,7 @@ export default function Dropdown({
 }: DropdownProps) {
   return (
     <Menu as="div" className="relative">
-      <MenuButton
-        aria-label="Menu"
-        className="group inline-flex w-full items-center space-x-4 rounded px-2 py-3 hover:bg-black/5 dark:hover:bg-white/10"
-      >
+      <MenuButton aria-label="Menu" className="group w-full">
         {buttonChildren}
       </MenuButton>
       <Transition
