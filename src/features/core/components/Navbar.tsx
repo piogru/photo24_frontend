@@ -1,4 +1,4 @@
-import { ComponentType, useEffect, useState } from "react";
+import { ComponentType, Fragment, useEffect, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postLogout } from "../../accounts/api/queries";
@@ -21,6 +21,7 @@ import {
   BookmarkIcon,
   Cog6ToothIcon,
   CameraIcon,
+  InformationCircleIcon,
 } from "@heroicons/react/24/outline";
 import Dropdown from "./Dropdown";
 import Switch from "./Switch";
@@ -52,11 +53,11 @@ type NavbarButton = NavbarElement & {
 type NavbarItem = NavbarLink | NavbarButton;
 
 const navButtonStyle =
-  "group w-full inline-flex items-center space-x-4 px-2 py-2 xl:py-3 rounded-lg text-base hover:bg-black/5 dark:hover:bg-white/10 group:text-gray-700 dark:active:text-gray-400";
+  "group xl:w-full block xl:inline-flex xl:items-center xl:gap-4 p-2 rounded-none sm:rounded-lg text-base hover:bg-black/5 dark:hover:bg-white/10 group:text-gray-700 dark:active:text-gray-400";
+const menuButtonStyle =
+  "group w-full inline-flex items-center gap-2 p-2 rounded-none sm:rounded-lg text-sm hover:bg-black/5 dark:hover:bg-white/10 text-gray-900 dark:text-gray-200 active:text-gray-700 dark:active:text-gray-400";
 const menuIconStyle =
   "size-5 text-gray-900 dark:text-gray-200 group-active:text-gray-700 dark:group-active:text-gray-400";
-const menuButtonStyle =
-  "group w-full inline-flex items-center space-x-2 px-2 py-3 rounded-lg text-sm hover:bg-black/5 dark:hover:bg-white/10 text-gray-900 dark:text-gray-200 active:text-gray-700 dark:active:text-gray-400";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -119,6 +120,15 @@ export default function Navbar() {
   ];
   const menuItems = [
     {
+      key: "about",
+      element: (
+        <NavLink to="/about" className={`${menuButtonStyle} block sm:hidden`}>
+          <InformationCircleIcon className={menuIconStyle} />
+          <span>About</span>
+        </NavLink>
+      ),
+    },
+    {
       key: "settings",
       element: (
         <NavLink to="/accounts/edit" className={menuButtonStyle}>
@@ -140,7 +150,7 @@ export default function Navbar() {
       key: "appearance",
       element: () => {
         return (
-          <button
+          <Button
             onClick={(event) => {
               event.preventDefault();
               handleThemeChange();
@@ -158,7 +168,7 @@ export default function Navbar() {
                 handleThemeChange();
               }}
             />
-          </button>
+          </Button>
         );
       },
     },
@@ -169,12 +179,12 @@ export default function Navbar() {
     {
       key: "logout",
       element: (
-        <button
+        <Button
           onClick={() => logoutMutation.mutate()}
           className={menuButtonStyle}
         >
           <span>Log out</span>
-        </button>
+        </Button>
       ),
     },
   ];
@@ -201,35 +211,35 @@ export default function Navbar() {
       </Drawer>
 
       <nav
-        className={`z-10 h-screen ${searchDrawerOpen ? "mr-44 w-fit" : "w-fit xl:w-64"} flex flex-col space-y-6 border-r border-slate-300 bg-white px-4 pb-5 pt-8 dark:border-slate-600 dark:bg-gray-900`}
+        className={`z-10 h-12 shrink-0 sm:h-screen ${searchDrawerOpen ? "mr-44 w-fit" : "w-full sm:w-fit xl:w-64"} fixed bottom-0 overflow-y-auto border-r-0 border-t border-slate-300 bg-white sm:static sm:border-r sm:border-t-0 dark:border-slate-600 dark:bg-gray-900`}
       >
-        <NavLink
-          to="/"
-          className="flex h-16 flex-row items-start justify-start"
-        >
-          {({ isActive }) => (
-            <>
-              <div
-                className={`${searchDrawerOpen ? "hidden" : "hidden xl:block"} ml-2`}
-              >
-                <SiteLogo />
-              </div>
-              <div
-                className={`group ${searchDrawerOpen ? "block" : "block xl:hidden"} group:text-gray-700 rounded-lg p-2 hover:bg-black/5 dark:hover:bg-white/10 dark:active:text-gray-400`}
-              >
-                <NavIcon
-                  isActive={isActive}
-                  Icon={CameraIcon}
-                  ActiveIcon={CameraIcon}
-                />
-              </div>
-            </>
-          )}
-        </NavLink>
-        <ul className="flex flex-grow flex-col space-y-3">
+        <div className="flex h-fit flex-row justify-evenly gap-0 sm:min-h-screen sm:flex-col sm:justify-normal sm:gap-6 sm:px-3 sm:pb-5 sm:pt-8">
+          <NavLink
+            to="/"
+            className="hidden h-fit w-fit sm:flex sm:flex-row sm:items-start sm:justify-start xl:h-16"
+          >
+            {({ isActive }) => (
+              <>
+                <div
+                  className={`${searchDrawerOpen ? "hidden" : "hidden xl:block"} ml-2`}
+                >
+                  <SiteLogo />
+                </div>
+                <div
+                  className={`group ${searchDrawerOpen ? "block" : "block xl:hidden"} group:text-gray-700 rounded-lg p-2 hover:bg-black/5 dark:hover:bg-white/10 dark:active:text-gray-400`}
+                >
+                  <NavIcon
+                    isActive={isActive}
+                    Icon={CameraIcon}
+                    ActiveIcon={CameraIcon}
+                  />
+                </div>
+              </>
+            )}
+          </NavLink>
           {links.map((item) => {
             return (
-              <li key={item.key}>
+              <Fragment key={item.key}>
                 {"route" in item ?
                   <NavLink to={item.route} className={navButtonStyle}>
                     {({ isActive }) => {
@@ -264,27 +274,27 @@ export default function Navbar() {
                     </div>
                   </Button>
                 }
-              </li>
+              </Fragment>
             );
           })}
-        </ul>
-
-        <Dropdown
-          buttonChildren={({ active }: { active: boolean }) => (
-            <>
-              <Bars3Icon
-                className={`size-7 text-gray-900 transition duration-75 group-hover:scale-105 group-active:scale-90 group-active:text-gray-700 dark:text-gray-200 dark:group-active:text-gray-400 ${active ? "stroke-2" : null} `}
-              />
-              <div
-                className={`${searchDrawerOpen ? "hidden" : "hidden xl:block"} ${active ? "font-semibold" : "font-normal"} group-active:text-gray-700 dark:group-active:text-gray-400`}
-              >
-                More
+          <div className="hidden grow sm:block" />
+          <Dropdown
+            buttonChildren={({ active }: { active: boolean }) => (
+              <div className="inline-flex w-full items-center gap-4 rounded-none p-2 hover:bg-black/5 sm:rounded dark:hover:bg-white/10">
+                <Bars3Icon
+                  className={`size-8 text-gray-900 transition duration-75 group-hover:scale-105 group-active:scale-90 group-active:text-gray-700 dark:text-gray-200 dark:group-active:text-gray-400 ${active ? "stroke-2" : null} `}
+                />
+                <div
+                  className={`${searchDrawerOpen ? "hidden" : "hidden xl:block"} ${active ? "font-semibold" : "font-normal"} group-active:text-gray-700 dark:group-active:text-gray-400`}
+                >
+                  More
+                </div>
               </div>
-            </>
-          )}
-          menuItemsProps={{ anchor: "bottom start" }}
-          items={menuItems}
-        />
+            )}
+            menuItemsProps={{ anchor: "bottom start" }}
+            items={menuItems}
+          />
+        </div>
       </nav>
     </>
   );
