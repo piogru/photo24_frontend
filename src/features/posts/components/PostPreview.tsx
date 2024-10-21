@@ -81,7 +81,7 @@ export default function PostPreview({ post }: PostProps) {
         onDelete={onPostDelete}
       />
 
-      <div className="flex flex-col gap-2">
+      <article className="flex flex-col gap-2">
         <div className="flex flex-row items-center justify-between px-3 sm:px-0">
           <div className="flex flex-row items-center gap-1">
             <UserBar user={post?.user} followEnabled={false} />
@@ -108,7 +108,7 @@ export default function PostPreview({ post }: PostProps) {
         </div>
 
         <div className="flex flex-col gap-2 px-3 sm:px-0">
-          <div className="flex flex-row justify-between">
+          <section className="flex flex-row justify-between">
             <div className="flex flex-row items-center gap-2">
               <IconButton
                 Icon={HeartIcon}
@@ -140,18 +140,20 @@ export default function PostPreview({ post }: PostProps) {
                 onClick={onSaveClick}
               />
             </div>
-          </div>
-          <LikeCounter likes={post.likes} hideLikes={post.hideLikes} />
+          </section>
+          <section>
+            <LikeCounter likes={post.likes} hideLikes={post.hideLikes} />
+          </section>
           {post.caption?.length > 0 ?
-            <div>
+            <section>
               <span className="mr-1 inline font-semibold">
                 {post.user?.name || "user"}
               </span>
               <ShowMoreText text={post.caption} overflowLength={100} />
-            </div>
+            </section>
           : null}
         </div>
-      </div>
+      </article>
     </>
   );
 }

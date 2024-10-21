@@ -62,7 +62,7 @@ export default function RecommendedUsers() {
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <aside className="flex flex-col gap-4">
       <span className="text-sm font-semibold text-gray-500 dark:text-gray-400">
         Suggested for you
       </span>
@@ -94,6 +94,6 @@ export default function RecommendedUsers() {
           ))}
         </>
       : null}
-    </div>
+    </aside>
   );
 }
