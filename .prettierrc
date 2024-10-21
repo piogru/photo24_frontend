@@ -12,5 +12,7 @@
   "trailingComma": "all",
   "useTabs": false,
   "plugins": ["prettier-plugin-tailwindcss"],
-  "tailwindConfig": "./tailwind.config.ts"
+
+  "tailwindConfig": "./tailwind.config.ts",
+  "tailwindFunctions": ["clsx"]
 }
