@@ -14,7 +14,9 @@ export default function Footer() {
         About
       </Link>
       <span>{`v${import.meta.env.VITE_APP_VERSION}`}</span>
-      <time title={title}>{format(date, "dd.MM.yyyy")}</time>
+      <time dateTime={date} title={title}>
+        {format(date, "dd.MM.yyyy")}
+      </time>
     </footer>
   );
 }
