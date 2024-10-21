@@ -125,7 +125,7 @@ export default function PostModal({
           <div className="flex h-full w-full shrink-0 flex-row border-l border-slate-300 sm:w-80 sm:basis-80 xl:w-[26rem] xl:basis-[26rem] dark:border-slate-600">
             <div className="flex grow flex-col">
               {isSmBreakpoint ?
-                <div className="flex w-full flex-row items-center justify-between border-b border-slate-300 px-3 py-2 dark:border-slate-600">
+                <header className="flex w-full flex-row items-center justify-between border-b border-slate-300 px-3 py-2 dark:border-slate-600">
                   {post?.user ?
                     <UserBar user={post.user} />
                   : null}
@@ -134,7 +134,7 @@ export default function PostModal({
                     Icon={EllipsisHorizontalIcon}
                     onClick={onPostMenuClick}
                   />
-                </div>
+                </header>
               : null}
 
               <div className="hidden flex-grow flex-col gap-3 overflow-y-auto border-b border-slate-300 px-3 py-4 sm:flex dark:border-slate-600">
@@ -162,7 +162,7 @@ export default function PostModal({
                 : null}
               </div>
 
-              <div className="flex flex-row justify-between px-3 py-2">
+              <section className="flex flex-row justify-between px-3 py-2">
                 <div className="flex flex-row items-center gap-2">
                   <IconButton
                     Icon={HeartIcon}
@@ -194,12 +194,12 @@ export default function PostModal({
                     onClick={onSaveClick}
                   />
                 </div>
-              </div>
+              </section>
 
-              <div className="flex flex-col border-b border-slate-300 px-3 pb-2 dark:border-slate-600">
+              <section className="flex flex-col border-b border-slate-300 px-3 pb-2 dark:border-slate-600">
                 <LikeCounter likes={post?.likes} hideLikes={post?.hideLikes} />
                 <Timestamp date={post?.createdAt} suffix />
-              </div>
+              </section>
 
               <div className="hidden px-3 py-2">New comment</div>
             </div>

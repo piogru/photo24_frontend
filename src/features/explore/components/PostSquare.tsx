@@ -15,7 +15,7 @@ export default function PostSquare({ post, onClick }: PostSquareProps) {
   const multiplePhotos = post.photos.length > 1;
 
   return (
-    <div onClick={onClick} className="group relative cursor-pointer">
+    <article onClick={onClick} className="group relative cursor-pointer">
       <div className="relative h-full w-full pb-[100%]">
         <img
           src={previewPhoto.url}
@@ -43,6 +43,6 @@ export default function PostSquare({ post, onClick }: PostSquareProps) {
           </div>
         : null}
       </div>
-    </div>
+    </article>
   );
 }

@@ -81,7 +81,7 @@ export default function Profile({ initialData }: ProfileProps) {
 
             <section className="col-start-2 row-start-1">
               <div className="flex flex-row flex-wrap items-center justify-start gap-4 sm:justify-center">
-                <div className="text-xl">{user.name}</div>
+                <h2 className="text-xl">{user.name}</h2>
                 <div className="flex flex-row items-center gap-2">
                   {user._id !== currentUser?._id ?
                     <Button

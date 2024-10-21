@@ -210,10 +210,10 @@ export default function Navbar() {
         <SearchUsers />
       </Drawer>
 
-      <nav
+      <header
         className={`z-10 h-12 shrink-0 sm:h-screen ${searchDrawerOpen ? "mr-44 w-fit" : "w-full sm:w-fit xl:w-64"} fixed bottom-0 overflow-y-auto border-r-0 border-t border-slate-300 bg-white sm:static sm:border-r sm:border-t-0 dark:border-slate-600 dark:bg-gray-900`}
       >
-        <div className="flex h-fit flex-row justify-evenly gap-0 sm:min-h-screen sm:flex-col sm:justify-normal sm:gap-6 sm:px-3 sm:pb-5 sm:pt-8">
+        <nav className="flex h-fit flex-row justify-evenly gap-0 sm:min-h-screen sm:flex-col sm:justify-normal sm:gap-6 sm:px-3 sm:pb-5 sm:pt-8">
           <NavLink
             to="/"
             className="hidden h-fit w-fit sm:flex sm:flex-row sm:items-start sm:justify-start xl:h-16"
@@ -228,11 +228,14 @@ export default function Navbar() {
                 <div
                   className={`group ${searchDrawerOpen ? "block" : "block xl:hidden"} group:text-gray-700 rounded-lg p-2 hover:bg-black/5 dark:hover:bg-white/10 dark:active:text-gray-400`}
                 >
-                  <NavIcon
-                    isActive={isActive}
-                    Icon={CameraIcon}
-                    ActiveIcon={CameraIcon}
-                  />
+                  <h1>
+                    <NavIcon
+                      isActive={isActive}
+                      Icon={CameraIcon}
+                      ActiveIcon={CameraIcon}
+                      title={import.meta.env.VITE_APP_TITLE}
+                    />
+                  </h1>
                 </div>
               </>
             )}
@@ -294,8 +297,8 @@ export default function Navbar() {
             menuItemsProps={{ anchor: "bottom start" }}
             items={menuItems}
           />
-        </div>
-      </nav>
+        </nav>
+      </header>
     </>
   );
 }
