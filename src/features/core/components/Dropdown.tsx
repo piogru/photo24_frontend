@@ -42,9 +42,8 @@ export default function Dropdown({
         leaveTo="transform opacity-0 scale-95"
       >
         <MenuItems
-          className={
-            "absolute z-10 flex w-64 flex-col space-y-2 rounded-xl bg-white p-2 shadow-xl [--anchor-gap:4px] dark:bg-gray-800"
-          }
+          className={`absolute z-10 flex w-64 flex-col space-y-2 rounded-xl bg-white p-2 shadow-xl
+            [--anchor-gap:4px] dark:bg-gray-800`}
           {...menuItemsProps}
         >
           {items.map((item) => (

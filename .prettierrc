@@ -11,6 +11,15 @@
   "tabWidth": 2,
   "trailingComma": "all",
   "useTabs": false,
-  "plugins": ["prettier-plugin-tailwindcss"],
-  "tailwindConfig": "./tailwind.config.ts"
+  "plugins": [
+    "prettier-plugin-tailwindcss",
+    "prettier-plugin-classnames",
+    "prettier-plugin-merge"
+  ],
+
+  "tailwindConfig": "./tailwind.config.ts",
+  "tailwindFunctions": ["clsx"],
+  "customAttributes": ["className"],
+  "customFunctions": ["clsx"],
+  "endingPosition": "relative"
 }

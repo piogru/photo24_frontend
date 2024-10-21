@@ -77,7 +77,8 @@ export default function LoginForm() {
           : null}
           <Button
             type="submit"
-            className="mt-4 w-full rounded-lg bg-blue-500 py-1 font-semibold text-white disabled:bg-blue-400"
+            className="mt-4 w-full rounded-lg bg-blue-500 py-1 font-semibold text-white
+              disabled:bg-blue-400"
           >
             Log in
           </Button>
@@ -97,7 +98,10 @@ export default function LoginForm() {
         </div>
       </div>
 
-      <div className="flex flex-row justify-center rounded border border-slate-300 py-4 dark:border-slate-600">
+      <div
+        className="flex flex-row justify-center rounded border border-slate-300 py-4
+          dark:border-slate-600"
+      >
         <p>
           {"Don't have an account? "}
           <Link to="/accounts/signup" className="text-blue-500">

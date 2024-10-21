@@ -42,7 +42,11 @@ export default function Modal({
         >
           <XMarkIcon className="size-7 stroke-2 font-bold text-black dark:text-white" />
         </Button>
-        <DialogPanel className="w-full max-w-full overflow-hidden rounded-xl bg-white shadow-xl duration-150 ease-out data-[closed]:scale-95 data-[closed]:opacity-0 sm:max-w-fit dark:bg-gray-800">
+        <DialogPanel
+          className={`w-full max-w-full overflow-hidden rounded-xl bg-white shadow-xl duration-150
+            ease-out data-[closed]:scale-95 data-[closed]:opacity-0 sm:max-w-fit
+            dark:bg-gray-800`}
+        >
           {title ? title : null}
           <div className="h-full w-full">{children}</div>
         </DialogPanel>

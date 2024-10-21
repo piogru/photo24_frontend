@@ -64,7 +64,10 @@ export default function PhotoEdit({ files, stage }: PhotoEditProps) {
           />
 
           {stage === "crop" ?
-            <div className="absolute bottom-0 mb-3 flex w-full flex-row items-center justify-between gap-4 px-4">
+            <div
+              className="absolute bottom-0 mb-3 flex w-full flex-row items-center justify-between gap-4
+                px-4"
+            >
               <div className="flex flex-row gap-4">
                 <PopoverMenu
                   anchor={"bottom start"}
@@ -129,7 +132,10 @@ export default function PhotoEdit({ files, stage }: PhotoEditProps) {
             </Button>
           : null}
           {fileArray.length > 1 ?
-            <div className="absolute bottom-0 mb-3 inline-flex w-full flex-row items-center justify-center gap-2">
+            <div
+              className="absolute bottom-0 mb-3 inline-flex w-full flex-row items-center justify-center
+                gap-2"
+            >
               {fileArray.map((item, idx) => (
                 <div
                   key={item.key}
@@ -144,7 +150,10 @@ export default function PhotoEdit({ files, stage }: PhotoEditProps) {
       {stage === "share" ?
         <ConnectForm>
           {({ control, register, watch }) => (
-            <div className="flex w-fit min-w-[12rem] basis-full flex-col gap-4 overflow-y-auto sm:basis-1/2 md:basis-1/3">
+            <div
+              className="flex w-fit min-w-[12rem] basis-full flex-col gap-4 overflow-y-auto sm:basis-1/2
+                md:basis-1/3"
+            >
               <div className="flex flex-row items-center gap-2 px-4 pt-4">
                 <div className="size-8">
                   <ProfilePic photo={currentUser?.profilePic} />

@@ -33,7 +33,8 @@ export default function PopoverMenu({
       >
         <PopoverPanel
           anchor={anchor}
-          className="flex flex-col rounded-xl bg-white shadow-lg [--anchor-gap:4px] dark:bg-gray-800/90"
+          className="flex flex-col rounded-xl bg-white shadow-lg [--anchor-gap:4px]
+            dark:bg-gray-800/90"
         >
           {children}
         </PopoverPanel>

@@ -106,9 +106,16 @@ export default function PostModal({
       />
 
       <Modal isOpen={isOpen} onClose={onClose}>
-        <div className="flex max-h-[calc(100vh-theme(space.10))] w-full flex-col items-center justify-center rounded-b-xl transition sm:h-[calc(100vh-theme(space.10))] sm:flex-row lg:max-w-[80rem] xl:max-w-[92rem]">
+        <div
+          className={`flex max-h-[calc(100vh-theme(space.10))] w-full flex-col items-center
+            justify-center rounded-b-xl transition sm:h-[calc(100vh-theme(space.10))]
+            sm:flex-row lg:max-w-[80rem] xl:max-w-[92rem]`}
+        >
           {!isSmBreakpoint ?
-            <div className="flex w-full flex-row items-center justify-between border-b border-slate-300 px-3 py-2 dark:border-slate-600">
+            <div
+              className="flex w-full flex-row items-center justify-between border-b border-slate-300 px-3
+                py-2 dark:border-slate-600"
+            >
               {post?.user ?
                 <UserBar user={post.user} />
               : null}
@@ -122,10 +129,16 @@ export default function PostModal({
 
           <PhotoSlide photos={photos} />
 
-          <div className="flex h-full w-full shrink-0 flex-row border-l border-slate-300 sm:w-80 sm:basis-80 xl:w-[26rem] xl:basis-[26rem] dark:border-slate-600">
+          <div
+            className="flex h-full w-full shrink-0 flex-row border-l border-slate-300 sm:w-80
+              sm:basis-80 xl:w-[26rem] xl:basis-[26rem] dark:border-slate-600"
+          >
             <div className="flex grow flex-col">
               {isSmBreakpoint ?
-                <header className="flex w-full flex-row items-center justify-between border-b border-slate-300 px-3 py-2 dark:border-slate-600">
+                <header
+                  className="flex w-full flex-row items-center justify-between border-b border-slate-300 px-3
+                    py-2 dark:border-slate-600"
+                >
                   {post?.user ?
                     <UserBar user={post.user} />
                   : null}
@@ -137,7 +150,10 @@ export default function PostModal({
                 </header>
               : null}
 
-              <div className="hidden flex-grow flex-col gap-3 overflow-y-auto border-b border-slate-300 px-3 py-4 sm:flex dark:border-slate-600">
+              <div
+                className="hidden flex-grow flex-col gap-3 overflow-y-auto border-b border-slate-300 px-3
+                  py-4 sm:flex dark:border-slate-600"
+              >
                 <div className="flex flex-row gap-3">
                   <div className="size-8">
                     <ProfilePic photo={post?.user.profilePic} />

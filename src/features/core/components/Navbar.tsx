@@ -33,6 +33,7 @@ import SiteLogo from "./SiteLogo";
 import { Button } from "@headlessui/react";
 import SearchUsers from "./SearchUsers";
 import Drawer from "./Drawer";
+import clsx from "clsx";
 
 type NavbarElement = {
   key: string;
@@ -52,12 +53,14 @@ type NavbarButton = NavbarElement & {
 };
 type NavbarItem = NavbarLink | NavbarButton;
 
-const navButtonStyle =
-  "group xl:w-full block xl:inline-flex xl:items-center xl:gap-4 p-2 rounded-none sm:rounded-lg text-base hover:bg-black/5 dark:hover:bg-white/10 group:text-gray-700 dark:active:text-gray-400";
-const menuButtonStyle =
-  "group w-full inline-flex items-center gap-2 p-2 rounded-none sm:rounded-lg text-sm hover:bg-black/5 dark:hover:bg-white/10 text-gray-900 dark:text-gray-200 active:text-gray-700 dark:active:text-gray-400";
-const menuIconStyle =
-  "size-5 text-gray-900 dark:text-gray-200 group-active:text-gray-700 dark:group-active:text-gray-400";
+const navButtonStyle = `group block rounded-none p-2 text-base sm:rounded-lg xl:inline-flex xl:w-full
+  xl:items-center xl:gap-4 group:text-gray-700 hover:bg-black/5 dark:hover:bg-white/10
+  dark:active:text-gray-400`;
+const menuButtonStyle = `group inline-flex w-full items-center gap-2 rounded-none p-2 text-sm
+  sm:rounded-lg text-gray-900 hover:bg-black/5 active:text-gray-700 dark:text-gray-200
+  dark:hover:bg-white/10 dark:active:text-gray-400`;
+const menuIconStyle = `size-5 text-gray-900 group-active:text-gray-700 dark:text-gray-200
+  dark:group-active:text-gray-400`;
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -211,9 +214,17 @@ export default function Navbar() {
       </Drawer>
 
       <header
-        className={`z-10 h-12 shrink-0 sm:h-screen ${searchDrawerOpen ? "mr-44 w-fit" : "w-full sm:w-fit xl:w-64"} fixed bottom-0 overflow-y-auto border-r-0 border-t border-slate-300 bg-white sm:static sm:border-r sm:border-t-0 dark:border-slate-600 dark:bg-gray-900`}
+        className={clsx(
+          `fixed bottom-0 z-10 h-12 shrink-0 overflow-y-auto border-r-0 border-t
+          border-slate-300 bg-white sm:static sm:h-screen sm:border-r sm:border-t-0
+          dark:border-slate-600 dark:bg-gray-900`,
+          searchDrawerOpen ? "mr-44 w-fit" : "w-full sm:w-fit xl:w-64",
+        )}
       >
-        <nav className="flex h-fit flex-row justify-evenly gap-0 sm:min-h-screen sm:flex-col sm:justify-normal sm:gap-6 sm:px-3 sm:pb-5 sm:pt-8">
+        <nav
+          className="flex h-fit flex-row justify-evenly gap-0 sm:min-h-screen sm:flex-col
+            sm:justify-normal sm:gap-6 sm:px-3 sm:pb-5 sm:pt-8"
+        >
           <NavLink
             to="/"
             className="hidden h-fit w-fit sm:flex sm:flex-row sm:items-start sm:justify-start xl:h-16"
@@ -221,12 +232,19 @@ export default function Navbar() {
             {({ isActive }) => (
               <>
                 <div
-                  className={`${searchDrawerOpen ? "hidden" : "hidden xl:block"} ml-2`}
+                  className={clsx(
+                    "ml-2",
+                    searchDrawerOpen ? "hidden" : "hidden xl:block",
+                  )}
                 >
                   <SiteLogo />
                 </div>
                 <div
-                  className={`group ${searchDrawerOpen ? "block" : "block xl:hidden"} group:text-gray-700 rounded-lg p-2 hover:bg-black/5 dark:hover:bg-white/10 dark:active:text-gray-400`}
+                  className={clsx(
+                    `group:text-gray-700 group rounded-lg p-2 hover:bg-black/5 dark:hover:bg-white/10
+                    dark:active:text-gray-400`,
+                    searchDrawerOpen ? "block" : "block xl:hidden",
+                  )}
                 >
                   <h1>
                     <NavIcon
@@ -255,7 +273,10 @@ export default function Navbar() {
                             ActiveIcon={item.iconActive}
                           />
                           <div
-                            className={`${searchDrawerOpen ? "hidden" : "hidden xl:block"} ${isActive ? "font-semibold" : "font-normal"}`}
+                            className={clsx(
+                              isActive ? "font-semibold" : "font-normal",
+                              searchDrawerOpen ? "hidden" : "hidden xl:block",
+                            )}
                           >
                             {item.label}
                           </div>
@@ -271,7 +292,10 @@ export default function Navbar() {
                       ActiveIcon={item.iconActive}
                     />
                     <div
-                      className={`${searchDrawerOpen ? "hidden" : "hidden xl:block"} font-normal`}
+                      className={clsx(
+                        "font-normal",
+                        searchDrawerOpen ? "hidden" : "hidden xl:block",
+                      )}
                     >
                       {item.label}
                     </div>
@@ -283,12 +307,24 @@ export default function Navbar() {
           <div className="hidden grow sm:block" />
           <Dropdown
             buttonChildren={({ active }: { active: boolean }) => (
-              <div className="inline-flex w-full items-center gap-4 rounded-none p-2 hover:bg-black/5 sm:rounded dark:hover:bg-white/10">
+              <div
+                className="inline-flex w-full items-center gap-4 rounded-none p-2 hover:bg-black/5
+                  sm:rounded dark:hover:bg-white/10"
+              >
                 <Bars3Icon
-                  className={`size-8 text-gray-900 transition duration-75 group-hover:scale-105 group-active:scale-90 group-active:text-gray-700 dark:text-gray-200 dark:group-active:text-gray-400 ${active ? "stroke-2" : null} `}
+                  className={clsx(
+                    `size-8 text-gray-900 transition duration-75 group-hover:scale-105
+                    group-active:scale-90 group-active:text-gray-700 dark:text-gray-200
+                    dark:group-active:text-gray-400`,
+                    active && "stroke-2",
+                  )}
                 />
                 <div
-                  className={`${searchDrawerOpen ? "hidden" : "hidden xl:block"} ${active ? "font-semibold" : "font-normal"} group-active:text-gray-700 dark:group-active:text-gray-400`}
+                  className={clsx(
+                    "group-active:text-gray-700 dark:group-active:text-gray-400",
+                    searchDrawerOpen ? "hidden" : "hidden xl:block",
+                    active ? "font-semibold" : "font-normal",
+                  )}
                 >
                   More
                 </div>
