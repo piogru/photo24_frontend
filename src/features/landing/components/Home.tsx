@@ -3,16 +3,22 @@ import LoginForm from "../../accounts/components/LoginForm";
 
 export default function Home() {
   return (
-    <div className="mx-auto flex h-full w-full max-w-screen-2xl flex-row items-center justify-center gap-4 px-8 md:gap-8 lg:gap-16">
+    <div
+      className="mx-auto flex h-full w-full max-w-screen-2xl flex-row items-center justify-center
+        gap-4 px-8 md:gap-8 lg:gap-16"
+    >
       <div className="relative hidden grow px-4 md:block">
         <div className="relative">
           <img
             src="https://res.cloudinary.com/potoh/image/upload/v1727970843/assets/gobtdiwptpzsshovoj1u.jpg"
-            className="relative z-20 max-w-[60%] -rotate-12 rounded-xl border border-slate-300 bg-white p-3 drop-shadow-lg dark:border-slate-600 dark:bg-gray-700"
+            className="relative z-20 max-w-[60%] -rotate-12 rounded-xl border border-slate-300 bg-white
+              p-3 drop-shadow-lg dark:border-slate-600 dark:bg-gray-700"
           />
           <img
             src="https://res.cloudinary.com/potoh/image/upload/v1727970841/assets/el9xavcvycwwzpagqyqk.jpg"
-            className="absolute left-[40%] top-0 max-w-[60%] rotate-12 rounded-xl border border-slate-300 bg-white p-3 drop-shadow-lg dark:border-slate-600 dark:bg-gray-700"
+            className="absolute left-[40%] top-0 max-w-[60%] rotate-12 rounded-xl border
+              border-slate-300 bg-white p-3 drop-shadow-lg dark:border-slate-600
+              dark:bg-gray-700"
           />
         </div>
 

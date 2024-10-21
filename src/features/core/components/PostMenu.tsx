@@ -41,7 +41,8 @@ export default function PostMenu({
             <Button
               autoFocus
               onClick={() => deleteMutation.mutate(post._id)}
-              className="w-full border-t border-slate-300 py-3 font-semibold text-red-500 dark:border-slate-600"
+              className="w-full border-t border-slate-300 py-3 font-semibold text-red-500
+                dark:border-slate-600"
             >
               Remove post
             </Button>

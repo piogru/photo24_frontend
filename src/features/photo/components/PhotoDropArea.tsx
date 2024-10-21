@@ -49,7 +49,8 @@ export default function PhotoDropArea({
       <div className="relative w-fit">
         <label
           htmlFor="post_photo_input"
-          className="cursor-pointer select-none rounded-xl bg-blue-500 px-6 py-1.5 text-lg font-semibold text-white hover:bg-blue-600 disabled:bg-blue-400"
+          className="cursor-pointer select-none rounded-xl bg-blue-500 px-6 py-1.5 text-lg
+            font-semibold text-white hover:bg-blue-600 disabled:bg-blue-400"
         >
           {!dropError ? "Select from computer" : "Select other files"}
         </label>

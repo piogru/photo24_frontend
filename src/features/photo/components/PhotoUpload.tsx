@@ -18,6 +18,7 @@ import { useMutation } from "@tanstack/react-query";
 import { postPost } from "../api/queries";
 import Spinner from "../../core/components/Spinner";
 import { zodResolver } from "@hookform/resolvers/zod";
+import clsx from "clsx";
 
 type PhotoUploadProps = {
   isOpen: boolean;
@@ -186,7 +187,10 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
             onClose={onClose}
             getRootProps={getRootProps}
             title={
-              <DialogTitle className="inline-flex w-full flex-row items-center justify-between border-b border-gray-100 px-3 py-1 text-center text-lg font-semibold dark:border-gray-900">
+              <DialogTitle
+                className="inline-flex w-full flex-row items-center justify-between border-b
+                  border-gray-100 px-3 py-1 text-center text-lg font-semibold dark:border-gray-900"
+              >
                 {stage === "crop" || stage === "share" ?
                   <Button onClick={() => handlePrevious(stage)}>
                     <ArrowLeftIcon className="size-6 dark:text-white" />
@@ -205,7 +209,11 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
             }
           >
             <div
-              className={`flex h-[30rem] w-full flex-col items-center justify-center rounded-b-xl transition ${isDragActive ? "bg-black/5 dark:bg-black/50" : ""}`}
+              className={clsx(
+                `flex h-[30rem] w-full flex-col items-center justify-center rounded-b-xl
+                transition`,
+                isDragActive ? "bg-black/5 dark:bg-black/50" : "",
+              )}
             >
               {stage === "dragAndDrop" || stage === "error" ?
                 <PhotoDropArea
@@ -246,7 +254,8 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
             <Button
               autoFocus
               onClick={onDiscard}
-              className="w-full border-t border-slate-300 py-3 font-semibold text-red-500 dark:border-slate-600"
+              className="w-full border-t border-slate-300 py-3 font-semibold text-red-500
+                dark:border-slate-600"
             >
               Discard
             </Button>

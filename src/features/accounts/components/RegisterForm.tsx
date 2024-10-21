@@ -105,14 +105,18 @@ export default function RegisterForm() {
           : null}
           <button
             type="submit"
-            className="mt-4 w-full rounded-lg bg-blue-500 py-1 font-semibold text-white disabled:bg-blue-400"
+            className="mt-4 w-full rounded-lg bg-blue-500 py-1 font-semibold text-white
+              disabled:bg-blue-400"
           >
             Next
           </button>
         </form>
       </div>
 
-      <div className="flex flex-row justify-center rounded border border-slate-300 py-4 dark:border-slate-600">
+      <div
+        className="flex flex-row justify-center rounded border border-slate-300 py-4
+          dark:border-slate-600"
+      >
         <p>
           {"Have an account? "}
           <Link to="/accounts/login" className="text-blue-500">

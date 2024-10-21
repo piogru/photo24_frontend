@@ -16,6 +16,7 @@ import {
 } from "../../core/constants/appConstants";
 import { AxiosError } from "axios";
 import AxiosErrorResponse from "../../core/types/axiosErrorResponse";
+import clsx from "clsx";
 
 const profilePicInputSchema = z
   .object({
@@ -130,14 +131,16 @@ export default function ProfilePicInput() {
             <Button
               autoFocus
               onClick={() => inputFile.current?.click()}
-              className="w-full border-t border-slate-300 py-3 font-semibold text-blue-500 dark:border-slate-600"
+              className="w-full border-t border-slate-300 py-3 font-semibold text-blue-500
+                dark:border-slate-600"
             >
               Upload new photo
             </Button>
             <Button
               autoFocus
               onClick={onPictureDelete}
-              className="w-full border-t border-slate-300 py-3 font-semibold text-red-500 dark:border-slate-600"
+              className="w-full border-t border-slate-300 py-3 font-semibold text-red-500
+                dark:border-slate-600"
             >
               Remove current photo
             </Button>
@@ -153,10 +156,16 @@ export default function ProfilePicInput() {
 
       <Button
         onClick={onPictureClick}
-        className={`absolute left-0 top-0 h-full w-full cursor-pointer overflow-hidden rounded-full ${currentUser?.profilePic ? "" : "bg-black/40"}`}
+        className={clsx(
+          "absolute left-0 top-0 h-full w-full cursor-pointer overflow-hidden rounded-full",
+          currentUser?.profilePic ? "" : "bg-black/40",
+        )}
       >
         {currentUser?.profilePic ? null : (
-          <CameraIconSolid className="absolute left-1/2 top-1/2 size-12 -translate-x-1/2 -translate-y-1/2 text-gray-200" />
+          <CameraIconSolid
+            className="absolute left-1/2 top-1/2 size-12 -translate-x-1/2 -translate-y-1/2
+              text-gray-200"
+          />
         )}
       </Button>
 

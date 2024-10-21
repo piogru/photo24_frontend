@@ -5,6 +5,7 @@ import PostSquare from "./PostSquare";
 import PostModal from "../../core/components/PostModal";
 import Post from "../../core/types/post";
 import Spinner from "../../core/components/Spinner";
+import clsx from "clsx";
 
 export default function Explore() {
   const { data: allPosts, isLoading: postsLoading } = useAllPostsQuery();
@@ -54,7 +55,9 @@ export default function Explore() {
             <NavLink to="" end className="py-2">
               {({ isActive }) => (
                 <span
-                  className={`${isActive ? "" : "text-gray-400 dark:text-gray-700"}`}
+                  className={clsx(
+                    isActive ? "" : "text-gray-400 dark:text-gray-700",
+                  )}
                 >
                   Not personalized
                 </span>

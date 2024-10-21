@@ -3,6 +3,7 @@ import Photo from "../types/photo";
 import { Button } from "@headlessui/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import useBreakpoint from "../hooks/useBreakpoint";
+import clsx from "clsx";
 
 type PhotoSlideProps = {
   photos: Photo[];
@@ -76,7 +77,10 @@ export default function PhotoSlide({ photos }: PhotoSlideProps) {
             {[...Array(photos.length).keys()].map((item) => (
               <div
                 key={item}
-                className={`size-1.5 rounded-full transition ${item === currentPhotoIndex ? "bg-gray-200" : "bg-gray-400"}`}
+                className={clsx(
+                  "size-1.5 rounded-full transition",
+                  item === currentPhotoIndex ? "bg-gray-200" : "bg-gray-400",
+                )}
               />
             ))}
           </div>
