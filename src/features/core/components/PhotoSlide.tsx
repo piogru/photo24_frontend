@@ -13,9 +13,13 @@ export default function PhotoSlide({ photos }: PhotoSlideProps) {
   const isSmBreakpoint = useBreakpoint("sm");
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const currentPhoto = photos[currentPhotoIndex];
-
   const previousAvailable = currentPhotoIndex > 0;
   const nextAvailable = currentPhotoIndex < photos.length - 1;
+  const containerStyle = {
+    aspectRatio: `${currentPhoto.width}/${currentPhoto.height}`,
+    maxHeight: `min(${currentPhoto.height}px, calc(100vh - ${isSmBreakpoint ? "2.5rem" : "14rem"}))`,
+    maxWidth: `min(${currentPhoto.width}px, 100vw)`,
+  };
 
   const handlePrevious = () => {
     if (previousAvailable) {
@@ -29,21 +33,8 @@ export default function PhotoSlide({ photos }: PhotoSlideProps) {
     }
   };
 
-  const containerStyle =
-    isSmBreakpoint ?
-      {
-        aspectRatio: currentPhoto.width / currentPhoto.height,
-        maxHeight: `min(${currentPhoto.height}px, calc(100vh - 2.5rem))`,
-        maxWidth: `min(${currentPhoto.width}px, 100vw)`,
-      }
-    : {
-        aspectRatio: currentPhoto.width / currentPhoto.height,
-        maxHeight: `min(${currentPhoto.height}px, calc(100vh - 14rem))`,
-        maxWidth: `min(${currentPhoto.width}px, 100vw)`,
-      };
-
   return (
-    <div className="h-fit w-fit" style={containerStyle}>
+    <div className="h-fit w-fit min-w-48" style={containerStyle}>
       <div className="relative h-full w-full">
         <div className="h-full w-full">
           {currentPhoto ?
