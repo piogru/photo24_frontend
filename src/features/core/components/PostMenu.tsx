@@ -37,7 +37,7 @@ export default function PostMenu({
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className="flex w-full flex-col items-center gap-4 sm:w-96">
         <div className="flex w-full flex-col items-center">
-          {post && currentUser?._id === post.user._id ?
+          {post && currentUser?._id === post.user?._id ?
             <Button
               autoFocus
               onClick={() => deleteMutation.mutate(post._id)}
