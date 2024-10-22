@@ -6,6 +6,7 @@ import {
   PopoverPanelProps,
   Transition,
 } from "@headlessui/react";
+import clsx from "clsx";
 
 type PopoverMenuProps = PopoverPanelProps & {
   className?: string;
@@ -20,7 +21,7 @@ export default function PopoverMenu({
   children,
 }: PopoverMenuProps) {
   return (
-    <Popover className={`relative ${className}`}>
+    <Popover className={clsx("relative", className && className)}>
       <PopoverButton>{buttonContent}</PopoverButton>
       <Transition
         as={Fragment}
