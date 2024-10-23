@@ -208,17 +208,17 @@ export default function Navbar() {
         isOpen={searchDrawerOpen}
         title="Search"
         onClose={onSearchClose}
-        position="left-[76px]"
+        position="left-0 sm:left-[76px]"
       >
         <SearchUsers />
       </Drawer>
 
       <header
         className={clsx(
-          `fixed bottom-0 z-10 h-12 shrink-0 overflow-y-auto border-r-0 border-t
-          border-slate-300 bg-white sm:static sm:h-screen sm:border-r sm:border-t-0
-          dark:border-slate-600 dark:bg-gray-900`,
-          searchDrawerOpen ? "mr-44 w-fit" : "w-full sm:w-fit xl:w-64",
+          `fixed bottom-0 z-10 h-12 w-full shrink-0 overflow-y-auto border-r-0 border-t
+          border-slate-300 bg-white sm:static sm:h-screen sm:w-fit sm:border-r
+          sm:border-t-0 dark:border-slate-600 dark:bg-gray-900`,
+          searchDrawerOpen ? "mr-0 sm:mr-[11.4rem]" : "xl:w-64",
         )}
       >
         <nav

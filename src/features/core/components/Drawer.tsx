@@ -27,16 +27,16 @@ export default function Drawer({
         <div className="absolute inset-0 overflow-hidden">
           <div
             className={clsx(
-              "fixed inset-y-0 flex max-w-full",
+              "fixed inset-y-0 mb-12 flex w-full max-w-full sm:mb-0 sm:w-fit",
               position ? position : "left-0",
             )}
           >
             <DialogPanel
               transition
-              className={`sm:duration-400 pointer-events-auto relative w-screen max-w-64 translate-x-0
-                rounded-e-xl border-e border-slate-300 bg-white transition duration-300
-                ease-in-out data-[closed]:-translate-x-full sm:max-w-sm dark:border-slate-600
-                dark:bg-gray-900`}
+              className={`sm:duration-400 pointer-events-auto relative w-screen max-w-full translate-x-0
+                rounded-none border-e border-slate-300 bg-white transition duration-300
+                ease-in-out data-[closed]:-translate-x-full sm:max-w-sm sm:rounded-e-xl
+                dark:border-slate-600 dark:bg-gray-900`}
             >
               <div className="flex h-full flex-col overflow-y-auto py-6 shadow-xl">
                 <div className="px-4 sm:px-6">
