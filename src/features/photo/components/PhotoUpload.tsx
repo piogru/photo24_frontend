@@ -210,8 +210,8 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
           >
             <div
               className={clsx(
-                `flex h-[30rem] w-full flex-col items-center justify-center rounded-b-xl
-                transition`,
+                `h-[calc(min(30rem,_100vh-theme(space.20)))] flex w-full flex-col items-center
+                justify-center rounded-b-xl transition`,
                 isDragActive ? "bg-black/5 dark:bg-black/50" : "",
               )}
             >
