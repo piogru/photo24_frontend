@@ -40,14 +40,14 @@ export default function LoginForm() {
   });
 
   return (
-    <div className="flex flex-col justyify-center max-w-[22rem] w-full space-y-4">
-      <div className="border rounded px-10 pb-5 border-slate-300 dark:border-slate-600">
-        <div className="w-fit mx-auto mt-9 mb-3">
+    <div className="justyify-center flex w-full max-w-[22rem] flex-col space-y-4">
+      <div className="rounded border border-slate-300 px-10 pb-5 dark:border-slate-600">
+        <div className="mx-auto mb-3 mt-9 w-fit">
           <SiteLogo />
         </div>
         <form
           onSubmit={onSubmit}
-          className="flex flex-col justify-center space-y-2 mt-8"
+          className="mt-8 flex flex-col justify-center space-y-2"
         >
           <Input
             name="userId"
@@ -77,18 +77,19 @@ export default function LoginForm() {
           : null}
           <Button
             type="submit"
-            className="w-full mt-4 py-1 bg-blue-500 disabled:bg-blue-400 rounded-lg font-semibold text-white"
+            className="mt-4 w-full rounded-lg bg-blue-500 py-1 font-semibold text-white
+              disabled:bg-blue-400"
           >
             Log in
           </Button>
         </form>
 
-        <div className="mt-4 w-full flex flex-row items-center gap-4">
-          <div className="inline border-t border-slate-300 dark:border-slate-600 w-full" />
-          <span className="uppercase text-sm font-semibold text-gray-500">
+        <div className="mt-4 flex w-full flex-row items-center gap-4">
+          <div className="inline w-full border-t border-slate-300 dark:border-slate-600" />
+          <span className="text-sm font-semibold uppercase text-gray-500">
             or
           </span>
-          <div className="inline border-t border-slate-300 dark:border-slate-600 w-full" />
+          <div className="inline w-full border-t border-slate-300 dark:border-slate-600" />
         </div>
 
         <div className="mt-6 w-full text-center">
@@ -97,7 +98,10 @@ export default function LoginForm() {
         </div>
       </div>
 
-      <div className="flex flex-row justify-center border rounded py-4 border-slate-300 dark:border-slate-600">
+      <div
+        className="flex flex-row justify-center rounded border border-slate-300 py-4
+          dark:border-slate-600"
+      >
         <p>
           {"Don't have an account? "}
           <Link to="/accounts/signup" className="text-blue-500">

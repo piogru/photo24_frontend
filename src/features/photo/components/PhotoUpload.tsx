@@ -18,6 +18,7 @@ import { useMutation } from "@tanstack/react-query";
 import { postPost } from "../api/queries";
 import Spinner from "../../core/components/Spinner";
 import { zodResolver } from "@hookform/resolvers/zod";
+import clsx from "clsx";
 
 type PhotoUploadProps = {
   isOpen: boolean;
@@ -186,7 +187,10 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
             onClose={onClose}
             getRootProps={getRootProps}
             title={
-              <DialogTitle className="font-semibold px-3 py-1 text-center text-lg border-b border-gray-100 dark:border-gray-900 w-full inline-flex flex-row justify-between items-center">
+              <DialogTitle
+                className="inline-flex w-full flex-row items-center justify-between border-b
+                  border-gray-100 px-3 py-1 text-center text-lg font-semibold dark:border-gray-900"
+              >
                 {stage === "crop" || stage === "share" ?
                   <Button onClick={() => handlePrevious(stage)}>
                     <ArrowLeftIcon className="size-6 dark:text-white" />
@@ -205,7 +209,11 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
             }
           >
             <div
-              className={`w-full h-[30rem] flex flex-col justify-center items-center rounded-b-xl transition ${isDragActive ? "bg-black/5 dark:bg-black/50" : ""}`}
+              className={clsx(
+                `h-[calc(min(30rem,_100vh-theme(space.20)))] flex w-full flex-col items-center
+                justify-center rounded-b-xl transition`,
+                isDragActive ? "bg-black/5 dark:bg-black/50" : "",
+              )}
             >
               {stage === "dragAndDrop" || stage === "error" ?
                 <PhotoDropArea
@@ -220,7 +228,7 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
               : null}
 
               {stage === "sharing" ?
-                <div className="min-w-80 sm:min-w-96 flex flex-row grow justify-center items-center">
+                <div className="flex min-w-80 grow flex-row items-center justify-center sm:min-w-96">
                   <Spinner size="xl" />
                 </div>
               : null}
@@ -233,8 +241,8 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
         isOpen={isDiscardConfirmationOpen}
         onClose={() => setIsDiscardConfirmationOpen(false)}
       >
-        <div className="w-full sm:w-96 flex flex-col items-center gap-4">
-          <div className="mt-6 mb-4 flex flex-col items-center gap-1 text-center">
+        <div className="flex w-full flex-col items-center gap-4 sm:w-96">
+          <div className="mb-4 mt-6 flex flex-col items-center gap-1 text-center">
             <DialogTitle className="text-xl font-semibold">
               Discard post?
             </DialogTitle>
@@ -242,17 +250,18 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
               {"If you leave, your edits won't be saved"}
             </p>
           </div>
-          <div className="w-full flex flex-col items-center">
+          <div className="flex w-full flex-col items-center">
             <Button
               autoFocus
               onClick={onDiscard}
-              className="w-full py-3 font-semibold text-red-500 border-t border-slate-300 dark:border-slate-600"
+              className="w-full border-t border-slate-300 py-3 font-semibold text-red-500
+                dark:border-slate-600"
             >
               Discard
             </Button>
             <Button
               onClick={() => setIsDiscardConfirmationOpen(false)}
-              className="w-full py-3 border-t border-slate-300 dark:border-slate-600"
+              className="w-full border-t border-slate-300 py-3 dark:border-slate-600"
             >
               Cancel
             </Button>

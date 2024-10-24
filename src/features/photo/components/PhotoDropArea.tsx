@@ -25,7 +25,7 @@ export default function PhotoDropArea({
   getInputProps,
 }: PhotoDropAreaProps) {
   return (
-    <div className="min-w-80 sm:min-w-96 flex flex-col justify-center gap-6 items-center p-4">
+    <div className="flex min-w-80 flex-col items-center justify-center gap-6 p-4 sm:min-w-96">
       <div className="flex flex-col items-center">
         {!dropError ?
           <>
@@ -48,12 +48,13 @@ export default function PhotoDropArea({
       </div>
       <div className="relative w-fit">
         <label
-          htmlFor="file_input"
-          className="px-6 py-1.5 bg-blue-500 disabled:bg-blue-400 hover:bg-blue-600 rounded-xl text-lg font-semibold text-white cursor-pointer select-none"
+          htmlFor="post_photo_input"
+          className="cursor-pointer select-none rounded-xl bg-blue-500 px-6 py-1.5 text-lg
+            font-semibold text-white hover:bg-blue-600 disabled:bg-blue-400"
         >
           {!dropError ? "Select from computer" : "Select other files"}
         </label>
-        <div className="absolute top-0 -right-9">
+        <div className="absolute -right-9 top-0">
           <PopoverTooltip
             label={`Max filesize: ${IMAGE_MAX_SIZE_MB}MB\nMax ${IMAGE_LIMIT} files`}
           >
@@ -62,7 +63,7 @@ export default function PhotoDropArea({
         </div>
         <Input
           {...getInputProps({
-            id: "file_input",
+            id: "post_photo_input",
             type: "file",
             className: "hidden",
           })}

@@ -7,6 +7,7 @@ import ProfilePic from "../../core/components/ProfilePic";
 import useCurrentUserQuery from "../../core/hooks/useCurrentUserQuery";
 import useFollowingPostsQuery from "../hooks/useFollowingPostsQuery";
 import useForYouPostsQuery from "../hooks/useForYouPostsQuery";
+import clsx from "clsx";
 
 export default function Feed() {
   const navigate = useNavigate();
@@ -25,13 +26,23 @@ export default function Feed() {
   }, [navigate, pageVariant]);
 
   return (
-    <div className="pt-4 sm:mt-8 flex flex-row justify-center ">
-      <div className="w-full max-w-fit md:w-[32rem] lg:max-w-[46rem] flex-grow mx-0 sm:mx-4 md:mx-8 xl:mx-16 overflow-auto">
-        <div className="w-full max-w-2xl flex flex-row justify-start items-center gap-3 px-2 sm:px-0 font-bold border-b border-slate-300 dark:border-slate-600">
+    <div className="flex flex-row justify-center pt-4 sm:mt-8">
+      <div
+        className="mx-0 w-full max-w-fit flex-grow overflow-auto sm:mx-4 md:mx-8 md:w-[32rem]
+          lg:max-w-[46rem] xl:mx-16"
+      >
+        <div
+          className="flex w-full max-w-2xl flex-row items-center justify-start gap-3 border-b
+            border-slate-300 px-2 font-bold sm:px-0 dark:border-slate-600"
+        >
           <NavLink to="?variant=for-you" end className="py-2">
             {({ isActive }) => (
               <span
-                className={`${isActive && pageVariant === "for-you" ? "" : "text-gray-400 dark:text-gray-700"}`}
+                className={clsx(
+                  isActive && pageVariant === "for-you" ?
+                    ""
+                  : "text-gray-400 dark:text-gray-700",
+                )}
               >
                 For you
               </span>
@@ -40,7 +51,11 @@ export default function Feed() {
           <NavLink to="?variant=following" end className="py-2">
             {({ isActive }) => (
               <span
-                className={`${isActive && pageVariant === "following" ? "" : "text-gray-400 dark:text-gray-700"}`}
+                className={clsx(
+                  isActive && pageVariant === "following" ?
+                    ""
+                  : "text-gray-400 dark:text-gray-700",
+                )}
               >
                 Following
               </span>
@@ -48,7 +63,7 @@ export default function Feed() {
           </NavLink>
         </div>
 
-        <div className="mx-auto max-w-full w-[28rem] sm:w-[28rem]">
+        <div className="mx-auto w-[28rem] max-w-full sm:w-[28rem]">
           <div className="w-full py-4">
             {postCount > 0 ?
               <div className="flex flex-col gap-4">
@@ -61,20 +76,20 @@ export default function Feed() {
                   </div>
                 ))}
               </div>
-            : <div className="flex flex-col justify-center items-center py-12">
+            : <div className="flex flex-col items-center justify-center py-12">
                 <CheckCircleIcon className="size-28 stroke-[0.5]" />
                 <span>{"No new posts"}</span>
               </div>
             }
           </div>
 
-          <div className="hidden flex-col mt-4 border-t border-slate-300 dark:border-slate-600">
+          <div className="mt-4 hidden flex-col border-t border-slate-300 dark:border-slate-600">
             <span className="text-lg">Suggested posts</span>
           </div>
         </div>
       </div>
 
-      <div className="w-64 mt-8 hidden xl:flex flex-col gap-4">
+      <div className="mt-8 hidden w-64 flex-col gap-4 xl:flex">
         <div className="flex flex-row items-center gap-3">
           <NavLink to={`/${currentUser?.name}`} className="size-10">
             <ProfilePic photo={currentUser?.profilePic} />

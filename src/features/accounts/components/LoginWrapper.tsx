@@ -3,8 +3,8 @@ import Footer from "../../core/components/Footer";
 
 export default function LoginWrapper() {
   return (
-    <section className="flex flex-col min-h-screen">
-      <main className="flex flex-col flex-grow h-full items-center pt-6">
+    <section className="flex min-h-screen flex-col">
+      <main className="flex h-full flex-grow flex-col items-center pt-6">
         <Outlet />
       </main>
       <Footer />

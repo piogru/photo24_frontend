@@ -10,5 +10,16 @@
   "singleQuote": false,
   "tabWidth": 2,
   "trailingComma": "all",
-  "useTabs": false
+  "useTabs": false,
+  "plugins": [
+    "prettier-plugin-tailwindcss",
+    "prettier-plugin-classnames",
+    "prettier-plugin-merge"
+  ],
+
+  "tailwindConfig": "./tailwind.config.ts",
+  "tailwindFunctions": ["clsx"],
+  "customAttributes": ["className"],
+  "customFunctions": ["clsx"],
+  "endingPosition": "relative"
 }

@@ -34,12 +34,13 @@ export default function Timestamp({
   return (
     <>
       {date ?
-        <div
+        <time
           title={title}
+          dateTime={date}
           className={`${fontSize} text-gray-800 dark:text-gray-400`}
         >
           {formatDistance(distance, suffix)}
-        </div>
+        </time>
       : null}
     </>
   );

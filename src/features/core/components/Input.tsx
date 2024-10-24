@@ -14,27 +14,30 @@ export default function Input({
 
   return (
     <div
-      className="
-        relative w-full group flex flex-row items-center border rounded-md
-      border-gray-300 dark:border-gray-600 has-[:focus]:border-gray-600 has-[:focus]:dark:border-gray-500
-      "
+      className={`group relative flex w-full flex-row items-center rounded-md border
+        border-gray-300 has-[:focus]:border-gray-600 dark:border-gray-600
+        has-[:focus]:dark:border-gray-500`}
     >
       <HeadlessInput
         id={name}
         {...(register && register(name))}
-        className="peer px-2.5 pb-2 pt-[15px] w-full bg-inherit text-sm text-inherit text-ellipsis ring-0 ring-inset focus:outline-none focus:ring-0"
+        className="peer w-full text-ellipsis bg-inherit px-2.5 pb-2 pt-[15px] text-sm text-inherit
+          ring-0 ring-inset focus:outline-none focus:ring-0"
         placeholder=""
         {...rest}
       />
       <label
         htmlFor={name}
-        className="absolute text-sm text-gray-500 dark:text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0]
-        start-[11px] peer-focus:text-gray-600 peer-focus:dark:text-gray-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0"
+        className={`absolute start-[11px] top-4 z-10 origin-[0] -translate-y-4 scale-75 transform
+          text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0
+          peer-placeholder-shown:scale-100 peer-focus:text-gray-600 dark:text-gray-500
+          peer-focus:dark:text-gray-400`}
       >
         {label}
       </label>
       <ValidationMarkComponent
-        className={`block size-6 mx-2 top-2.5 end-2 peer-placeholder-shown:hidden peer-focus:hidden text-gray-400 peer-aria-[invalid="true"]:text-red-600`}
+        className={`end-2 top-2.5 mx-2 block size-6 text-gray-400 peer-placeholder-shown:hidden
+          peer-focus:hidden peer-aria-[invalid="true"]:text-red-600`}
       />
     </div>
   );

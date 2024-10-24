@@ -5,6 +5,7 @@ import PostSquare from "./PostSquare";
 import PostModal from "../../core/components/PostModal";
 import Post from "../../core/types/post";
 import Spinner from "../../core/components/Spinner";
+import clsx from "clsx";
 
 export default function Explore() {
   const { data: allPosts, isLoading: postsLoading } = useAllPostsQuery();
@@ -48,13 +49,15 @@ export default function Explore() {
         />
       : null}
 
-      <div className="flex flex-col justify-center items-center pt-4 sm:pt-12 pb-4 mx-0 sm:mx-4">
+      <div className="mx-0 flex flex-col items-center justify-center pb-4 pt-4 sm:mx-4 sm:pt-12">
         <div className="w-full max-w-4xl">
-          <div className="w-full flex flex-row justify-start items-center gap-3 font-bold mx-2 sm:mx-0">
+          <div className="mx-2 flex w-full flex-row items-center justify-start gap-3 font-bold sm:mx-0">
             <NavLink to="" end className="py-2">
               {({ isActive }) => (
                 <span
-                  className={`${isActive ? "" : "text-gray-400 dark:text-gray-700"}`}
+                  className={clsx(
+                    isActive ? "" : "text-gray-400 dark:text-gray-700",
+                  )}
                 >
                   Not personalized
                 </span>
@@ -64,7 +67,7 @@ export default function Explore() {
           <div className="flex flex-col items-center gap-4">
             {postsLoading ?
               <Spinner />
-            : <div className="w-full grid grid-cols-3 gap-0.5 sm:gap-1 ">
+            : <div className="grid w-full grid-cols-3 gap-0.5 sm:gap-1">
                 {allPosts?.map((post) => (
                   <PostSquare
                     key={post._id}

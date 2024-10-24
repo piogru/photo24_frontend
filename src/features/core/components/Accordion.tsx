@@ -19,7 +19,10 @@ export default function Accordion({
 }: AccordionProps) {
   return (
     <Disclosure>
-      <DisclosureButton className="group flex flex-row justify-between items-center gap-2 text-start font-normal data-[open]:font-semibold">
+      <DisclosureButton
+        className="group flex flex-row items-center justify-between gap-2 text-start font-normal
+          data-[open]:font-semibold"
+      >
         {title}
         <ChevronDownIcon className="w-5 group-data-[open]:rotate-180" />
       </DisclosureButton>

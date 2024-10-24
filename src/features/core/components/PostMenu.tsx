@@ -35,20 +35,21 @@ export default function PostMenu({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="w-full sm:w-96 flex flex-col items-center gap-4">
-        <div className="w-full flex flex-col items-center">
-          {post && currentUser?._id === post.user._id ?
+      <div className="flex w-full flex-col items-center gap-4 sm:w-96">
+        <div className="flex w-full flex-col items-center">
+          {post && currentUser?._id === post.user?._id ?
             <Button
               autoFocus
               onClick={() => deleteMutation.mutate(post._id)}
-              className="w-full py-3 font-semibold text-red-500 border-t border-slate-300 dark:border-slate-600"
+              className="w-full border-t border-slate-300 py-3 font-semibold text-red-500
+                dark:border-slate-600"
             >
               Remove post
             </Button>
           : null}
           <Button
             onClick={onClose}
-            className="w-full py-3 border-t border-slate-300 dark:border-slate-600"
+            className="w-full border-t border-slate-300 py-3 dark:border-slate-600"
           >
             Close
           </Button>

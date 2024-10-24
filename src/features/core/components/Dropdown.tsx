@@ -29,10 +29,7 @@ export default function Dropdown({
 }: DropdownProps) {
   return (
     <Menu as="div" className="relative">
-      <MenuButton
-        aria-label="Menu"
-        className="group w-full inline-flex items-center space-x-4 px-2 py-3 rounded hover:bg-black/5 dark:hover:bg-white/10"
-      >
+      <MenuButton aria-label="Menu" className="group w-full">
         {buttonChildren}
       </MenuButton>
       <Transition
@@ -45,9 +42,8 @@ export default function Dropdown({
         leaveTo="transform opacity-0 scale-95"
       >
         <MenuItems
-          className={
-            "absolute w-64 flex flex-col space-y-2 rounded-xl p-2 shadow-xl z-10 bg-white dark:bg-gray-800 [--anchor-gap:4px]"
-          }
+          className={`absolute z-10 flex w-64 flex-col space-y-2 rounded-xl bg-white p-2 shadow-xl
+            [--anchor-gap:4px] dark:bg-gray-800`}
           {...menuItemsProps}
         >
           {items.map((item) => (

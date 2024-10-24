@@ -15,7 +15,7 @@ type UserBarProps = {
 export default function UserBar({ user, followEnabled = true }: UserBarProps) {
   const queryClient = useQueryClient();
   const { data: currentUser } = useCurrentUserQuery();
-  const isCurrentUser = currentUser?._id === user._id;
+  const isCurrentUser = currentUser?._id === user?._id;
   const { data: follow } = useFollowQuery(user?._id);
   const followMutation = useMutation({
     mutationFn: postFollow,
@@ -46,29 +46,39 @@ export default function UserBar({ user, followEnabled = true }: UserBarProps) {
 
   return (
     <div className="flex flex-row items-center gap-3">
-      <NavLink to={`/${user?.name}`}>
-        <div className="size-8">
-          <ProfilePic photo={user?.profilePic} />
-        </div>
-      </NavLink>
-      <div className="flex flex-row items-center gap-2">
-        <NavLink to={`/${user?.name}`}>
-          <div className="font-semibold">
-            {user ? user.name : "Unknown user"}
+      {user ?
+        <>
+          <NavLink to={`/${user?.name}`}>
+            <div className="size-8">
+              <ProfilePic photo={user?.profilePic} />
+            </div>
+          </NavLink>
+          <div className="flex flex-row items-center gap-2">
+            <NavLink to={`/${user?.name}`}>
+              <div className="font-semibold">
+                {user ? user.name : "Unknown user"}
+              </div>
+            </NavLink>
+            {followEnabled && !isCurrentUser ?
+              <>
+                <span>{"•"}</span>
+                <Button
+                  onClick={onFollowClick}
+                  className="text-sm text-blue-500 hover:text-gray-800 dark:hover:text-gray-200"
+                >
+                  {follow ? "Following" : "Follow"}
+                </Button>
+              </>
+            : null}
           </div>
-        </NavLink>
-        {followEnabled && !isCurrentUser ?
-          <>
-            <span>{"•"}</span>
-            <Button
-              onClick={onFollowClick}
-              className="text-sm text-blue-500 hover:text-gray-800 dark:hover:text-gray-200"
-            >
-              {follow ? "Following" : "Follow"}
-            </Button>
-          </>
-        : null}
-      </div>
+        </>
+      : <>
+          <div className="size-8">
+            <ProfilePic />
+          </div>
+          <div className="font-semibold">{"Unknown user"}</div>
+        </>
+      }
     </div>
   );
 }
