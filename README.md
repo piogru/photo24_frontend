@@ -27,7 +27,7 @@ React Typescript application meant to be a study of Instagram, with features lim
 * Other
   - date-fns
 
-## Features (ver. 0.1.0)
+## Features (ver. 0.1.1)
 
 This version's focus is on making core features usable, which means that select functionalities may have been left out and will be finished later (e.g. missing crop/aspect ratio menus in Post creation flow).
 
