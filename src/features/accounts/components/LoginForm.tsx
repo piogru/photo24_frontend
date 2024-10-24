@@ -3,8 +3,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import SiteLogo from "../../core/components/SiteLogo";
 import Input from "../../core/components/Input";
-import { Link, useNavigate } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postLogin } from "../api/queries";
 import ApiError from "../../core/components/ApiError";
 import WIP from "../../core/components/WIP";
@@ -25,11 +25,11 @@ export default function LoginForm() {
   } = useForm({
     resolver: zodResolver(schema),
   });
-  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: postLogin,
-    onSuccess: () => {
-      navigate("/", { replace: true });
+    onSuccess: async () => {
+      await queryClient.resetQueries();
     },
   });
   const onSubmit = handleSubmit(async (data) => {
