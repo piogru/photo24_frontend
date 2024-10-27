@@ -108,7 +108,7 @@ export default function PostModal({
       <Modal isOpen={isOpen} onClose={onClose}>
         {post ?
           <div
-            className={`flex max-h-[calc(100vh-theme(space.10))] w-full flex-col items-center
+            className={`flex max-h-[calc(100vh-theme(space.20))] w-full flex-col items-center
               justify-center rounded-b-xl transition sm:h-[calc(100vh-theme(space.10))]
               sm:flex-row lg:max-w-[80rem] xl:max-w-[92rem]`}
           >
