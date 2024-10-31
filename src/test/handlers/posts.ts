@@ -1,11 +1,11 @@
 import { http, HttpResponse } from "msw";
 
 const user1 = {
-  _id: "user_1",
-  name: "User 1",
+  _id: "user_1_id",
+  name: "user_1",
   profilePic: {
-    _id: "profile_1",
-    publicId: "profiles/profile_1",
+    _id: "profile_1_id",
+    publicId: "profiles/profile_1_id",
     url: "profile_1_url",
     altText: "User 1 profile picture",
     createdAt: "2024-10-02T12:48:14.732Z",
@@ -19,12 +19,12 @@ export const handlers = [
     return HttpResponse.json(
       [
         {
-          _id: "post_1",
+          _id: "post_1_id",
           user: user1,
           photos: [
             {
-              _id: "photo_1",
-              publicId: "photos/photo_1",
+              _id: "photo_1_id",
+              publicId: "photos/photo_1_id",
               url: "photo_1_url",
               altText: "Test photo #1",
               hwRatio: "100%",
@@ -45,12 +45,12 @@ export const handlers = [
           __v: 0,
         },
         {
-          _id: "post_2",
+          _id: "post_2_id",
           user: user1,
           photos: [
             {
-              _id: "photo_2",
-              publicId: "photos/photo_2",
+              _id: "photo_2_id",
+              publicId: "photos/photo_2_id",
               url: "photo_2_url",
               altText: "",
               hwRatio: "83.72641509433963%",
@@ -60,8 +60,8 @@ export const handlers = [
               updatedAt: "2024-10-18T09:00:52.029Z",
             },
             {
-              _id: "photo_3",
-              publicId: "photos/photo_3",
+              _id: "photo_3_id",
+              publicId: "photos/photo_3_id",
               url: "photo_3_url",
               altText: "",
               hwRatio: "56.25%",
@@ -88,17 +88,17 @@ export const handlers = [
   http.post("/api/posts", () => {
     return HttpResponse.json(
       {
-        _id: "post_1",
-        user: "user_1",
+        _id: "post_1_id",
+        user: "user_1_id",
         photos: [
           {
-            publicId: "photos/photo_1",
+            _id: "photo_1_id",
+            publicId: "photos/photo_1_id",
             url: "photo_1_url",
             altText: "",
             hwRatio: "100%",
             width: 320,
             height: 320,
-            _id: "photo_1",
             createdAt: "2024-10-21T12:59:17.663Z",
             updatedAt: "2024-10-21T12:59:17.663Z",
           },

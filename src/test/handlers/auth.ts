@@ -4,8 +4,8 @@ export const handlers = [
   http.get("/api/auth/me", () => {
     return HttpResponse.json(
       {
-        _id: "user_1",
-        name: "User 1",
+        _id: "user_1_id",
+        name: "user_1",
         createdAt: "2024-08-23T14:09:12.919Z",
         updatedAt: "2024-09-27T13:58:20.429Z",
         description:

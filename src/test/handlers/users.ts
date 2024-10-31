@@ -2,17 +2,17 @@ import { http, HttpResponse } from "msw";
 
 const userList = [
   {
-    _id: "user_1",
-    name: "User 1",
+    _id: "user_1_id",
+    name: "user_1",
     createdAt: "2024-08-23T14:09:12.919Z",
     updatedAt: "2024-09-27T13:58:20.429Z",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sed sapien fermentum, condimentum nunc quis, rutrum neque.",
     followers: 1,
-    following: 0,
-    posts: 0,
+    following: 3,
+    posts: 5,
     profilePic: {
-      _id: "profile_1",
+      _id: "profile_1_id",
       publicId: "profiles/profile_1",
       url: "profile_1_url",
       altText: "User 1 profile picture",
@@ -22,16 +22,16 @@ const userList = [
     },
   },
   {
-    _id: "user_2",
-    name: "User 2",
+    _id: "user_2_id",
+    name: "user_2",
     createdAt: "2024-08-27T11:17:31.921Z",
     updatedAt: "2024-10-28T10:58:20.372Z",
     description: "",
-    followers: 2,
-    following: 7,
-    posts: 11,
+    followers: 1,
+    following: 0,
+    posts: 0,
     profilePic: {
-      _id: "profile_2",
+      _id: "profile_2_id",
       publicId: "profiles/jrux4wiiigifizrwckr7",
       url: "profile_2_url",
       altText: "User 2 profile picture",
@@ -41,8 +41,8 @@ const userList = [
     },
   },
   {
-    _id: "user_3",
-    name: "User 3",
+    _id: "user_3_id",
+    name: "user_3",
     description: "",
     posts: 2,
     followers: 1,
@@ -62,7 +62,7 @@ export const handlers = [
       const response =
         partialFlag ?
           userList.find((item) => item.name.match(name))
-        : userList.find((item) => item.name);
+        : userList.find((item) => item.name === name);
       return HttpResponse.json([response], { status: 200 });
     }
 
@@ -73,8 +73,8 @@ export const handlers = [
     return HttpResponse.json(
       [
         {
-          _id: "user_1",
-          name: "User 1",
+          _id: "user_1_id",
+          name: "user_1",
           profilePic: {
             _id: "profile_1",
             publicId: "profiles/profile_1",
@@ -86,8 +86,8 @@ export const handlers = [
           },
         },
         {
-          _id: "user_2",
-          name: "User 2",
+          _id: "user_2_id",
+          name: "user_2",
         },
       ],
       { status: 200 },
@@ -97,15 +97,15 @@ export const handlers = [
   http.patch("/api/users/self", () => {
     return HttpResponse.json(
       {
-        _id: "user_1",
-        name: "User 1",
+        _id: "user_1_id",
+        name: "user_1",
         createdAt: "2024-08-27T11:17:31.921Z",
         updatedAt: "2024-10-28T11:58:58.386Z",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sed sapien fermentum, condimentum nunc quis, rutrum neque.",
         followers: 1,
-        following: 0,
-        posts: 0,
+        following: 3,
+        posts: 5,
         profilePic: {
           _id: "profile_1_updated",
           publicId: "profiles/profile_1_updated",
@@ -123,15 +123,15 @@ export const handlers = [
   http.delete("/api/users/self/profilePic", () => {
     return HttpResponse.json(
       {
-        _id: "user_1",
-        name: "User 1",
+        _id: "user_1_id",
+        name: "user_1",
         createdAt: "2024-08-27T11:17:31.921Z",
         updatedAt: "2024-10-28T12:01:46.060Z",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sed sapien fermentum, condimentum nunc quis, rutrum neque.",
         followers: 1,
-        following: 0,
-        posts: 0,
+        following: 3,
+        posts: 5,
       },
       { status: 200 },
     );
