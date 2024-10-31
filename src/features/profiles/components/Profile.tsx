@@ -1,13 +1,12 @@
 import {
   Button,
-  Tab,
   TabGroup,
   TabList,
   TabPanel,
   TabPanels,
 } from "@headlessui/react";
 import User from "../../core/types/user";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import useCurrentUserQuery from "../../core/hooks/useCurrentUserQuery";
 import { BookmarkIcon, Squares2X2Icon } from "@heroicons/react/24/outline";
 import ShowMoreText from "../../core/components/ShowMoreText";
@@ -58,6 +57,9 @@ export default function Profile({ initialData }: ProfileProps) {
     ...generalTabs,
     ...(user._id === currentUser?._id ? userTabs : []),
   ];
+  const { pathname } = useLocation();
+  const selectedTab = pathname.split("/")[2] || "";
+  const selectedTabIndex = tabs.findIndex((item) => item.path === selectedTab);
 
   const onFollowClick = () => {
     if (follow) {
@@ -134,17 +136,20 @@ export default function Profile({ initialData }: ProfileProps) {
 
           <TabGroup
             manual
+            selectedIndex={selectedTabIndex}
             className="border-t border-slate-300 dark:border-slate-600"
           >
             <TabList className="flex flex-row items-center justify-center text-center sm:gap-16">
-              {tabs.map((item) => (
+              {tabs.map((item, index) => (
                 <NavLink
                   end
                   key={item.path}
                   to={item.path}
+                  role="tab"
+                  aria-selected={index === selectedTabIndex ? "true" : "false"}
                   className={({ isActive }: { isActive: boolean }) =>
                     clsx(
-                      "flex h-12 flex-grow flex-row items-center justify-center sm:flex-grow-0",
+                      "flex h-12 flex-grow flex-row items-center justify-center gap-1 sm:flex-grow-0",
                       isActive ?
                         `-mt-[1px] border-t border-slate-700 text-blue-500 sm:text-gray-900
                           dark:border-slate-200 dark:sm:text-gray-100`
@@ -152,12 +157,10 @@ export default function Profile({ initialData }: ProfileProps) {
                     )
                   }
                 >
-                  <Tab className="flex flex-row items-center justify-start gap-1">
-                    <item.Icon className="size-6 sm:size-4" />
-                    <span className="sr-only text-sm font-semibold uppercase sm:not-sr-only">
-                      {item.name}
-                    </span>
-                  </Tab>
+                  <item.Icon className="size-6 sm:size-4" />
+                  <span className="sr-only text-sm font-semibold uppercase sm:not-sr-only">
+                    {item.name}
+                  </span>
                 </NavLink>
               ))}
             </TabList>
