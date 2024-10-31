@@ -45,11 +45,12 @@ const userTabs = [
 
 export default function Profile({ initialData }: ProfileProps) {
   const { data: currentUser } = useCurrentUserQuery();
-  const { data: queriedUser } = useUsersByUsernameQuery(
+  const { data: queriedUsers } = useUsersByUsernameQuery(
     initialData.user.name,
     false,
+    [initialData.user],
   );
-  const user = queriedUser[0];
+  const user = queriedUsers[0];
   const { data: follow } = useFollowQuery(user._id);
   const followMutation = useFollowMutation(user._id);
   const unfollowMutation = useUnfollowMutation(user._id);

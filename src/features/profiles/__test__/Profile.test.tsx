@@ -1,23 +1,32 @@
-import { render, screen, waitFor } from "@testing-library/react";
-// import { Routes, Route } from "react-router-dom"
-// import { renderWithProviders } from "../../../utils/test-utils"
-import userEvent from "@testing-library/user-event";
+import { screen } from "@testing-library/react";
 import ProfileWrapper from "../components/ProfileWrapper";
+import { renderWithProviders } from "../../../test/utils";
+import { profileLoader } from "../../core/api/loaders";
 
 describe("Profile", () => {
-  it("renders the photo correctly", () => {
-    render(<ProfileWrapper />);
+  it("renders user's information and statistics", async () => {});
 
-    screen.debug(); // prints out the jsx in the App component unto the command line
+  it("renders profile picture correctly when available", async () => {
+    renderWithProviders(<ProfileWrapper />, {
+      route: "/:username",
+      url: "/user_1",
+      loader: profileLoader,
+    });
+
+    const profilePicture = await screen.findByRole<HTMLImageElement>("img");
+    expect(profilePicture.src).toContain("profile_1_url");
+    expect(profilePicture.alt).toContain("User 1 profile picture");
   });
 
-  it("renders the author correctly", () => {});
+  it("renders default profile picture when none was provided", async () => {});
 
-  it("renders camera params correctly", () => {});
+  it("highlights tabs based on selection/route", async () => {});
 
-  it("renders correct number of comments", () => {});
+  it("hides follow button when current user is the owner of profile", async () => {});
 
-  it("increases photo like count after like", () => {});
+  it("allows different user to follow", async () => {});
 
-  it("decreases photo like count after removing like", () => {});
+  it("allows user to remove profile picture", async () => {});
+
+  it("allows user to update profile picture", async () => {});
 });

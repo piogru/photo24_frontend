@@ -15,7 +15,7 @@ const user1 = {
 };
 
 export const handlers = [
-  http.get("http://localhost:3000/api/users", () => {
+  http.get("/api/posts", () => {
     return HttpResponse.json(
       [
         {
@@ -85,7 +85,7 @@ export const handlers = [
     );
   }),
 
-  http.post("http://localhost:3000/api/users", () => {
+  http.post("/api/posts", () => {
     return HttpResponse.json(
       {
         _id: "post_1",
@@ -117,7 +117,7 @@ export const handlers = [
     );
   }),
 
-  http.delete("http://localhost:3000/api/users", () => {
+  http.delete("/api/posts", () => {
     return HttpResponse.json(
       {
         message: "Post deleted successfully.",
