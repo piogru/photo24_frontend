@@ -13,6 +13,15 @@ export const handlers = [
         followers: 1,
         following: 0,
         posts: 0,
+        profilePic: {
+          _id: "profile_1_id",
+          publicId: "profiles/profile_1",
+          url: "profile_1_url",
+          altText: "User 1 profile picture",
+          createdAt: "2024-10-03T12:33:38.497Z",
+          updatedAt: "2024-10-03T12:33:38.497Z",
+          hwRatio: "100%",
+        },
       },
       { status: 200 },
     );
