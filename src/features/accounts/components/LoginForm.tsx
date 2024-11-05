@@ -5,9 +5,8 @@ import SiteLogo from "../../core/components/SiteLogo";
 import Input from "../../core/components/Input";
 import { Link } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { postLogin } from "../api/queries";
+import { postLogin, postLoginGuest } from "../api/queries";
 import ApiError from "../../core/components/ApiError";
-import WIP from "../../core/components/WIP";
 import { Button } from "@headlessui/react";
 
 const schema = z
@@ -32,6 +31,14 @@ export default function LoginForm() {
       await queryClient.resetQueries();
     },
   });
+
+  const guestMutation = useMutation({
+    mutationFn: postLoginGuest,
+    onSuccess: async () => {
+      await queryClient.resetQueries();
+    },
+  });
+
   const onSubmit = handleSubmit(async (data) => {
     mutation.mutate({
       userId: data.userId,
@@ -93,8 +100,8 @@ export default function LoginForm() {
         </div>
 
         <div className="mt-6 w-full text-center">
-          <span>Proceed as guest</span>
-          <WIP />
+          <div>Proceed as guest</div>
+          <Button onClick={() => guestMutation.mutate()}>Login as guest</Button>
         </div>
       </div>
 

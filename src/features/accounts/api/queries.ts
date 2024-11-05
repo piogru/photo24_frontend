@@ -26,10 +26,16 @@ const postLogin = async (userLoginDTO: {
   });
 };
 
+const postLoginGuest = async () => {
+  return api.post<User>("/auth/guest").then((response) => {
+    return response.data;
+  });
+};
+
 const postLogout = async () => {
   return api.post("/auth/logout").then((response) => {
     return response.data;
   });
 };
 
-export { getCurrentUser, postSignup, postLogin, postLogout };
+export { getCurrentUser, postSignup, postLogin, postLoginGuest, postLogout };
