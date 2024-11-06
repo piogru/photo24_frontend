@@ -1,49 +1,66 @@
 import { MutationCache, QueryCache, QueryClient } from "@tanstack/react-query";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import toaster from "../utils/toaster";
+import AxiosErrorResponse from "../types/axiosErrorResponse";
 
 declare module "@tanstack/react-query" {
   interface Register {
-    defaultError: AxiosError;
+    defaultError: AxiosError<AxiosErrorResponse>;
   }
 }
 
-const onTooManyRequests = (error: Error | AxiosError) => {
-  if (axios.isAxiosError(error)) {
-    if (error.status === 429) {
-      toaster.error(
-        {
-          title: "",
-          text:
-            error.response?.data ? error.response.data.message : error.message,
-        },
-        {
-          toastId: "status-429",
-        },
-      );
-    }
-  } else {
-    toaster.error(
-      {
-        title: "",
-        text: error.message,
-      },
-      {
-        toastId: "status-429",
-      },
-    );
+const onTooManyRequests = (error: AxiosError<AxiosErrorResponse>) => {
+  toaster.error(
+    {
+      title: "",
+      text: error.response?.data ? error.response.data.message : error.message,
+    },
+    {
+      toastId: "error-429",
+    },
+  );
+};
+
+const onUnauthorized = () => {
+  toaster.error(
+    {
+      title: "",
+      text: "You must be logged in to access this feature.",
+    },
+    {
+      toastId: "error-401",
+    },
+  );
+};
+
+const handleQueryError = (error: AxiosError<AxiosErrorResponse>) => {
+  switch (error.status) {
+    case 429:
+      onTooManyRequests(error);
+      break;
+  }
+};
+
+const handleMutationError = (error: AxiosError<AxiosErrorResponse>) => {
+  switch (error.status) {
+    case 401:
+      onUnauthorized();
+      break;
+    case 429:
+      onTooManyRequests(error);
+      break;
   }
 };
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
     onError: (error) => {
-      onTooManyRequests(error);
+      handleQueryError(error);
     },
   }),
   mutationCache: new MutationCache({
     onError: (error) => {
-      onTooManyRequests(error);
+      handleMutationError(error);
     },
   }),
 });

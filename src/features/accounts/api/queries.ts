@@ -1,8 +1,8 @@
 import api from "../../core/api/api";
-import User from "../../core/types/user";
+import CurrentUser from "../../core/types/currentUser";
 
 const getCurrentUser = async () => {
-  return api.get<User>("/auth/me").then((response) => {
+  return api.get<CurrentUser>("/auth/me").then((response) => {
     return response.data;
   });
 };
@@ -12,7 +12,7 @@ const postSignup = async (userDTO: {
   email: string;
   password: string;
 }) => {
-  return api.post<User>("/auth/signup", userDTO).then((response) => {
+  return api.post<CurrentUser>("/auth/signup", userDTO).then((response) => {
     return response.data;
   });
 };
@@ -21,7 +21,13 @@ const postLogin = async (userLoginDTO: {
   userId: string;
   password: string;
 }) => {
-  return api.post<User>("/auth/login", userLoginDTO).then((response) => {
+  return api.post<CurrentUser>("/auth/login", userLoginDTO).then((response) => {
+    return response.data;
+  });
+};
+
+const postLoginGuest = async () => {
+  return api.post<CurrentUser>("/auth/guest").then((response) => {
     return response.data;
   });
 };
@@ -32,4 +38,4 @@ const postLogout = async () => {
   });
 };
 
-export { getCurrentUser, postSignup, postLogin, postLogout };
+export { getCurrentUser, postSignup, postLogin, postLoginGuest, postLogout };
