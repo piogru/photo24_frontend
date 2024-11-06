@@ -8,6 +8,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postLogin, postLoginGuest } from "../api/queries";
 import ApiError from "../../core/components/ApiError";
 import { Button } from "@headlessui/react";
+import PopoverTooltip from "../../core/components/PopoverTooltip";
+import {
+  ArrowLeftEndOnRectangleIcon,
+  QuestionMarkCircleIcon,
+} from "@heroicons/react/24/outline";
 
 const schema = z
   .object({
@@ -99,9 +104,26 @@ export default function LoginForm() {
           <div className="inline w-full border-t border-slate-300 dark:border-slate-600" />
         </div>
 
-        <div className="mt-6 w-full text-center">
-          <div>Proceed as guest</div>
-          <Button onClick={() => guestMutation.mutate()}>Login as guest</Button>
+        <div className="mt-2 w-full text-center">
+          <div className="relative mx-auto w-fit">
+            <div className="h-8 text-center text-lg font-semibold leading-8">
+              Proceed as guest
+            </div>
+            <div className="absolute -right-9 top-0">
+              <PopoverTooltip
+                label={`Preview content and features without creating an account.`}
+              >
+                <QuestionMarkCircleIcon className="size-8" />
+              </PopoverTooltip>
+            </div>
+          </div>
+          <Button
+            onClick={() => guestMutation.mutate()}
+            className="mt-4 flex w-full flex-row justify-center gap-2 font-semibold text-blue-500 active:text-blue-400"
+          >
+            <ArrowLeftEndOnRectangleIcon className="size-6" />
+            Enter as guest
+          </Button>
         </div>
       </div>
 
