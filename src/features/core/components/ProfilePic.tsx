@@ -17,6 +17,8 @@ export default function ProfilePic({ photo }: ProfilePicProps) {
       : <UserCircleIconSolid
           className="size-full rounded-full text-gray-700 dark:text-gray-200"
           viewBox="2 2 20 20"
+          role="img"
+          title="Default profile picture"
         />
       }
     </>

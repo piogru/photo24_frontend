@@ -6,13 +6,13 @@ type ToastMessageProps = {
   text: string;
 };
 
-const toaster = (myProps: ToastMessageProps, toastProps?: ToastOptions): Id =>
-  toast(<ToastMessage {...myProps} />, { ...toastProps });
+const toaster = (messageProps: ToastMessageProps, toastProps?: ToastOptions): Id =>
+  toast(<ToastMessage {...messageProps} />, { ...toastProps });
 
-toaster.success = (myProps: ToastMessageProps, toastProps?: ToastOptions): Id =>
-  toast.success(<ToastMessage {...myProps} />, { ...toastProps });
+toaster.success = (messageProps: ToastMessageProps, toastProps?: ToastOptions): Id =>
+  toast.success(<ToastMessage {...messageProps} />, { ...toastProps });
 
-toaster.error = (myProps: ToastMessageProps, toastProps?: ToastOptions): Id =>
-  toast.error(<ToastMessage {...myProps} />, { ...toastProps });
+toaster.error = (messageProps: ToastMessageProps, toastProps?: ToastOptions): Id =>
+  toast.error(<ToastMessage {...messageProps} />, { ...toastProps });
 
 export default toaster;

@@ -15,10 +15,10 @@ type PopoverTooltipProps = PopoverPanelProps & {
 };
 
 export default function PopoverTooltip({
-  className,
+  label,
   anchor = "bottom",
   timeoutDuration = 100,
-  label,
+  className = "",
   children,
 }: PopoverTooltipProps) {
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -36,7 +36,7 @@ export default function PopoverTooltip({
   };
 
   return (
-    <Popover className={`relative w-fit ${className ? className : ""}`}>
+    <Popover className={`relative w-fit ${className}`}>
       {({ open }) => (
         <div
           onMouseEnter={() => handleEnter(open)}
@@ -59,7 +59,8 @@ export default function PopoverTooltip({
           >
             <PopoverPanel
               anchor={anchor}
-              className="flex flex-col whitespace-pre-line rounded-xl bg-gray-200 p-2 dark:bg-gray-600"
+              className="flex flex-col whitespace-pre-line rounded-xl bg-gray-200 p-2 text-gray-900
+                dark:bg-gray-600 dark:text-gray-200"
             >
               {label}
             </PopoverPanel>

@@ -27,7 +27,7 @@ React Typescript application meant to be a study of Instagram, with features lim
 * Other
   - date-fns
 
-## Features (ver. 0.1.1)
+## Features (ver. 0.2.0)
 
 This version's focus is on making core features usable, which means that select functionalities may have been left out and will be finished later (e.g. missing crop/aspect ratio menus in Post creation flow).
 
@@ -40,13 +40,14 @@ This version's focus is on making core features usable, which means that select 
 - Profile picture upload
 - Dark/light theme, with user preference detection
 - Responsive layouts
+- 'Guest' login to allow site preview without an account
+- Testing utilities and integration tests for select components with React Testing Library
 
 ## Planned features
 
-- Tests with React Testing Library
+- Further test coverage with React Testing Library
 - Comments and replies
 - Additional photo upload features (aspect ratio/crop) and QoL (modifying photos included in a post)
-- Improved semantic html
 - Accessibility pass
 - UX/responsiveness improvements
 - And possibly more...

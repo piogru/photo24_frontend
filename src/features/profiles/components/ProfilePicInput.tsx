@@ -4,7 +4,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteProfilePic, patchProfilePic } from "../api/queries";
-import { Button, DialogTitle, Input } from "@headlessui/react";
+import { Button, DialogTitle, Field, Input, Label } from "@headlessui/react";
 import { CameraIcon as CameraIconSolid } from "@heroicons/react/24/solid";
 import Modal from "../../core/components/Modal";
 import Spinner from "../../core/components/Spinner";
@@ -167,6 +167,7 @@ export default function ProfilePicInput() {
               text-gray-200"
           />
         )}
+        <span className="sr-only">Modify profile picture</span>
       </Button>
 
       {patchMutation.isPending || deleteMutation.isPending ?
@@ -176,16 +177,19 @@ export default function ProfilePicInput() {
       : null}
 
       <form onChange={handleSubmit(onSubmit, onInvalid)}>
-        <Input
-          {...profilePicRest}
-          id="profile_pic_input"
-          type="file"
-          className="hidden"
-          ref={(e) => {
-            profilePicRef(e);
-            inputFile.current = e;
-          }}
-        />
+        <Field className="hidden">
+          <Label htmlFor="profile_pic_input" className="sr-only">Profile picture</Label>
+          <Input
+            {...profilePicRest}
+            id="profile_pic_input"
+            type="file"
+            className="hidden"
+            ref={(e) => {
+              profilePicRef(e);
+              inputFile.current = e;
+            }}
+          />
+        </Field>
       </form>
     </>
   );

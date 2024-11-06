@@ -4,6 +4,7 @@ import { Button } from "@headlessui/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import useBreakpoint from "../hooks/useBreakpoint";
 import clsx from "clsx";
+import PhotoDisplay from "./Photo";
 
 type PhotoSlideProps = {
   photos: Photo[];
@@ -22,33 +23,24 @@ export default function PhotoSlide({ photos }: PhotoSlideProps) {
   };
 
   const handlePrevious = () => {
-    if (previousAvailable) {
-      setCurrentPhotoIndex(currentPhotoIndex - 1);
-    }
+    setCurrentPhotoIndex(currentPhotoIndex - 1);
   };
 
   const handleNext = () => {
-    if (nextAvailable) {
-      setCurrentPhotoIndex(currentPhotoIndex + 1);
-    }
+    setCurrentPhotoIndex(currentPhotoIndex + 1);
   };
 
   return (
     <div className="h-fit w-fit min-w-48" style={containerStyle}>
       <div className="relative h-full w-full">
         <div className="h-full w-full">
-          {currentPhoto ?
-            <img
-              src={currentPhoto.url}
-              alt={currentPhoto.altText}
-              className="mx-auto h-full object-cover"
-            />
-          : null}
+          <PhotoDisplay photo={currentPhoto} />
         </div>
 
         {currentPhotoIndex > 0 ?
           <Button
             onClick={handlePrevious}
+            disabled={!previousAvailable}
             className="absolute bottom-0 left-0 top-0 p-1 text-gray-200"
           >
             <ChevronLeftIcon className="size-6" />
@@ -57,6 +49,7 @@ export default function PhotoSlide({ photos }: PhotoSlideProps) {
         {currentPhotoIndex < photos.length - 1 ?
           <Button
             onClick={handleNext}
+            disabled={!nextAvailable}
             className="absolute bottom-0 right-0 top-0 p-1 text-gray-200"
           >
             <ChevronRightIcon className="size-6" />
