@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import SiteLogo from "../../core/components/SiteLogo";
 import Input from "../../core/components/Input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postLogin, postLoginGuest } from "../api/queries";
 import ApiError from "../../core/components/ApiError";
@@ -29,11 +29,13 @@ export default function LoginForm() {
   } = useForm({
     resolver: zodResolver(schema),
   });
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: postLogin,
     onSuccess: async () => {
       await queryClient.resetQueries();
+      navigate("/", { replace: true });
     },
   });
 
@@ -41,6 +43,7 @@ export default function LoginForm() {
     mutationFn: postLoginGuest,
     onSuccess: async () => {
       await queryClient.resetQueries();
+      navigate("/", { replace: true });
     },
   });
 
@@ -119,7 +122,8 @@ export default function LoginForm() {
           </div>
           <Button
             onClick={() => guestMutation.mutate()}
-            className="mt-4 flex w-full flex-row justify-center gap-2 font-semibold text-blue-500 active:text-blue-400"
+            className="mt-4 flex w-full flex-row justify-center gap-2 font-semibold text-blue-500
+              active:text-blue-400"
           >
             <ArrowLeftEndOnRectangleIcon className="size-6" />
             Enter as guest
