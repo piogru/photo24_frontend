@@ -1,10 +1,10 @@
 import { useState } from "react";
-import useUsersByUsernameQuery from "../hooks/useUsersByUsernameQuery";
+import useUsersByUsernameQuery from "../../core/hooks/useUsersByUsernameQuery";
 import { Button, Input } from "@headlessui/react";
-import ProfilePic from "./ProfilePic";
+import ProfilePic from "../../core/components/ProfilePic";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { XCircleIcon } from "@heroicons/react/24/solid";
-import Spinner from "./Spinner";
+import Spinner from "../../core/components/Spinner";
 import { NavLink } from "react-router-dom";
 import { useDebounce } from "use-debounce";
 

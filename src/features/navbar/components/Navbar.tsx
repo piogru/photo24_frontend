@@ -2,7 +2,7 @@ import { ComponentType, Fragment, useEffect, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postLogout } from "../../accounts/api/queries";
-import useTheme from "../hooks/useTheme";
+import useTheme from "../../core/hooks/useTheme";
 import {
   HomeIcon as HomeIconSolid,
   ViewfinderCircleIcon as ViewfinderCircleIconSolid,
@@ -23,16 +23,16 @@ import {
   CameraIcon,
   InformationCircleIcon,
 } from "@heroicons/react/24/outline";
-import Dropdown from "./Dropdown";
-import Switch from "./Switch";
-import useCurrentUserQuery from "../hooks/useCurrentUserQuery";
+import Dropdown from "../../core/components/Dropdown";
+import Switch from "../../core/components/Switch";
+import useCurrentUserQuery from "../../core/hooks/useCurrentUserQuery";
 import PhotoUpload from "../../photo/components/PhotoUpload";
 import NavIcon from "./NavIcon";
-import MagnifyingGlassIconSolid from "./MagnifyingGlassIconSolid";
-import SiteLogo from "./SiteLogo";
+import MagnifyingGlassIconSolid from "../../core/components/MagnifyingGlassIconSolid";
+import SiteLogo from "../../core/components/SiteLogo";
 import { Button } from "@headlessui/react";
-import SearchUsers from "./SearchUsers";
-import Drawer from "./Drawer";
+import SearchUsers from "../../users/components/SearchUsers";
+import Drawer from "../../core/components/Drawer";
 import clsx from "clsx";
 
 type NavbarElement = {

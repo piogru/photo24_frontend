@@ -1,10 +1,10 @@
 import { useLoaderData } from "react-router-dom";
 import Spinner from "../../core/components/Spinner";
 import useUserPosts from "../../core/hooks/useUserPosts";
-import PostSquare from "../../explore/components/PostSquare";
+import PostSquare from "../../core/components/PostSquare";
 import { profilePostsLoader } from "../../core/api/loaders";
 import { CameraIcon } from "@heroicons/react/24/outline";
-import PostModal from "../../core/components/PostModal";
+import PostModal from "../../posts/components/PostModal";
 import Post from "../../core/types/post";
 import { useState } from "react";
 import useCurrentUserQuery from "../../core/hooks/useCurrentUserQuery";

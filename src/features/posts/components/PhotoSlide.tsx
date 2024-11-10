@@ -1,10 +1,10 @@
 import { useState } from "react";
-import Photo from "../types/photo";
+import Photo from "../../core/types/photo";
 import { Button } from "@headlessui/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
-import useBreakpoint from "../hooks/useBreakpoint";
+import useBreakpoint from "../../core/hooks/useBreakpoint";
 import clsx from "clsx";
-import PhotoDisplay from "./Photo";
+import PhotoDisplay from "../../core/components/PhotoDisplay";
 
 type PhotoSlideProps = {
   photos: Photo[];

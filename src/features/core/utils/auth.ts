@@ -1,7 +1,7 @@
 import { replace } from "react-router-dom";
 import { getCurrentUser } from "../../accounts/api/queries";
 import { QueryClient } from "@tanstack/react-query";
-import toaster from "./toaster";
+import toaster from "../../notifications/utils/toaster";
 
 export const currentUserQuery = () => ({
   queryKey: ["auth", "me"],

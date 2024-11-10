@@ -19,8 +19,8 @@ import {
   HeartIcon as HeartIconSolid,
 } from "@heroicons/react/24/solid";
 import { useState } from "react";
-import PostMenu from "../../core/components/PostMenu";
-import LikeCounter from "../../core/components/LikeCount";
+import PostMenu from "./PostMenu";
+import LikeCount from "../../core/components/LikeCount";
 
 type PostProps = {
   post: Post;
@@ -142,7 +142,7 @@ export default function PostPreview({ post }: PostProps) {
             </div>
           </section>
           <section>
-            <LikeCounter likes={post.likes} hideLikes={post.hideLikes} />
+            <LikeCount likes={post.likes} hideLikes={post.hideLikes} />
           </section>
           {post.caption?.length > 0 ?
             <section>

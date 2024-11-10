@@ -1,9 +1,9 @@
 import { Button } from "@headlessui/react";
-import Modal from "./Modal";
+import Modal from "../../core/components/Modal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deletePost } from "../api/queries";
-import useCurrentUserQuery from "../hooks/useCurrentUserQuery";
-import Post from "../types/post";
+import { deletePost } from "../../core/api/queries";
+import useCurrentUserQuery from "../../core/hooks/useCurrentUserQuery";
+import Post from "../../core/types/post";
 
 type PostMenuProps = {
   post?: Post;

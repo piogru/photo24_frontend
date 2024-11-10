@@ -9,8 +9,8 @@ import {
   profilePostsLoader,
 } from "../api/loaders.ts";
 import { isAuthenticated } from "../utils/auth.ts";
-import ErrorPage from "../components/ErrorPage.tsx";
-import NavbarWrapper from "../components/NavbarWrapper.tsx";
+import ErrorPage from "../../errors/components/ErrorPage.tsx";
+import NavbarWrapper from "../../navbar/components/NavbarWrapper.tsx";
 import LoginWrapper from "../../accounts/components/LoginWrapper.tsx";
 import RegisterForm from "../../accounts/components/RegisterForm.tsx";
 import LoginForm from "../../accounts/components/LoginForm.tsx";
