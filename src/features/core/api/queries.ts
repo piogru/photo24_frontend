@@ -9,22 +9,6 @@ const getFollow = async (targetId: ObjectId) => {
   });
 };
 
-const getFollowing = async (followerId: ObjectId) => {
-  return api
-    .get<Follow[]>(`/follows/${followerId}/following`)
-    .then((response) => {
-      return response.data;
-    });
-};
-
-const getFollowers = async (targetId: ObjectId) => {
-  return api
-    .get<Follow[]>(`/follows/${targetId}/followers`)
-    .then((response) => {
-      return response.data;
-    });
-};
-
 const postFollow = async (targetId: ObjectId) => {
   return api.post<Follow>(`/follows/${targetId}`).then((response) => {
     return response.data;
@@ -46,8 +30,6 @@ const getUsersByUsername = async (username: string, partial: boolean) => {
   });
 };
 
-
-
 const followQuery = (targetId: ObjectId) => ({
   queryKey: ["follows", targetId],
   queryFn: async () => getFollow(targetId),
@@ -60,8 +42,6 @@ const usersByUsernameQuery = (username: string, partial: boolean = false) => ({
 
 export {
   getFollow,
-  getFollowers,
-  getFollowing,
   postFollow,
   deleteFollow,
   followQuery,
