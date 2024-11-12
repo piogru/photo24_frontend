@@ -63,12 +63,6 @@ const getPost = async (id: ObjectId) => {
   });
 };
 
-const getUserPosts = async (userId: ObjectId) => {
-  return api.get<Post[]>(`/posts?user=${userId}`).then((response) => {
-    return response.data;
-  });
-};
-
 const deletePost = async (postId: ObjectId) => {
   return api.delete(`posts/${postId}`).then((response) => {
     return response.data;
@@ -104,11 +98,6 @@ const usersByUsernameQuery = (username: string, partial: boolean = false) => ({
   queryFn: async () => getUsersByUsername(username, partial),
 });
 
-const userPostsQuery = (userId: ObjectId) => ({
-  queryKey: ["users", userId, "posts"],
-  queryFn: async () => getUserPosts(userId),
-});
-
 export {
   getFollow,
   getFollowers,
@@ -123,5 +112,4 @@ export {
   likeQuery,
   followQuery,
   usersByUsernameQuery,
-  userPostsQuery,
 };

@@ -1,13 +1,12 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "../../../App.tsx";
+import { appLoader, postDetailsLoader } from "../api/loaders.ts";
+import { exploreLoader } from "../../explore/api/loaders.ts";
+import { feedLoader } from "../../feed/api/loaders.ts";
 import {
-  appLoader,
-  exploreLoader,
-  postDetailsLoader,
   profileLoader,
   profilePostsLoader,
-} from "../api/loaders.ts";
-import { feedLoader } from "../../feed/api/loaders.ts";
+} from "../../profiles/api/loaders.ts";
 import { isAuthenticated } from "../utils/auth.ts";
 import ErrorPage from "../../errors/components/ErrorPage.tsx";
 import NavbarWrapper from "../../navbar/components/NavbarWrapper.tsx";

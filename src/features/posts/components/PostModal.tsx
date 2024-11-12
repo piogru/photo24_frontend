@@ -3,7 +3,7 @@ import { useLoaderData } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteLike, postLike } from "../../core/api/queries";
 import useLikeQuery from "../../core/hooks/useLikeQuery";
-import usePostQuery from "../../core/hooks/usePostQuery";
+import usePostQuery from "../hooks/usePostQuery";
 import { postDetailsLoader } from "../../core/api/loaders";
 import Post from "../../core/types/post";
 import Modal from "../../core/components/Modal";

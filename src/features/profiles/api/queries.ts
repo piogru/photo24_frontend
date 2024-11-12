@@ -1,8 +1,21 @@
 import api from "../../core/api/api";
+import ObjectId from "../../core/types/objectId";
+import Post from "../../core/types/post";
 
 type profilePicDTO = {
   profilePic: File;
 };
+
+const getUserPosts = async (userId: ObjectId) => {
+  return api.get<Post[]>(`/posts?user=${userId}`).then((response) => {
+    return response.data;
+  });
+};
+
+const userPostsQuery = (userId: ObjectId) => ({
+  queryKey: ["users", userId, "posts"],
+  queryFn: async () => getUserPosts(userId),
+});
 
 const patchProfilePic = async ({ profilePic }: profilePicDTO) => {
   const formData = new FormData();
@@ -20,4 +33,4 @@ const deleteProfilePic = async () => {
   });
 };
 
-export { patchProfilePic, deleteProfilePic };
+export { userPostsQuery, patchProfilePic, deleteProfilePic };

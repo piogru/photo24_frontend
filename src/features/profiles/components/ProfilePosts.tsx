@@ -1,8 +1,8 @@
 import { useLoaderData } from "react-router-dom";
 import Spinner from "../../core/components/Spinner";
-import useUserPosts from "../../core/hooks/useUserPosts";
+import useUserPosts from "../hooks/useUserPosts";
 import PostSquare from "../../core/components/PostSquare";
-import { profilePostsLoader } from "../../core/api/loaders";
+import { profilePostsLoader } from "../api/loaders";
 import { CameraIcon } from "@heroicons/react/24/outline";
 import PostModal from "../../posts/components/PostModal";
 import Post from "../../core/types/post";
