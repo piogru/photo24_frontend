@@ -1,7 +1,7 @@
 import { screen } from "@testing-library/react";
 import ProfileWrapper from "../components/ProfileWrapper";
 import { renderWithProviders } from "../../../test/utils";
-import { profileLoader } from "../../core/api/loaders";
+import { profileLoader } from "../api/loaders";
 import userEvent from "@testing-library/user-event";
 import { server } from "../../../test/server";
 import { http, HttpResponse } from "msw";
@@ -185,8 +185,6 @@ describe("Profile", () => {
 
     const image = await screen.findByTitle("Default profile picture");
     expect(image).toBeInTheDocument();
-
-    screen.debug(undefined, Infinity);
   });
 
   it("allows user to upload profile picture", async () => {

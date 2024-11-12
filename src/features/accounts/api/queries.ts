@@ -38,4 +38,17 @@ const postLogout = async () => {
   });
 };
 
-export { getCurrentUser, postSignup, postLogin, postLoginGuest, postLogout };
+const currentUserQuery = () => ({
+  queryKey: ["auth", "me"],
+  retry: false,
+  queryFn: async () => getCurrentUser(),
+});
+
+export {
+  getCurrentUser,
+  postSignup,
+  postLogin,
+  postLoginGuest,
+  postLogout,
+  currentUserQuery,
+};

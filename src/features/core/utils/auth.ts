@@ -1,13 +1,7 @@
 import { replace } from "react-router-dom";
-import { getCurrentUser } from "../../accounts/api/queries";
 import { QueryClient } from "@tanstack/react-query";
-import toaster from "./toaster";
-
-export const currentUserQuery = () => ({
-  queryKey: ["auth", "me"],
-  retry: false,
-  queryFn: async () => getCurrentUser(),
-});
+import toaster from "../../notifications/utils/toaster";
+import { currentUserQuery } from "../../accounts/api/queries";
 
 export const isAuthenticated = (queryClient: QueryClient) => async () => {
   const query = currentUserQuery();

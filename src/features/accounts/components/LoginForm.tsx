@@ -6,7 +6,7 @@ import Input from "../../core/components/Input";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postLogin, postLoginGuest } from "../api/queries";
-import ApiError from "../../core/components/ApiError";
+import ApiError from "../../errors/components/ApiError";
 import { Button } from "@headlessui/react";
 import PopoverTooltip from "../../core/components/PopoverTooltip";
 import {

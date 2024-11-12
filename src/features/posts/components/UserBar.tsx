@@ -1,11 +1,11 @@
 import { NavLink } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteFollow, postFollow } from "../api/queries";
-import User from "../types/user";
+import { deleteFollow, postFollow } from "../../core/api/queries";
+import User from "../../core/types/user";
 import { Button } from "@headlessui/react";
-import useFollowQuery from "../hooks/useFollowQuery";
-import ProfilePic from "./ProfilePic";
-import useCurrentUserQuery from "../hooks/useCurrentUserQuery";
+import useFollowQuery from "../../core/hooks/useFollowQuery";
+import ProfilePic from "../../core/components/ProfilePic";
+import useCurrentUserQuery from "../../core/hooks/useCurrentUserQuery";
 
 type UserBarProps = {
   user: User;

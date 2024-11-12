@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { Slide, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ToastCloseButton from "./features/core/components/ToastCloseButton";
+import ToastCloseButton from "./features/notifications/components/ToastCloseButton";
 
 export default function App() {
   return (

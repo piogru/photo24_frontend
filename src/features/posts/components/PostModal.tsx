@@ -2,14 +2,14 @@ import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteLike, postLike } from "../api/queries";
-import useLikeQuery from "../hooks/useLikeQuery";
+import usePostLikeQuery from "../hooks/usePostLikeQuery";
 import usePostQuery from "../hooks/usePostQuery";
 import { postDetailsLoader } from "../api/loaders";
-import Post from "../types/post";
-import Modal from "./Modal";
+import Post from "../../posts/types/post";
+import Modal from "../../core/components/Modal";
 import UserBar from "./UserBar";
-import Timestamp from "./Timestamp";
-import IconButton from "./IconButton";
+import Timestamp from "../../core/components/Timestamp";
+import IconButton from "../../core/components/IconButton";
 import PhotoSlide from "./PhotoSlide";
 import {
   BookmarkIcon,
@@ -22,10 +22,10 @@ import {
   BookmarkIcon as BookmarkIconSolid,
   HeartIcon as HeartIconSolid,
 } from "@heroicons/react/24/solid";
-import useBreakpoint from "../hooks/useBreakpoint";
+import useBreakpoint from "../../core/hooks/useBreakpoint";
 import PostMenu from "./PostMenu";
-import ProfilePic from "./ProfilePic";
-import LikeCounter from "./LikeCount";
+import ProfilePic from "../../core/components/ProfilePic";
+import LikeCount from "../../core/components/LikeCount";
 
 type PostModalProps = {
   isOpen: boolean;
@@ -50,7 +50,7 @@ export default function PostModal({
   );
   const photos = post?.photos || [];
   const comments = post?.comments || [];
-  const { data: like } = useLikeQuery(
+  const { data: like } = usePostLikeQuery(
     post?._id || "",
     initialData?.like || undefined,
   );
@@ -210,10 +210,7 @@ export default function PostModal({
                 </section>
 
                 <section className="flex flex-col border-b border-slate-300 px-3 pb-2 dark:border-slate-600">
-                  <LikeCounter
-                    likes={post?.likes}
-                    hideLikes={post?.hideLikes}
-                  />
+                  <LikeCount likes={post?.likes} hideLikes={post?.hideLikes} />
                   <Timestamp date={post?.createdAt} suffix />
                 </section>
 

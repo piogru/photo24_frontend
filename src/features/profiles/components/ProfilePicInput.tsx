@@ -9,7 +9,7 @@ import { CameraIcon as CameraIconSolid } from "@heroicons/react/24/solid";
 import Modal from "../../core/components/Modal";
 import Spinner from "../../core/components/Spinner";
 import useCurrentUserQuery from "../../core/hooks/useCurrentUserQuery";
-import toaster from "../../core/utils/toaster";
+import toaster from "../../notifications/utils/toaster";
 import {
   IMAGE_MAX_SIZE,
   IMAGE_MAX_SIZE_MB,

@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import useLikeQuery from "../../core/hooks/useLikeQuery";
-import { deleteLike, postLike } from "../../core/api/queries";
-import UserBar from "../../core/components/UserBar";
-import Post from "../../core/types/post";
+import usePostLikeQuery from "../hooks/usePostLikeQuery";
+import { deleteLike, postLike } from "../api/queries";
+import UserBar from "./UserBar";
+import Post from "..//types/post";
 import ShowMoreText from "../../core/components/ShowMoreText";
 import IconButton from "../../core/components/IconButton";
 import Timestamp from "../../core/components/Timestamp";
@@ -19,8 +19,8 @@ import {
   HeartIcon as HeartIconSolid,
 } from "@heroicons/react/24/solid";
 import { useState } from "react";
-import PostMenu from "../../core/components/PostMenu";
-import LikeCounter from "../../core/components/LikeCount";
+import PostMenu from "./PostMenu";
+import LikeCount from "../../core/components/LikeCount";
 
 type PostProps = {
   post: Post;
@@ -30,7 +30,7 @@ export default function PostPreview({ post }: PostProps) {
   const queryClient = useQueryClient();
   const [menuOpen, setMenuOpen] = useState(false);
   const multiplePhotos = post.photos.length > 1;
-  const { data: like } = useLikeQuery(post?._id || "");
+  const { data: like } = usePostLikeQuery(post?._id || "");
   const likeMutation = useMutation({
     mutationFn: postLike,
     onSuccess: async () => {
@@ -142,7 +142,7 @@ export default function PostPreview({ post }: PostProps) {
             </div>
           </section>
           <section>
-            <LikeCounter likes={post.likes} hideLikes={post.hideLikes} />
+            <LikeCount likes={post.likes} hideLikes={post.hideLikes} />
           </section>
           {post.caption?.length > 0 ?
             <section>

@@ -1,23 +1,22 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "../../../App.tsx";
+import { appLoader } from "../api/loaders.ts";
+import { exploreLoader, postDetailsLoader } from "../../posts/api/loaders.ts";
+import { feedLoader } from "../../feed/api/loaders.ts";
 import {
-  appLoader,
-  exploreLoader,
-  feedLoader,
-  postDetailsLoader,
   profileLoader,
   profilePostsLoader,
-} from "../api/loaders.ts";
+} from "../../profiles/api/loaders.ts";
 import { isAuthenticated } from "../utils/auth.ts";
-import ErrorPage from "../components/ErrorPage.tsx";
-import NavbarWrapper from "../components/NavbarWrapper.tsx";
+import ErrorPage from "../../errors/components/ErrorPage.tsx";
+import NavbarWrapper from "../../navbar/components/NavbarWrapper.tsx";
 import LoginWrapper from "../../accounts/components/LoginWrapper.tsx";
 import RegisterForm from "../../accounts/components/RegisterForm.tsx";
 import LoginForm from "../../accounts/components/LoginForm.tsx";
 import Feed from "../../feed/components/Feed.tsx";
 import Home from "../../landing/components/Home.tsx";
 import AuthenticatedRoute from "../components/AuthenticatedRoute.tsx";
-import Explore from "../../explore/components/Explore.tsx";
+import Explore from "../../posts/components/Explore.tsx";
 import ProfileWrapper from "../../profiles/components/ProfileWrapper.tsx";
 import ProfilePosts from "../../profiles/components/ProfilePosts.tsx";
 import ProfileSaved from "../../profiles/components/ProfileSaved.tsx";

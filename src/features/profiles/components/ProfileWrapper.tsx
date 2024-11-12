@@ -1,5 +1,5 @@
 import { Link, useLoaderData } from "react-router-dom";
-import { profileLoader } from "../../core/api/loaders";
+import { profileLoader } from "../api/loaders";
 import Profile from "./Profile";
 
 export default function ProfileWrapper() {

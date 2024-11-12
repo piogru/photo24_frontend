@@ -1,5 +1,5 @@
-import Follow from "./follow";
-import User from "./user";
+import Follow from "../../core/types/follow";
+import User from "../../core/types/user";
 
 type UserRecommendation = User & {
   follow?: Follow;

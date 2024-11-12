@@ -1,4 +1,4 @@
-import Post from "../../core/types/post";
+import Post from "../types/post";
 import {
   ChatBubbleOvalLeftIcon,
   HeartIcon,

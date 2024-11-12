@@ -6,7 +6,7 @@ import Input from "../../core/components/Input";
 import { Link, useNavigate } from "react-router-dom";
 import { postSignup } from "../api/queries";
 import { useMutation } from "@tanstack/react-query";
-import ApiError from "../../core/components/ApiError";
+import ApiError from "../../errors/components/ApiError";
 
 const schema = z
   .object({
