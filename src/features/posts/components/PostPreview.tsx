@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useLikeQuery from "../../core/hooks/useLikeQuery";
 import { deleteLike, postLike } from "../../core/api/queries";
 import UserBar from "./UserBar";
-import Post from "../../core/types/post";
+import Post from "..//types/post";
 import ShowMoreText from "../../core/components/ShowMoreText";
 import IconButton from "../../core/components/IconButton";
 import Timestamp from "../../core/components/Timestamp";

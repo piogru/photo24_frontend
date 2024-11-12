@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "../../../App.tsx";
-import { appLoader, postDetailsLoader } from "../api/loaders.ts";
-import { exploreLoader } from "../../explore/api/loaders.ts";
+import { appLoader } from "../api/loaders.ts";
+import { exploreLoader, postDetailsLoader } from "../../explore/api/loaders.ts";
 import { feedLoader } from "../../feed/api/loaders.ts";
 import {
   profileLoader,

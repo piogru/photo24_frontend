@@ -2,7 +2,6 @@ import api from "./api";
 import Follow from "../types/follow";
 import ObjectId from "../types/objectId";
 import Like from "../types/like";
-import Post from "../types/post";
 import User from "../types/user";
 
 const getFollow = async (targetId: ObjectId) => {
@@ -57,18 +56,6 @@ const deleteLike = async (targetId: ObjectId) => {
   });
 };
 
-const getPost = async (id: ObjectId) => {
-  return api.get<Post>(`/posts/${id}`).then((response) => {
-    return response.data;
-  });
-};
-
-const deletePost = async (postId: ObjectId) => {
-  return api.delete(`posts/${postId}`).then((response) => {
-    return response.data;
-  });
-};
-
 const getUsersByUsername = async (username: string, partial: boolean) => {
   const queryString =
     partial ? `?name=${username}&partial=true` : `?name=${username}`;
@@ -77,11 +64,6 @@ const getUsersByUsername = async (username: string, partial: boolean) => {
     return response.data;
   });
 };
-
-const postQuery = (postId: ObjectId) => ({
-  queryKey: ["posts", postId],
-  queryFn: async () => getPost(postId),
-});
 
 const likeQuery = (postId: ObjectId) => ({
   queryKey: ["posts", postId, "like"],
@@ -107,8 +89,6 @@ export {
   getLike,
   postLike,
   deleteLike,
-  postQuery,
-  deletePost,
   likeQuery,
   followQuery,
   usersByUsernameQuery,

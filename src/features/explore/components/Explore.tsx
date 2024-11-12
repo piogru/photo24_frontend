@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import useAllPostsQuery from "../hooks/useAllPostsQuery";
-import PostSquare from "../../core/components/PostSquare";
+import PostSquare from "../../posts/components/PostSquare";
 import PostModal from "../../posts/components/PostModal";
-import Post from "../../core/types/post";
+import Post from "../../posts/types/post";
 import Spinner from "../../core/components/Spinner";
 import clsx from "clsx";
 

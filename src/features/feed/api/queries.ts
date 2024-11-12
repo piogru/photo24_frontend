@@ -1,5 +1,5 @@
 import api from "../../core/api/api";
-import Post from "../../core/types/post";
+import Post from "../../posts/types/post";
 import UserRecommendation from "../types/userRecommendation";
 
 const getReccomendedUsers = async () => {

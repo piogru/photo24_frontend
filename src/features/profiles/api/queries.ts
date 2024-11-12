@@ -1,6 +1,6 @@
 import api from "../../core/api/api";
 import ObjectId from "../../core/types/objectId";
-import Post from "../../core/types/post";
+import Post from "../../posts/types/post";
 
 type profilePicDTO = {
   profilePic: File;
