@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { FC } from "react";
 import { Outlet } from "react-router-dom";
-import { currentUserQuery } from "../utils/auth";
+import { currentUserQuery } from "../../accounts/api/queries";
 
 type ProtectedRouteProps = {
   Alternative: FC;

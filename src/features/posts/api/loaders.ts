@@ -1,8 +1,8 @@
 import { ActionFunctionArgs, ParamParseKey, Params } from "react-router-dom";
 import { QueryClient } from "@tanstack/react-query";
-import { allPostsQuery } from "./queries";
-import { postQuery } from "../../posts/api/queries";
-import { followQuery, likeQuery } from "../../core/api/queries";
+import { allPostsQuery } from "../api/queries";
+import { postQuery, postLikeQuery } from "./queries";
+import { followQuery } from "../../core/api/queries";
 
 interface PhotoLoaderArgs extends ActionFunctionArgs {
   params: Params<ParamParseKey<typeof Paths.postDetail>>;
@@ -44,7 +44,7 @@ export const postDetailsLoader =
         return null;
       });
     const like = await queryClient
-      .ensureQueryData(likeQuery(params.postId))
+      .ensureQueryData(postLikeQuery(params.postId))
       .then((data) => {
         return data;
       })

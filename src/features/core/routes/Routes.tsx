@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "../../../App.tsx";
 import { appLoader } from "../api/loaders.ts";
-import { exploreLoader, postDetailsLoader } from "../../explore/api/loaders.ts";
+import { exploreLoader, postDetailsLoader } from "../../posts/api/loaders.ts";
 import { feedLoader } from "../../feed/api/loaders.ts";
 import {
   profileLoader,
@@ -16,7 +16,7 @@ import LoginForm from "../../accounts/components/LoginForm.tsx";
 import Feed from "../../feed/components/Feed.tsx";
 import Home from "../../landing/components/Home.tsx";
 import AuthenticatedRoute from "../components/AuthenticatedRoute.tsx";
-import Explore from "../../explore/components/Explore.tsx";
+import Explore from "../../posts/components/Explore.tsx";
 import ProfileWrapper from "../../profiles/components/ProfileWrapper.tsx";
 import ProfilePosts from "../../profiles/components/ProfilePosts.tsx";
 import ProfileSaved from "../../profiles/components/ProfileSaved.tsx";

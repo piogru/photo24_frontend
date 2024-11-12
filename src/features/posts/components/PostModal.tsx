@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteLike, postLike } from "../../core/api/queries";
-import useLikeQuery from "../../core/hooks/useLikeQuery";
+import { deleteLike, postLike } from "../api/queries";
+import usePostLikeQuery from "../hooks/usePostLikeQuery";
 import usePostQuery from "../hooks/usePostQuery";
-import { postDetailsLoader } from "../../explore/api/loaders";
+import { postDetailsLoader } from "../api/loaders";
 import Post from "../../posts/types/post";
 import Modal from "../../core/components/Modal";
 import UserBar from "./UserBar";
@@ -50,7 +50,7 @@ export default function PostModal({
   );
   const photos = post?.photos || [];
   const comments = post?.comments || [];
-  const { data: like } = useLikeQuery(
+  const { data: like } = usePostLikeQuery(
     post?._id || "",
     initialData?.like || undefined,
   );

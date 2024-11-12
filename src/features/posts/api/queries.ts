@@ -1,5 +1,6 @@
 import api from "../../core/api/api";
 import ObjectId from "../../core/types/objectId";
+import Like from "../../core/types/like";
 import Post from "../types/post";
 
 const getAllPosts = async () => {
@@ -20,9 +21,45 @@ const deletePost = async (postId: ObjectId) => {
   });
 };
 
+const getLike = async (targetId: ObjectId) => {
+  return api.get<Like>(`/posts/${targetId}/like`).then((response) => {
+    return response.data;
+  });
+};
+
+const postLike = async (targetId: ObjectId) => {
+  return api.post<Like>(`/posts/${targetId}/like`).then((response) => {
+    return response.data;
+  });
+};
+
+const deleteLike = async (targetId: ObjectId) => {
+  return api.delete(`/posts/${targetId}/like`).then((response) => {
+    return response.data;
+  });
+};
+
+const allPostsQuery = () => ({
+  queryKey: ["posts", "all"],
+  retry: false,
+  queryFn: async () => getAllPosts(),
+});
+
 const postQuery = (postId: ObjectId) => ({
   queryKey: ["posts", postId],
   queryFn: async () => getPost(postId),
 });
 
-export { getAllPosts, deletePost, postQuery };
+const postLikeQuery = (postId: ObjectId) => ({
+  queryKey: ["posts", postId, "like"],
+  queryFn: async () => getLike(postId),
+});
+
+export {
+  deletePost,
+  postLike,
+  deleteLike,
+  allPostsQuery,
+  postQuery,
+  postLikeQuery,
+};

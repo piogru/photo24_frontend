@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import useLikeQuery from "../../core/hooks/useLikeQuery";
-import { deleteLike, postLike } from "../../core/api/queries";
+import usePostLikeQuery from "../hooks/usePostLikeQuery";
+import { deleteLike, postLike } from "../api/queries";
 import UserBar from "./UserBar";
 import Post from "..//types/post";
 import ShowMoreText from "../../core/components/ShowMoreText";
@@ -30,7 +30,7 @@ export default function PostPreview({ post }: PostProps) {
   const queryClient = useQueryClient();
   const [menuOpen, setMenuOpen] = useState(false);
   const multiplePhotos = post.photos.length > 1;
-  const { data: like } = useLikeQuery(post?._id || "");
+  const { data: like } = usePostLikeQuery(post?._id || "");
   const likeMutation = useMutation({
     mutationFn: postLike,
     onSuccess: async () => {
