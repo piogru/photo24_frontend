@@ -8,6 +8,7 @@ const Paths = {
   profilePostsDetail: ":username",
   profileSavedDetail: "/:username/saved",
 } as const;
+
 interface ProfileLoaderArgs extends ActionFunctionArgs {
   params: Params<ParamParseKey<typeof Paths.profileDetail>>;
 }
