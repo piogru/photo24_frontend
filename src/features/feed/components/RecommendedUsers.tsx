@@ -1,10 +1,10 @@
 import { Button } from "@headlessui/react";
 import ProfilePic from "../../core/components/ProfilePic";
-import useRecommendedUsersQuery from "../../explore/hooks/useRecommendedUsersQuery";
+import useRecommendedUsersQuery from "../hooks/useRecommendedUsersQuery";
 import ObjectId from "../../core/types/objectId";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteFollow, postFollow } from "../../core/api/queries";
-import UserRecommendation from "../../core/types/userRecommendation";
+import UserRecommendation from "../types/userRecommendation";
 import { NavLink } from "react-router-dom";
 import RoleGuard from "../../core/components/RoleGuard";
 import UserRole from "../../core/types/userRole";

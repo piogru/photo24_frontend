@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { forYouPostsQuery } from "../../core/api/queries";
+import { forYouPostsQuery } from "../api/queries";
 
 export default function useForYouPostsQuery() {
   return useQuery(forYouPostsQuery());

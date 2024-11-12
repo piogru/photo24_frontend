@@ -3,11 +3,11 @@ import App from "../../../App.tsx";
 import {
   appLoader,
   exploreLoader,
-  feedLoader,
   postDetailsLoader,
   profileLoader,
   profilePostsLoader,
 } from "../api/loaders.ts";
+import { feedLoader } from "../../feed/api/loaders.ts";
 import { isAuthenticated } from "../utils/auth.ts";
 import ErrorPage from "../../errors/components/ErrorPage.tsx";
 import NavbarWrapper from "../../navbar/components/NavbarWrapper.tsx";
