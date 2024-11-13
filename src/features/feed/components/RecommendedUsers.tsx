@@ -1,68 +1,13 @@
-import { Button } from "@headlessui/react";
 import ProfilePic from "../../core/components/ProfilePic";
 import useRecommendedUsersQuery from "../hooks/useRecommendedUsersQuery";
-import ObjectId from "../../core/types/objectId";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteFollow, postFollow } from "../../core/api/queries";
-import UserRecommendation from "../types/userRecommendation";
 import { NavLink } from "react-router-dom";
 import RoleGuard from "../../core/components/RoleGuard";
 import UserRole from "../../core/types/userRole";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
+import FollowTextButton from "../../follows/components/FollowTextButton";
 
 export default function RecommendedUsers() {
-  const queryClient = useQueryClient();
   const { data: recommendedUsers = [], isLoading } = useRecommendedUsersQuery();
-  const followMutation = useMutation({
-    mutationFn: postFollow,
-    onSuccess: async (data, variable) => {
-      await queryClient.invalidateQueries({
-        queryKey: ["follows", variable],
-        exact: false,
-      });
-      await queryClient.setQueryData(
-        ["users", "recommended"],
-        (oldData: UserRecommendation[]) => {
-          const newData = [...oldData];
-          const editedId = newData.findIndex((item) => item._id === variable);
-          newData[editedId].follow = data;
-
-          return newData;
-        },
-      );
-    },
-  });
-  const unfollowMutation = useMutation({
-    mutationFn: deleteFollow,
-    onSuccess: async (data, variable) => {
-      await queryClient.invalidateQueries({
-        queryKey: ["follows", variable],
-        exact: false,
-      });
-      await queryClient.setQueryData(
-        ["users", "recommended"],
-        (oldData: UserRecommendation[]) => {
-          const newData = [...oldData];
-          const editedId = newData.findIndex((item) => item._id === variable);
-          delete newData[editedId].follow;
-
-          return newData;
-        },
-      );
-    },
-  });
-
-  const onFollowClick = (userId: ObjectId) => {
-    const follow = recommendedUsers.find(
-      (userRec) => userRec._id === userId,
-    )?.follow;
-
-    if (follow) {
-      unfollowMutation.mutate(userId);
-    } else {
-      followMutation.mutate(userId);
-    }
-  };
 
   return (
     <aside className="flex flex-col gap-4">
@@ -88,12 +33,7 @@ export default function RecommendedUsers() {
                   </NavLink>
                 </div>
 
-                <Button
-                  onClick={() => onFollowClick(userRec._id)}
-                  className="text-xs font-semibold text-blue-500 hover:text-gray-700 dark:hover:text-gray-200"
-                >
-                  {userRec.follow ? "Following" : "Follow"}
-                </Button>
+                <FollowTextButton userId={userRec._id} />
               </div>
             ))}
           </>
