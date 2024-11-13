@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import ObjectId from "../../core/types/objectId";
 import UserRecommendation from "../../feed/types/userRecommendation";
 import useFollowQuery from "../../core/hooks/useFollowQuery";
-import { deleteFollow, postFollow } from "../../core/api/queries";
+import { deleteFollow, postFollow } from "../api/queries";
 import Follow from "../../core/types/follow";
 
 export default function useFollowButton(userId: ObjectId) {
