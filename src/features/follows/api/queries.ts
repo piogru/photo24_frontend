@@ -18,4 +18,16 @@ const getFollowers = async (targetId: ObjectId) => {
     });
 };
 
-export { getFollowing, getFollowers };
+const postFollow = async (targetId: ObjectId) => {
+  return api.post<Follow>(`/follows/${targetId}`).then((response) => {
+    return response.data;
+  });
+};
+
+const deleteFollow = async (targetId: ObjectId) => {
+  return api.delete(`/follows/${targetId}`).then((response) => {
+    return response.data;
+  });
+};
+
+export { getFollowing, getFollowers, postFollow, deleteFollow };

@@ -1,23 +1,15 @@
-import {
-  Button,
-  TabGroup,
-  TabList,
-  TabPanel,
-  TabPanels,
-} from "@headlessui/react";
+import { TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import User from "../../core/types/user";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import useCurrentUserQuery from "../../core/hooks/useCurrentUserQuery";
 import { BookmarkIcon, Squares2X2Icon } from "@heroicons/react/24/outline";
 import ShowMoreText from "../../core/components/ShowMoreText";
-import useFollowQuery from "../../core/hooks/useFollowQuery";
 import Follow from "../../core/types/follow";
-import useFollowMutation from "../../core/hooks/useFollowMutation";
-import useUnfollowMutation from "../../core/hooks/useUnfollowMutation";
 import ProfilePic from "../../core/components/ProfilePic";
 import ProfilePicInput from "./ProfilePicInput";
 import useUsersByUsernameQuery from "../../core/hooks/useUsersByUsernameQuery";
 import clsx from "clsx";
+import FollowButton from "../../follows/components/FollowButton";
 
 type ProfileProps = {
   initialData: {
@@ -50,9 +42,6 @@ export default function Profile({ initialData }: ProfileProps) {
     [initialData.user],
   );
   const user = queriedUsers[0];
-  const { data: follow } = useFollowQuery(user._id);
-  const followMutation = useFollowMutation(user._id);
-  const unfollowMutation = useUnfollowMutation(user._id);
   const tabs = [
     ...generalTabs,
     ...(user._id === currentUser?._id ? userTabs : []),
@@ -60,14 +49,6 @@ export default function Profile({ initialData }: ProfileProps) {
   const { pathname } = useLocation();
   const selectedTab = pathname.split("/")[2] || "";
   const selectedTabIndex = tabs.findIndex((item) => item.path === selectedTab);
-
-  const onFollowClick = () => {
-    if (follow) {
-      unfollowMutation.mutate(user._id);
-    } else {
-      followMutation.mutate(user._id);
-    }
-  };
 
   return (
     <div className="w-full pt-12">
@@ -91,13 +72,7 @@ export default function Profile({ initialData }: ProfileProps) {
                 <h2 className="text-xl">{user.name}</h2>
                 <div className="flex flex-row items-center gap-2">
                   {user._id !== currentUser?._id ?
-                    <Button
-                      onClick={onFollowClick}
-                      className="rounded-lg bg-gray-300 px-4 py-1 font-semibold hover:bg-gray-400
-                        dark:bg-gray-700 dark:hover:bg-gray-800"
-                    >
-                      {follow ? "Following" : "Follow"}
-                    </Button>
+                    <FollowButton userId={user._id} />
                   : null}
                 </div>
               </div>

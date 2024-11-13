@@ -9,18 +9,6 @@ const getFollow = async (targetId: ObjectId) => {
   });
 };
 
-const postFollow = async (targetId: ObjectId) => {
-  return api.post<Follow>(`/follows/${targetId}`).then((response) => {
-    return response.data;
-  });
-};
-
-const deleteFollow = async (targetId: ObjectId) => {
-  return api.delete(`/follows/${targetId}`).then((response) => {
-    return response.data;
-  });
-};
-
 const getUsersByUsername = async (username: string, partial: boolean) => {
   const queryString =
     partial ? `?name=${username}&partial=true` : `?name=${username}`;
@@ -42,8 +30,6 @@ const usersByUsernameQuery = (username: string, partial: boolean = false) => ({
 
 export {
   getFollow,
-  postFollow,
-  deleteFollow,
   followQuery,
   usersByUsernameQuery,
 };
