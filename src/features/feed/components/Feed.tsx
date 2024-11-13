@@ -2,12 +2,10 @@ import { useEffect } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import PostPreview from "../../posts/components/PostPreview";
-import RecommendedUsers from "./RecommendedUsers";
-import ProfilePic from "../../core/components/ProfilePic";
-import useCurrentUserQuery from "../../core/hooks/useCurrentUserQuery";
 import useFollowingPostsQuery from "../hooks/useFollowingPostsQuery";
 import useForYouPostsQuery from "../hooks/useForYouPostsQuery";
 import clsx from "clsx";
+import FeedSidebar from "./FeedSidebar";
 
 export default function Feed() {
   const navigate = useNavigate();
@@ -17,7 +15,6 @@ export default function Feed() {
     pageVariant === "following" ? useFollowingPostsQuery : useForYouPostsQuery;
   const { data: posts } = usePostsQuery();
   const postCount = posts?.length || 0;
-  const { data: currentUser } = useCurrentUserQuery();
 
   useEffect(() => {
     if (pageVariant !== "for-you" && pageVariant !== "following") {
@@ -89,18 +86,7 @@ export default function Feed() {
         </div>
       </div>
 
-      <div className="mt-8 hidden w-64 flex-col gap-4 xl:flex">
-        <div className="flex flex-row items-center gap-3">
-          <NavLink to={`/${currentUser?.name}`} className="size-10">
-            <ProfilePic photo={currentUser?.profilePic} />
-          </NavLink>
-          <NavLink to={`/${currentUser?.name}`}>
-            <div>{currentUser?.name}</div>
-          </NavLink>
-        </div>
-
-        <RecommendedUsers />
-      </div>
+      <FeedSidebar />
     </div>
   );
 }
