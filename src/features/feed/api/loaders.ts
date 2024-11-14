@@ -1,17 +1,15 @@
 import { QueryClient } from "@tanstack/react-query";
 import { LoaderFunctionArgs } from "react-router-dom";
-import { followingPostsQuery, forYouPostsQuery } from "../api/queries";
+import { feedPostsQuery } from "../api/queries";
 import { recommendedUsersQuery } from "./queries";
 
 export const feedLoader =
   (queryClient: QueryClient) =>
   async ({ request }: LoaderFunctionArgs) => {
-    const variant = new URL(request.url).searchParams.get("variant");
-    const postsQuery =
-      variant === "following" ? followingPostsQuery : forYouPostsQuery;
+    const variant = new URL(request.url).searchParams.get("variant") || "";
 
     const postsPromise = queryClient
-      .ensureQueryData(postsQuery())
+      .ensureQueryData(feedPostsQuery(variant))
       .then((data) => {
         return data;
       })
