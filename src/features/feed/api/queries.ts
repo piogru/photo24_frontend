@@ -39,4 +39,23 @@ const followingPostsQuery = () => ({
   queryFn: async () => getFollowingPosts(),
 });
 
-export { recommendedUsersQuery, forYouPostsQuery, followingPostsQuery };
+const feedPostsQuery = (variant: string) => ({
+  queryKey: ["posts", "feed", variant],
+  queryFn: () => {
+    switch (variant) {
+      case "for-you":
+        return getForYouPosts();
+      case "following":
+        return getFollowingPosts();
+      default:
+        return getForYouPosts();
+    }
+  },
+});
+
+export {
+  recommendedUsersQuery,
+  forYouPostsQuery,
+  followingPostsQuery,
+  feedPostsQuery,
+};
