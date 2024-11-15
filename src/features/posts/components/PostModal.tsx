@@ -1,8 +1,5 @@
 import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteLike, postLike } from "../api/queries";
-import usePostLikeQuery from "../hooks/usePostLikeQuery";
 import usePostQuery from "../hooks/usePostQuery";
 import { postDetailsLoader } from "../api/loaders";
 import Post from "../../posts/types/post";
@@ -11,21 +8,12 @@ import UserBar from "./UserBar";
 import Timestamp from "../../core/components/Timestamp";
 import IconButton from "../../core/components/IconButton";
 import PhotoSlide from "./PhotoSlide";
-import {
-  BookmarkIcon,
-  ChatBubbleOvalLeftIcon,
-  EllipsisHorizontalIcon,
-  HeartIcon,
-  ShareIcon,
-} from "@heroicons/react/24/outline";
-import {
-  BookmarkIcon as BookmarkIconSolid,
-  HeartIcon as HeartIconSolid,
-} from "@heroicons/react/24/solid";
+import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
 import useBreakpoint from "../../core/hooks/useBreakpoint";
 import PostMenu from "./PostMenu";
 import ProfilePic from "../../core/components/ProfilePic";
 import LikeCount from "../../core/components/LikeCount";
+import PostReactions from "./PostReactions";
 
 type PostModalProps = {
   isOpen: boolean;
@@ -43,53 +31,16 @@ export default function PostModal({
   const initialData = useLoaderData() as Awaited<
     ReturnType<ReturnType<typeof postDetailsLoader>>
   >;
-  const queryClient = useQueryClient();
   const { data: post } = usePostQuery(
     postProp._id,
     initialData?.post || undefined,
   );
   const photos = post?.photos || [];
   const comments = post?.comments || [];
-  const { data: like } = usePostLikeQuery(
-    post?._id || "",
-    initialData?.like || undefined,
-  );
-  const likeMutation = useMutation({
-    mutationFn: postLike,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: ["posts", post?._id],
-        exact: false,
-      });
-    },
-  });
-  const unlikeMutation = useMutation({
-    mutationFn: deleteLike,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: ["posts", post?._id],
-        exact: false,
-      });
-    },
-  });
 
   const onPostMenuClick = () => {
     setMenuOpen(true);
   };
-
-  const onLikeClick = () => {
-    if (like) {
-      unlikeMutation.mutate(post?._id || "");
-    } else {
-      likeMutation.mutate(post?._id || "");
-    }
-  };
-
-  const onCommentClick = () => {};
-
-  const onShareClick = () => {};
-
-  const onSaveClick = () => {};
 
   const onPostDelete = () => {
     setMenuOpen(false);
@@ -175,38 +126,8 @@ export default function PostModal({
                   : null}
                 </div>
 
-                <section className="flex flex-row justify-between px-3 py-2">
-                  <div className="flex flex-row items-center gap-2">
-                    <IconButton
-                      Icon={HeartIcon}
-                      SolidIcon={HeartIconSolid}
-                      solid={!!like}
-                      title={like ? "Unlike" : "Like"}
-                      onClick={onLikeClick}
-                    />
-                    <IconButton
-                      disabled
-                      Icon={ChatBubbleOvalLeftIcon}
-                      title="Comment"
-                      onClick={onCommentClick}
-                    />
-                    <IconButton
-                      disabled
-                      Icon={ShareIcon}
-                      title="Share"
-                      onClick={onShareClick}
-                    />
-                  </div>
-                  <div>
-                    <IconButton
-                      disabled
-                      Icon={BookmarkIcon}
-                      SolidIcon={BookmarkIconSolid}
-                      solid={false}
-                      title="Save"
-                      onClick={onSaveClick}
-                    />
-                  </div>
+                <section className="px-3 py-2">
+                  <PostReactions postId={post._id} />
                 </section>
 
                 <section className="flex flex-col border-b border-slate-300 px-3 pb-2 dark:border-slate-600">

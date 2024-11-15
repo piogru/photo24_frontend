@@ -1,72 +1,28 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import usePostLikeQuery from "../hooks/usePostLikeQuery";
-import { deleteLike, postLike } from "../api/queries";
 import UserBar from "./UserBar";
 import Post from "..//types/post";
 import ShowMoreText from "../../core/components/ShowMoreText";
 import IconButton from "../../core/components/IconButton";
 import Timestamp from "../../core/components/Timestamp";
 import {
-  BookmarkIcon,
-  ChatBubbleOvalLeftIcon,
   EllipsisHorizontalIcon,
-  HeartIcon,
-  ShareIcon,
   Square2StackIcon,
 } from "@heroicons/react/24/outline";
-import {
-  BookmarkIcon as BookmarkIconSolid,
-  HeartIcon as HeartIconSolid,
-} from "@heroicons/react/24/solid";
 import { useState } from "react";
 import PostMenu from "./PostMenu";
 import LikeCount from "../../core/components/LikeCount";
+import PostReactions from "./PostReactions";
 
 type PostProps = {
   post: Post;
 };
 
 export default function PostPreview({ post }: PostProps) {
-  const queryClient = useQueryClient();
   const [menuOpen, setMenuOpen] = useState(false);
   const multiplePhotos = post.photos.length > 1;
-  const { data: like } = usePostLikeQuery(post?._id || "");
-  const likeMutation = useMutation({
-    mutationFn: postLike,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: ["posts", post?._id],
-        exact: false,
-      });
-    },
-  });
-  const unlikeMutation = useMutation({
-    mutationFn: deleteLike,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: ["posts", post?._id],
-        exact: false,
-      });
-    },
-  });
 
   const onPostMenuClick = () => {
     setMenuOpen(true);
   };
-
-  const onLikeClick = () => {
-    if (like) {
-      unlikeMutation.mutate(post?._id || "");
-    } else {
-      likeMutation.mutate(post?._id || "");
-    }
-  };
-
-  const onCommentClick = () => {};
-
-  const onShareClick = () => {};
-
-  const onSaveClick = () => {};
 
   const onPostDelete = () => {
     setMenuOpen(false);
@@ -108,42 +64,14 @@ export default function PostPreview({ post }: PostProps) {
         </div>
 
         <div className="flex flex-col gap-2 px-3 sm:px-0">
-          <section className="flex flex-row justify-between">
-            <div className="flex flex-row items-center gap-2">
-              <IconButton
-                Icon={HeartIcon}
-                SolidIcon={HeartIconSolid}
-                solid={!!like}
-                title={like ? "Unlike" : "Like"}
-                onClick={onLikeClick}
-              />
-              <IconButton
-                disabled
-                Icon={ChatBubbleOvalLeftIcon}
-                title="Comment"
-                onClick={onCommentClick}
-              />
-              <IconButton
-                disabled
-                Icon={ShareIcon}
-                title="Share"
-                onClick={onShareClick}
-              />
-            </div>
-            <div>
-              <IconButton
-                disabled
-                Icon={BookmarkIcon}
-                SolidIcon={BookmarkIconSolid}
-                solid={false}
-                title="Save"
-                onClick={onSaveClick}
-              />
-            </div>
+          <section className="">
+            <PostReactions postId={post._id} />
           </section>
+
           <section>
             <LikeCount likes={post.likes} hideLikes={post.hideLikes} />
           </section>
+
           {post.caption?.length > 0 ?
             <section>
               <span className="mr-1 inline font-semibold">
