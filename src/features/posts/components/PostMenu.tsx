@@ -1,9 +1,8 @@
 import { Button } from "@headlessui/react";
-import Modal from "../../core/components/Modal";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deletePost } from "../api/queries";
 import useCurrentUserQuery from "../../core/hooks/useCurrentUserQuery";
-import Post from "..//types/post";
+import usePostDelete from "../hooks/usePostDelete";
+import Modal from "../../core/components/Modal";
+import Post from "../types/post";
 
 type PostMenuProps = {
   post?: Post;
@@ -18,20 +17,16 @@ export default function PostMenu({
   onClose,
   onDelete,
 }: PostMenuProps) {
-  const queryClient = useQueryClient();
   const { data: currentUser } = useCurrentUserQuery();
-  const deleteMutation = useMutation({
-    mutationFn: deletePost,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["posts", post?._id],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["users", post?.user?._id, "posts"],
-      });
-      onDelete();
-    },
-  });
+  const deleteMutation = usePostDelete();
+
+  const onDeleteClick = (post: Post) => {
+    deleteMutation.mutate(post, {
+      onSuccess: () => {
+        onDelete();
+      },
+    });
+  };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -40,7 +35,7 @@ export default function PostMenu({
           {post && currentUser?._id === post.user?._id ?
             <Button
               autoFocus
-              onClick={() => deleteMutation.mutate(post._id)}
+              onClick={() => onDeleteClick(post)}
               className="w-full border-t border-slate-300 py-3 font-semibold text-red-500
                 dark:border-slate-600"
             >
