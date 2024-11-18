@@ -43,16 +43,19 @@ const allPostsQuery = () => ({
   queryKey: ["posts", "all"],
   retry: false,
   queryFn: async () => getAllPosts(),
+  staleTime: 1 * 60 * 1000,
 });
 
 const postQuery = (postId: ObjectId) => ({
   queryKey: ["posts", postId],
   queryFn: async () => getPost(postId),
+  staleTime: 2 * 60 * 1000,
 });
 
 const postLikeQuery = (postId: ObjectId) => ({
   queryKey: ["posts", postId, "like"],
   queryFn: async () => getLike(postId),
+  staleTime: 2 * 60 * 1000,
 });
 
 export {

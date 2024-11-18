@@ -42,6 +42,7 @@ const currentUserQuery = () => ({
   queryKey: ["auth", "me"],
   retry: false,
   queryFn: async () => getCurrentUser(),
+  staleTime: 3 * 60 * 1000,
 });
 
 export {

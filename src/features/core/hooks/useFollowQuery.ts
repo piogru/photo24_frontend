@@ -11,5 +11,6 @@ export default function useFollowQuery(
     ...followQuery(targetId),
     initialData,
     enabled: !!targetId,
+    staleTime: 3 * 60 * 1000,
   });
 }

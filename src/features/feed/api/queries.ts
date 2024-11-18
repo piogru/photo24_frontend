@@ -10,13 +10,6 @@ const getReccomendedUsers = async () => {
     });
 };
 
-const recommendedUsersQuery = () => ({
-  queryKey: ["users", "recommended"],
-  queryFn: async () => getReccomendedUsers(),
-  retryDelay: (attempt: number) => attempt * 1000,
-  staleTime: 1000 * 60 * 5,
-});
-
 const getForYouPosts = async () => {
   return api.get<Post[]>(`/posts/for-you`).then((response) => {
     return response.data;
@@ -28,6 +21,13 @@ const getFollowingPosts = async () => {
     return response.data;
   });
 };
+
+const recommendedUsersQuery = () => ({
+  queryKey: ["users", "recommended"],
+  queryFn: async () => getReccomendedUsers(),
+  retryDelay: (attempt: number) => attempt * 1000,
+  staleTime: 5 * 60 * 1000,
+});
 
 const forYouPostsQuery = () => ({
   queryKey: ["posts", "forYou"],
@@ -51,6 +51,7 @@ const feedPostsQuery = (variant: string) => ({
         return getForYouPosts();
     }
   },
+  staleTime: 30 * 1000,
 });
 
 export {
