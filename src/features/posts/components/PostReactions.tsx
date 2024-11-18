@@ -1,8 +1,8 @@
 import { useLoaderData } from "react-router-dom";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postDetailsLoader } from "../api/loaders";
-import { deleteLike, postLike } from "../api/queries";
 import usePostLikeQuery from "../hooks/usePostLikeQuery";
+import usePostLike from "../hooks/usePostLike";
+import usePostUnlike from "../hooks/usePostUnlike";
 import ObjectId from "../../core/types/objectId";
 import IconButton from "../../core/components/IconButton";
 import {
@@ -24,32 +24,15 @@ export default function PostReactions({ postId }: PostReactionsProps) {
   const { like: initialLike } = useLoaderData() as Awaited<
     ReturnType<ReturnType<typeof postDetailsLoader>>
   >;
-  const queryClient = useQueryClient();
   const { data: like } = usePostLikeQuery(postId, initialLike || undefined);
-  const likeMutation = useMutation({
-    mutationFn: postLike,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: ["posts", postId],
-        exact: false,
-      });
-    },
-  });
-  const unlikeMutation = useMutation({
-    mutationFn: deleteLike,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: ["posts", postId],
-        exact: false,
-      });
-    },
-  });
+  const likeMutation = usePostLike(postId);
+  const unlikeMutation = usePostUnlike(postId);
 
   const onLikeClick = () => {
     if (like) {
-      unlikeMutation.mutate(postId || "");
+      unlikeMutation.mutate();
     } else {
-      likeMutation.mutate(postId || "");
+      likeMutation.mutate();
     }
   };
 
