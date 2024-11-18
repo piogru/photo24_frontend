@@ -35,33 +35,32 @@ export const postDetailsLoader =
       };
     }
 
-    const post = await queryClient
+    const likePromise = queryClient.ensureQueryData(
+      postLikeQuery(params.postId),
+    );
+    const { post, follow } = await queryClient
       .ensureQueryData(postQuery(params.postId))
-      .then((data) => {
-        return data;
-      })
-      .catch(() => {
-        return null;
-      });
-    const like = await queryClient
-      .ensureQueryData(postLikeQuery(params.postId))
-      .then((data) => {
-        return data;
-      })
-      .catch(() => {
-        return null;
-      });
-    const follow =
-      post?.user ?
-        await queryClient
-          .ensureQueryData(followQuery(post.user._id))
+      .then(async (data) => {
+        const follow = await queryClient
+          .ensureQueryData(followQuery(data.user._id))
           .then((data) => {
             return data;
           })
           .catch(() => {
             return null;
-          })
-      : null;
+          });
+        return { post: data, follow };
+      })
+      .catch(() => {
+        return { post: null, follow: null };
+      });
+    const like = await likePromise
+      .then((data) => {
+        return data;
+      })
+      .catch(() => {
+        return null;
+      });
 
     return { post, like, follow };
   };
