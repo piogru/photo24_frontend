@@ -7,14 +7,15 @@ export default function usePostDelete() {
 
   return useMutation({
     mutationFn: (post: Post) => deletePost(post._id),
-    onSuccess: async (_data, variables) => {
-      queryClient.invalidateQueries({
-        queryKey: ["posts", variables._id],
-        exact: false,
-      });
-      return queryClient.invalidateQueries({
-        queryKey: ["users", variables.user._id, "posts"],
-      });
-    },
+    onSuccess: (_data, variables) =>
+      Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: ["posts", variables._id],
+          exact: false,
+        }),
+        queryClient.invalidateQueries({
+          queryKey: ["users", variables.user._id, "posts"],
+        }),
+      ]),
   });
 }
