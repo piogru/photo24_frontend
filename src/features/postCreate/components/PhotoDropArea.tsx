@@ -46,6 +46,7 @@ export default function PhotoDropArea({
           </>
         }
       </div>
+
       <div className="relative w-fit">
         <label
           htmlFor="post_photo_input"
@@ -54,6 +55,7 @@ export default function PhotoDropArea({
         >
           {!dropError ? "Select from computer" : "Select other files"}
         </label>
+
         <div className="absolute -right-9 top-0">
           <PopoverTooltip
             label={`Max filesize: ${IMAGE_MAX_SIZE_MB}MB\nMax ${IMAGE_LIMIT} files`}
@@ -61,6 +63,7 @@ export default function PhotoDropArea({
             <QuestionMarkCircleIcon className="size-8" />
           </PopoverTooltip>
         </div>
+
         <Input
           {...getInputProps({
             id: "post_photo_input",
