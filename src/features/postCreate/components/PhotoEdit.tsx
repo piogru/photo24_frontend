@@ -78,10 +78,10 @@ export default function PhotoEdit({ files, stage }: PhotoEditProps) {
               <PopoverMenu
                 anchor={"bottom start"}
                 buttonContent={
-                  <Button className={buttonStyle}>
+                  <div className={buttonStyle}>
                     <ChevronUpDownIcon className="size-8 rotate-45" />
                     <span className="sr-only">Crop</span>
-                  </Button>
+                  </div>
                 }
               >
                 <WIP />
@@ -89,10 +89,10 @@ export default function PhotoEdit({ files, stage }: PhotoEditProps) {
               <PopoverMenu
                 anchor={"bottom start"}
                 buttonContent={
-                  <Button className={buttonStyle}>
+                  <div className={buttonStyle}>
                     <MagnifyingGlassPlusIcon className="size-6" />
                     <span className="sr-only">Zoom</span>
-                  </Button>
+                  </div>
                 }
               >
                 <WIP />
@@ -101,10 +101,10 @@ export default function PhotoEdit({ files, stage }: PhotoEditProps) {
             <PopoverMenu
               anchor={"bottom end"}
               buttonContent={
-                <Button className={buttonStyle}>
+                <div className={buttonStyle}>
                   <Square2StackIcon className="size-6 scale-x-[-1] scale-y-[-1]" />
                   <span className="sr-only">Items</span>
-                </Button>
+                </div>
               }
             >
               <WIP />
