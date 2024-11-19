@@ -89,15 +89,6 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
   });
   const mutation = useMutation({
     mutationFn: postPost,
-    onSuccess: () => {
-      setIsOpen(false);
-      setStage("dragAndDrop");
-      setFiles([]);
-      reset();
-    },
-    onError: () => {
-      setStage("share");
-    },
   });
 
   useEffect(() => {
@@ -119,13 +110,26 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
 
   const submitFunc = async (data: FieldValues) => {
     setStage("sharing");
-    mutation.mutate({
-      files: files,
-      caption: data.caption,
-      hideLikes: data.hideLikes,
-      commentsOff: data.commentsOff,
-      fileInfo: data.fileInfo,
-    });
+    mutation.mutate(
+      {
+        files: files,
+        caption: data.caption,
+        hideLikes: data.hideLikes,
+        commentsOff: data.commentsOff,
+        fileInfo: data.fileInfo,
+      },
+      {
+        onSuccess: () => {
+          setIsOpen(false);
+          setStage("dragAndDrop");
+          setFiles([]);
+          reset();
+        },
+        onError: () => {
+          setStage("share");
+        },
+      },
+    );
   };
 
   const handlePrevious = (stage: StageName) => {
