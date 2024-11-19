@@ -12,11 +12,6 @@ const getUserPosts = async (userId: ObjectId) => {
   });
 };
 
-const userPostsQuery = (userId: ObjectId) => ({
-  queryKey: ["users", userId, "posts"],
-  queryFn: async () => getUserPosts(userId),
-});
-
 const patchProfilePic = async ({ profilePic }: profilePicDTO) => {
   const formData = new FormData();
 
@@ -32,5 +27,11 @@ const deleteProfilePic = async () => {
     return response.data;
   });
 };
+
+const userPostsQuery = (userId: ObjectId) => ({
+  queryKey: ["users", userId, "posts"],
+  queryFn: async () => getUserPosts(userId),
+  staleTime: 1 * 60 * 1000,
+});
 
 export { userPostsQuery, patchProfilePic, deleteProfilePic };
