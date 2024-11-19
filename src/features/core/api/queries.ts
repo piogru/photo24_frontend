@@ -24,7 +24,7 @@ const followQuery = (targetId: ObjectId) => ({
 });
 
 const usersByUsernameQuery = (username: string, partial: boolean = false) => ({
-  queryKey: ["users", username, partial],
+  queryKey: ["users", username, { partial }],
   queryFn: async () => getUsersByUsername(username, partial),
   staleTime: 1 * 60 * 1000,
 });
