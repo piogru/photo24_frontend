@@ -26,7 +26,7 @@ import {
 import Dropdown from "../../core/components/Dropdown";
 import Switch from "../../core/components/Switch";
 import useCurrentUserQuery from "../../core/hooks/useCurrentUserQuery";
-import PhotoUpload from "../../photo/components/PhotoUpload";
+import PhotoUpload from "../../postCreate/components/PhotoUpload";
 import NavIcon from "./NavIcon";
 import MagnifyingGlassIconSolid from "../../core/components/MagnifyingGlassIconSolid";
 import SiteLogo from "../../core/components/SiteLogo";
