@@ -1,12 +1,5 @@
 import api from "../../core/api/api";
-
-type postDTO = {
-  files: File[];
-  caption: string;
-  hideLikes: boolean;
-  commentsOff: boolean;
-  fileInfo: { altText: string }[];
-};
+import PostDTO from "../types/postDTO";
 
 const postPost = async ({
   files,
@@ -14,7 +7,7 @@ const postPost = async ({
   hideLikes,
   commentsOff,
   fileInfo,
-}: postDTO) => {
+}: PostDTO) => {
   const formData = new FormData();
 
   files.forEach((file) => {
