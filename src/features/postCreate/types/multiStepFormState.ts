@@ -1,4 +1,14 @@
+import { UseFormReturn } from "react-hook-form";
+
 export default interface MultiStepFormState {
-  bears: number;
-  actions: { increase: (by: number) => void; removeAllBears: () => void };
+  currentStepIndex: number;
+  direction: "forward" | "backward";
+  stepNames: string[];
+  form: UseFormReturn;
+
+  actions: {
+    prevStep: () => void;
+    nextStep: () => void;
+    goToStep: (index: number) => void;
+  };
 }

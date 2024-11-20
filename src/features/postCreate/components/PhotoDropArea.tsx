@@ -13,17 +13,17 @@ import {
 
 type PhotoDropAreaProps = {
   isDragActive: boolean;
-  dropError: boolean;
   fileRejections: FileRejection[];
   getInputProps: <T extends DropzoneInputProps>(props: T) => T;
 };
 
 export default function PhotoDropArea({
   isDragActive,
-  dropError,
   fileRejections,
   getInputProps,
 }: PhotoDropAreaProps) {
+  const dropError = fileRejections.length > 0;
+
   return (
     <div className="flex min-w-80 flex-col items-center justify-center gap-6 p-4 sm:min-w-96">
       <div className="flex flex-col items-center">

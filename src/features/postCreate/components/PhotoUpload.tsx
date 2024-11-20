@@ -73,7 +73,6 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
       maxSize: IMAGE_MAX_SIZE,
       multiple: true,
     });
-  const dropError = fileRejections.length > 0;
   const [stage, setStage] = useState<StageName>("dragAndDrop");
   const formMethods = useForm<TPostSchema>({
     resolver: zodResolver(postSchema),
@@ -223,7 +222,6 @@ export default function PhotoUpload({ isOpen, setIsOpen }: PhotoUploadProps) {
               {stage === "dragAndDrop" || stage === "error" ?
                 <PhotoDropArea
                   isDragActive={isDragActive}
-                  dropError={dropError}
                   fileRejections={fileRejections}
                   getInputProps={getInputProps}
                 />

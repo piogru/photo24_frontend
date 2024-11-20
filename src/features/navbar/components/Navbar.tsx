@@ -34,6 +34,7 @@ import { Button } from "@headlessui/react";
 import SearchUsers from "../../users/components/SearchUsers";
 import Drawer from "../../core/components/Drawer";
 import clsx from "clsx";
+import PostWizard from "../../postCreate/components/PostWizard";
 
 type NavbarElement = {
   key: string;
@@ -203,7 +204,8 @@ export default function Navbar() {
 
   return (
     <>
-      <PhotoUpload isOpen={photoUploadOpen} setIsOpen={setPhotoUploadOpen} />
+      {/* <PhotoUpload isOpen={photoUploadOpen} setIsOpen={setPhotoUploadOpen} /> */}
+      <PostWizard isOpen={photoUploadOpen} setIsOpen={setPhotoUploadOpen} />
       <Drawer
         isOpen={searchDrawerOpen}
         title="Search"
