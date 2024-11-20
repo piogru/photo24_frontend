@@ -5,12 +5,12 @@ import {
   ReactNode,
   useMemo,
 } from "react";
-import MultiStepFormStep from "./multiStepFormStep";
+import MultiStepFormStep from "./MultiStepFormStep";
 import MultiStepFormHeader from "./MultiStepFormHeader";
 import StepProps from "../types/stepProps";
 import AnimatedStep from "./AnimatedStep";
 import useFormState from "../hooks/useFormState";
-import { FieldValues } from "react-hook-form";
+import { FieldValues, useFormContext } from "react-hook-form";
 
 type MultiStepFormProps = {
   onSubmit: (data: FieldValues) => Promise<void>;
@@ -20,7 +20,8 @@ export default function MultiStepForm({
   onSubmit,
   children,
 }: MultiStepFormProps) {
-  const { currentStepIndex, direction, form } = useFormState();
+  const { currentStepIndex, direction } = useFormState();
+  const form = useFormContext();
   const header = useMemo(() => {
     return Children.toArray(children).find(
       (child) => isValidElement(child) && child.type === MultiStepFormHeader,
@@ -42,7 +43,7 @@ export default function MultiStepForm({
     >
       {header}
 
-      <div className="size-full relative transition-transform duration-500">
+      <div className="relative size-full transition-transform duration-500">
         {steps.map((step, index) => {
           const isActive = index === currentStepIndex;
 

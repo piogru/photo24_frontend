@@ -1,10 +1,11 @@
 import { createContext, ReactNode, useState } from "react";
 import { createStore, StoreApi } from "zustand";
 import MultiStepFormState from "../types/multiStepFormState";
-import { UseFormReturn } from "react-hook-form";
 
 type MultiStepFormProviderProps = {
-  initialState: { stepNames: string[]; form: UseFormReturn };
+  initialState: {
+    stepNames: string[];
+  };
   children: ReactNode;
 };
 
@@ -20,7 +21,6 @@ export default function MultiStepFormProvider({
       currentStepIndex: 0,
       direction: "forward",
       stepNames: initialState.stepNames,
-      form: initialState.form,
 
       actions: {
         prevStep: () => {

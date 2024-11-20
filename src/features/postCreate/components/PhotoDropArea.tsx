@@ -10,6 +10,10 @@ import {
   IMAGE_LIMIT,
   IMAGE_MAX_SIZE_MB,
 } from "../../core/constants/appConstants";
+import { useEffect } from "react";
+import { useFormContext } from "react-hook-form";
+import useFormActions from "../hooks/useFormActions";
+import { TPostSchema } from "../postSchema";
 
 type PhotoDropAreaProps = {
   isDragActive: boolean;
@@ -22,10 +26,19 @@ export default function PhotoDropArea({
   fileRejections,
   getInputProps,
 }: PhotoDropAreaProps) {
+  const { nextStep } = useFormActions();
+  const { getValues } = useFormContext<TPostSchema>();
+  const files = getValues("files");
   const dropError = fileRejections.length > 0;
 
+  useEffect(() => {
+    if (files.length > 0) {
+      nextStep();
+    }
+  }, [files, nextStep]);
+
   return (
-    <div className="flex min-w-80 flex-col items-center justify-center gap-6 p-4 sm:min-w-96">
+    <div className="flex h-full min-w-80 flex-col items-center justify-center gap-6 p-4 sm:min-w-96">
       <div className="flex flex-col items-center">
         {!dropError ?
           <>

@@ -7,7 +7,6 @@ export default function useFormState() {
       currentStepIndex: state.currentStepIndex,
       direction: state.direction,
       stepNames: state.stepNames,
-      form: state.form,
     })),
   );
 }
