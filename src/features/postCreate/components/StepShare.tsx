@@ -1,59 +1,27 @@
+import { Controller, useFieldArray, useFormContext } from "react-hook-form";
 import clsx from "clsx";
+import { TPostSchema } from "../postSchema";
+import useCurrentUserQuery from "../../core/hooks/useCurrentUserQuery";
+import useBreakpoint from "../../core/hooks/useBreakpoint";
 import PhotoPreview from "./PhotoPreview";
 import { Button, Textarea } from "@headlessui/react";
-import { useEffect, useState } from "react";
-import useCurrentUserQuery from "../../core/hooks/useCurrentUserQuery";
-import { Controller, useFieldArray, useFormContext } from "react-hook-form";
-import useBreakpoint from "../../core/hooks/useBreakpoint";
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  FaceSmileIcon,
-} from "@heroicons/react/24/outline";
 import ConnectForm from "../../core/components/ConnectForm";
 import ProfilePic from "../../core/components/ProfilePic";
 import Accordion from "../../core/components/Accordion";
 import Input from "../../core/components/Input";
 import Switch from "../../core/components/Switch";
-import { TPostSchema } from "../postSchema";
-
-type FileTemp = {
-  key: number;
-  file: File;
-};
-
-const buttonStyle =
-  "size-10 flex justify-center items-center rounded-full text-gray-200 bg-gray-800 hover:bg-gray-800/50 transition";
+import PostWizardPhotos from "./PostWizardPhotos";
+import { FaceSmileIcon } from "@heroicons/react/24/outline";
 
 export default function StepShare() {
   const { data: currentUser } = useCurrentUserQuery();
-  const { getValues, control } = useFormContext<TPostSchema>();
+  const { control, getValues } = useFormContext<TPostSchema>();
   const files = getValues("files");
-  const [fileArray, setFileArray] = useState<FileTemp[]>([]);
-  const [selectedFileIndex, setSelectedFileIndex] = useState(0);
   const { fields } = useFieldArray({
     control,
     name: "fileInfo",
   });
   const isSmBreakpoint = useBreakpoint("sm");
-
-  useEffect(() => {
-    const arr = getValues("files").map((item, idx) => ({
-      key: idx,
-      file: item,
-    }));
-
-    setFileArray(arr);
-  }, [files, getValues]);
-
-  useEffect(() => {
-    setFileArray(
-      files.map((item, idx) => ({
-        key: idx,
-        file: item,
-      })),
-    );
-  }, [files]);
 
   return (
     <div className="flex h-full w-full flex-row">
@@ -63,50 +31,7 @@ export default function StepShare() {
           !isSmBreakpoint ? "hidden" : "block",
         )}
       >
-        <PhotoPreview
-          file={files[selectedFileIndex]}
-          objectFit="object-cover"
-        />
-
-        {selectedFileIndex != 0 ?
-          <Button
-            onClick={() => {
-              const newSelectedIndex = selectedFileIndex - 1;
-              if (newSelectedIndex >= 0) {
-                setSelectedFileIndex(newSelectedIndex);
-              }
-            }}
-            className={`${buttonStyle} absolute bottom-1/2 left-2 top-1/2`}
-          >
-            <ChevronLeftIcon className="size-6" />
-          </Button>
-        : null}
-        {selectedFileIndex < files.length - 1 ?
-          <Button
-            onClick={() => {
-              const newSelectedIndex = selectedFileIndex + 1;
-              if (newSelectedIndex < files.length) {
-                setSelectedFileIndex(newSelectedIndex);
-              }
-            }}
-            className={`${buttonStyle} absolute bottom-1/2 right-2 top-1/2`}
-          >
-            <ChevronRightIcon className="size-6" />
-          </Button>
-        : null}
-        {fileArray.length > 1 ?
-          <div
-            className="absolute bottom-0 mb-3 inline-flex w-full flex-row items-center justify-center
-              gap-2"
-          >
-            {fileArray.map((item, idx) => (
-              <div
-                key={item.key}
-                className={`size-2 rounded-full ${selectedFileIndex === idx ? "bg-blue-500" : "bg-gray-400"}`}
-              />
-            ))}
-          </div>
-        : null}
+        <PostWizardPhotos files={files} />
       </div>
 
       <ConnectForm>
