@@ -2,6 +2,7 @@ import { Button, DialogTitle } from "@headlessui/react";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import useFormActions from "../hooks/useFormActions";
 import useFormState from "../hooks/useFormState";
+import clsx from "clsx";
 
 type MultiStepFormHeaderProps = {
   openDiscard: () => void;
@@ -37,17 +38,28 @@ export default function MultiStepFormHeader({
         {stepNames[currentStepIndex]}
       </DialogTitle>
       {isNavigationVisible ?
-        <Button
-          onClick={() => {
-            if (currentStepIndex < 2) {
+        <>
+          <Button
+            type="submit"
+            className={clsx(
+              "px-2 py-1 text-base text-blue-500 hover:text-gray-700 dark:hover:text-gray-200",
+              currentStepIndex === 2 ? "block" : "hidden",
+            )}
+          >
+            {"Share"}
+          </Button>
+          <Button
+            onClick={() => {
               actions.nextStep();
-            }
-          }}
-          type={currentStepIndex >= 2 ? "submit" : "button"}
-          className="px-2 py-1 text-base text-blue-500 hover:text-gray-700 dark:hover:text-gray-200"
-        >
-          {currentStepIndex === 2 ? "Share" : "Next"}
-        </Button>
+            }}
+            className={clsx(
+              "px-2 py-1 text-base text-blue-500 hover:text-gray-700 dark:hover:text-gray-200",
+              currentStepIndex === 2 ? "hidden" : "block",
+            )}
+          >
+            {"Next"}
+          </Button>
+        </>
       : null}
     </div>
   );
