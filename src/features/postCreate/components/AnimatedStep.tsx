@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import { ReactNode, useEffect, useState } from "react";
+import clsx from "clsx";
 
 type AnimatedStepProps = {
   isActive: boolean;
@@ -17,7 +17,6 @@ export default function AnimatedStep({
   currentIndex,
 }: AnimatedStepProps) {
   const [shouldRender, setShouldRender] = useState(isActive);
-  // const stepRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (isActive) {
@@ -28,18 +27,6 @@ export default function AnimatedStep({
       return () => clearTimeout(timer);
     }
   }, [isActive]);
-
-  // useEffect(() => {
-  //   if (isActive && stepRef.current) {
-  //     const focusableElement = stepRef.current.querySelector(
-  //       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-  //     );
-
-  //     if (focusableElement) {
-  //       (focusableElement as HTMLElement).focus();
-  //     }
-  //   }
-  // }, [isActive]);
 
   if (!shouldRender) {
     return null;
@@ -63,11 +50,7 @@ export default function AnimatedStep({
   const className = clsx(baseClasses, visibilityClasses, transformClasses);
 
   return (
-    <div
-      //  ref={stepRef}
-      className={className}
-      aria-hidden={!isActive}
-    >
+    <div className={className} aria-hidden={!isActive}>
       {children}
     </div>
   );

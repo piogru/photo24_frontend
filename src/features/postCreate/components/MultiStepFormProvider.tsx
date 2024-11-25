@@ -26,7 +26,6 @@ export default function MultiStepFormProvider({
     stepNames: initialState.stepNames,
   };
 
-  //TODO: change direction
   const [store] = useState(() =>
     createStore<MultiStepFormState & MultiStepFormActions>((set) => ({
       ...initialStateSnapshot,
@@ -34,6 +33,7 @@ export default function MultiStepFormProvider({
       actions: {
         prevStep: () => {
           set((state) => ({
+            direction: "backward",
             currentStepIndex:
               state.currentStepIndex > 0 ?
                 state.currentStepIndex - 1
@@ -42,6 +42,7 @@ export default function MultiStepFormProvider({
         },
         nextStep: () => {
           set((state) => ({
+            direction: "forward",
             currentStepIndex:
               state.currentStepIndex < state.stepNames.length - 1 ?
                 state.currentStepIndex + 1
@@ -51,7 +52,11 @@ export default function MultiStepFormProvider({
         goToStep: (index) => {
           set((state) => {
             if (index >= 0 && index < state.stepNames.length) {
-              return { currentStepIndex: index };
+              return {
+                direction:
+                  index > state.currentStepIndex ? "forward" : "backward",
+                currentStepIndex: index,
+              };
             }
             return { currentStepIndex: state.currentStepIndex };
           });
