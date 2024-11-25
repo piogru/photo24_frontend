@@ -10,22 +10,35 @@ import {
   IMAGE_LIMIT,
   IMAGE_MAX_SIZE_MB,
 } from "../../core/constants/appConstants";
+import { useEffect } from "react";
+import { useFormContext } from "react-hook-form";
+import useFormActions from "../hooks/useFormActions";
+import { TPostSchema } from "../postSchema";
 
 type PhotoDropAreaProps = {
   isDragActive: boolean;
-  dropError: boolean;
   fileRejections: FileRejection[];
   getInputProps: <T extends DropzoneInputProps>(props: T) => T;
 };
 
 export default function PhotoDropArea({
   isDragActive,
-  dropError,
   fileRejections,
   getInputProps,
 }: PhotoDropAreaProps) {
+  const { nextStep } = useFormActions();
+  const { getValues } = useFormContext<TPostSchema>();
+  const files = getValues("files");
+  const dropError = fileRejections.length > 0;
+
+  useEffect(() => {
+    if (files.length > 0) {
+      nextStep();
+    }
+  }, [files, nextStep]);
+
   return (
-    <div className="flex min-w-80 flex-col items-center justify-center gap-6 p-4 sm:min-w-96">
+    <div className="flex h-full min-w-80 flex-col items-center justify-center gap-6 p-4 sm:min-w-96">
       <div className="flex flex-col items-center">
         {!dropError ?
           <>
@@ -46,6 +59,7 @@ export default function PhotoDropArea({
           </>
         }
       </div>
+
       <div className="relative w-fit">
         <label
           htmlFor="post_photo_input"
@@ -54,6 +68,7 @@ export default function PhotoDropArea({
         >
           {!dropError ? "Select from computer" : "Select other files"}
         </label>
+
         <div className="absolute -right-9 top-0">
           <PopoverTooltip
             label={`Max filesize: ${IMAGE_MAX_SIZE_MB}MB\nMax ${IMAGE_LIMIT} files`}
@@ -61,6 +76,7 @@ export default function PhotoDropArea({
             <QuestionMarkCircleIcon className="size-8" />
           </PopoverTooltip>
         </div>
+
         <Input
           {...getInputProps({
             id: "post_photo_input",

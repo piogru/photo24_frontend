@@ -16,7 +16,7 @@ export default function PhotoPreview({
 }: PhotoPreviewProps) {
   const [preview, setPreview] = useState<string | null>(null);
   useEffect(() => {
-    const objectUrl = URL.createObjectURL(file);
+    const objectUrl = file ? URL.createObjectURL(file) : "";
     setPreview(objectUrl);
 
     return () => URL.revokeObjectURL(objectUrl);
