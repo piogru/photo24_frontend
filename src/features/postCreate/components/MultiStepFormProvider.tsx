@@ -1,6 +1,9 @@
 import { createContext, ReactNode, useState } from "react";
 import { createStore, StoreApi } from "zustand";
-import MultiStepFormState from "../types/multiStepFormState";
+import {
+  MultiStepFormActions,
+  MultiStepFormState,
+} from "../types/multiStepFormState";
 
 type MultiStepFormProviderProps = {
   initialState: {
@@ -9,18 +12,24 @@ type MultiStepFormProviderProps = {
   children: ReactNode;
 };
 
-export const MultiStepFormContext =
-  createContext<StoreApi<MultiStepFormState> | null>(null);
+export const MultiStepFormContext = createContext<StoreApi<
+  MultiStepFormState & MultiStepFormActions
+> | null>(null);
 
 export default function MultiStepFormProvider({
   initialState,
   children,
 }: MultiStepFormProviderProps) {
+  const initialStateSnapshot: MultiStepFormState = {
+    currentStepIndex: 0,
+    direction: "forward",
+    stepNames: initialState.stepNames,
+  };
+
+  //TODO: change direction
   const [store] = useState(() =>
-    createStore<MultiStepFormState>((set) => ({
-      currentStepIndex: 0,
-      direction: "forward",
-      stepNames: initialState.stepNames,
+    createStore<MultiStepFormState & MultiStepFormActions>((set) => ({
+      ...initialStateSnapshot,
 
       actions: {
         prevStep: () => {
@@ -46,6 +55,9 @@ export default function MultiStepFormProvider({
             }
             return { currentStepIndex: state.currentStepIndex };
           });
+        },
+        reset: () => {
+          set(initialStateSnapshot);
         },
       },
     })),

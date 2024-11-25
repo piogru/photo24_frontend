@@ -13,7 +13,7 @@ export default function PostWizardWrapper({
   return (
     <MultiStepFormProvider
       initialState={{
-        stepNames: ["Create new post", "Crop", "Share", "Sharing", "Complete"],
+        stepNames: ["Create new post", "Crop", "Create new post", "Sharing"],
       }}
     >
       <PostWizard isOpen={isOpen} setIsOpen={setIsOpen} />

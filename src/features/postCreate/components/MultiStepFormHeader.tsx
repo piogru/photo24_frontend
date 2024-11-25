@@ -12,14 +12,16 @@ export default function MultiStepFormHeader({
 }: MultiStepFormHeaderProps) {
   const { stepNames, currentStepIndex } = useFormState();
   const actions = useFormActions();
+  const isNavigationVisible = currentStepIndex > 0 && currentStepIndex <= 2;
 
+  // TODO: move heading to text
   return (
     <div>
       <DialogTitle
         className="inline-flex w-full flex-row items-center justify-between border-b
           border-gray-100 px-3 py-1 text-center text-lg font-semibold dark:border-gray-900"
       >
-        {currentStepIndex > 0 ?
+        {isNavigationVisible ?
           <Button
             onClick={() => {
               if (currentStepIndex === 1) {
@@ -33,9 +35,14 @@ export default function MultiStepFormHeader({
           </Button>
         : null}
         <span className="mx-auto">{stepNames[currentStepIndex]}</span>
-        {currentStepIndex > 0 ?
+        {isNavigationVisible ?
           <Button
-            onClick={() => actions.nextStep()}
+            onClick={() => {
+              if (currentStepIndex < 2) {
+                actions.nextStep();
+              }
+            }}
+            type={currentStepIndex >= 2 ? "submit" : "button"}
             className="text-base text-blue-500 hover:text-gray-700 dark:hover:text-gray-200"
           >
             {currentStepIndex === 2 ? "Share" : "Next"}

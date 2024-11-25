@@ -1,26 +1,26 @@
+import { useCallback, useEffect, useState } from "react";
 import {
   FieldValues,
   FormProvider,
   useFieldArray,
   useForm,
 } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import useFormActions from "../hooks/useFormActions";
+import { postSchema, TPostSchema } from "../postSchema";
+import { FileRejection, useDropzone } from "react-dropzone";
+import { IMAGE_LIMIT, IMAGE_MAX_SIZE } from "../../core/constants/appConstants";
+import clsx from "clsx";
 import DiscardDialog from "./DiscardDialog";
 import Modal from "../../core/components/Modal";
-import { useCallback, useEffect, useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
 import MultiStepForm from "./MultiStepForm";
 import MultiStepFormHeader from "./MultiStepFormHeader";
 import MultiStepFormStep from "./MultiStepFormStep";
-import clsx from "clsx";
 import usePostCreate from "../hooks/usePostCreate";
 import PhotoDropArea from "./PhotoDropArea";
-import { FileRejection, useDropzone } from "react-dropzone";
-import { IMAGE_LIMIT, IMAGE_MAX_SIZE } from "../../core/constants/appConstants";
 import StepCrop from "./StepCrop";
 import StepShare from "./StepShare";
 import StepSharing from "./StepSharing";
-import useFormActions from "../hooks/useFormActions";
-import { postSchema, TPostSchema } from "../postSchema";
 
 type PostWizardProps = {
   isOpen: boolean;
@@ -31,6 +31,7 @@ export default function PostWizard({ isOpen, setIsOpen }: PostWizardProps) {
   const actions = useFormActions();
   const [isDiscardConfirmationOpen, setIsDiscardConfirmationOpen] =
     useState(false);
+  const [discardAndClose, setDiscardAndClose] = useState(false);
   const formMethods = useForm<TPostSchema>({
     resolver: zodResolver(postSchema),
     defaultValues: {
@@ -46,7 +47,6 @@ export default function PostWizard({ isOpen, setIsOpen }: PostWizardProps) {
     name: "fileInfo",
   });
   const mutation = usePostCreate();
-  // const [files, setFiles] = useState<File[]>([]);
   const onDrop = useCallback(
     (acceptedFiles: File[], fileRejections: FileRejection[]) => {
       if (fileRejections.length === 0) {
@@ -89,6 +89,7 @@ export default function PostWizard({ isOpen, setIsOpen }: PostWizardProps) {
         onSuccess: () => {
           setIsOpen(false);
           reset();
+          actions.reset();
         },
         onError: () => {
           actions.prevStep();
@@ -98,11 +99,16 @@ export default function PostWizard({ isOpen, setIsOpen }: PostWizardProps) {
   };
 
   const onClose = () => {
+    setDiscardAndClose(true);
     files.length > 0 ? setIsDiscardConfirmationOpen(true) : setIsOpen(false);
   };
 
   const onDiscard = () => {
-    // TODO: Fix transition to drop area
+    if (discardAndClose) {
+      setIsOpen(false);
+      setDiscardAndClose(false);
+    }
+
     actions.goToStep(0);
     setIsDiscardConfirmationOpen(false);
     reset();
@@ -114,8 +120,7 @@ export default function PostWizard({ isOpen, setIsOpen }: PostWizardProps) {
         <Modal isOpen={isOpen} onClose={onClose} getRootProps={getRootProps}>
           <div
             className={clsx(
-              `flex h-[calc(min(30rem,_100vh-theme(space.20)))] w-full flex-col items-center
-              justify-center rounded-b-xl transition`,
+              "flex h-fit w-full flex-col items-center justify-center rounded-b-xl transition",
               isDragActive ? "bg-black/5 dark:bg-black/50" : "",
             )}
           >
@@ -139,9 +144,6 @@ export default function PostWizard({ isOpen, setIsOpen }: PostWizardProps) {
               </MultiStepFormStep>
               <MultiStepFormStep name="Sharing">
                 <StepSharing />
-              </MultiStepFormStep>
-              <MultiStepFormStep name="Complete">
-                {"Complete"}
               </MultiStepFormStep>
             </MultiStepForm>
           </div>

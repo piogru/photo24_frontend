@@ -33,17 +33,15 @@ export default function MultiStepForm({
         isValidElement(child) && child.type === MultiStepFormStep,
     );
   }, [children]);
-  // TODO: set step names here?
-  // const stepNames = steps.map((step) => step.props.name);
 
   return (
     <form
       onSubmit={form.handleSubmit(onSubmit)}
-      className="flex size-full flex-col overflow-hidden"
+      className="flex size-full grow flex-col overflow-hidden"
     >
       {header}
 
-      <div className="relative size-full transition-transform duration-500">
+      <div className="relative flex size-full grow flex-col transition-transform duration-500">
         {steps.map((step, index) => {
           const isActive = index === currentStepIndex;
 

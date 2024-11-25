@@ -1,10 +1,13 @@
 import { useContext } from "react";
 import { useStore } from "zustand";
 import { MultiStepFormContext } from "../components/MultiStepFormProvider";
-import MultiStepFormState from "../types/multiStepFormState";
+import {
+  MultiStepFormActions,
+  MultiStepFormState,
+} from "../types/multiStepFormState";
 
 export default function useMultiStepStore<T>(
-  selector: (state: MultiStepFormState) => T,
+  selector: (state: MultiStepFormState & MultiStepFormActions) => T,
 ): T {
   const store = useContext(MultiStepFormContext);
 

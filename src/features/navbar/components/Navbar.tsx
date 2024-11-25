@@ -26,7 +26,6 @@ import {
 import Dropdown from "../../core/components/Dropdown";
 import Switch from "../../core/components/Switch";
 import useCurrentUserQuery from "../../core/hooks/useCurrentUserQuery";
-import PhotoUpload from "../../postCreate/components/PhotoUpload";
 import NavIcon from "./NavIcon";
 import MagnifyingGlassIconSolid from "../../core/components/MagnifyingGlassIconSolid";
 import SiteLogo from "../../core/components/SiteLogo";
@@ -34,7 +33,6 @@ import { Button } from "@headlessui/react";
 import SearchUsers from "../../users/components/SearchUsers";
 import Drawer from "../../core/components/Drawer";
 import clsx from "clsx";
-import PostWizard from "../../postCreate/components/PostWizard";
 import PostWizardWrapper from "../../postCreate/components/PostWizardWrapper";
 
 type NavbarElement = {
@@ -205,8 +203,6 @@ export default function Navbar() {
 
   return (
     <>
-      {/* <PhotoUpload isOpen={photoUploadOpen} setIsOpen={setPhotoUploadOpen} /> */}
-      {/* <PostWizard isOpen={photoUploadOpen} setIsOpen={setPhotoUploadOpen} /> */}
       <PostWizardWrapper
         isOpen={photoUploadOpen}
         setIsOpen={setPhotoUploadOpen}
