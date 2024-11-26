@@ -3,7 +3,7 @@ type LikeCounterProps = {
   hideLikes?: boolean;
 };
 
-export default function LikeCounter({
+export default function LikeCount({
   likes,
   hideLikes = false,
 }: LikeCounterProps) {

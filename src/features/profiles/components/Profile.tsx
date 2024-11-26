@@ -1,31 +1,17 @@
 import {
-  Button,
-  TabGroup,
-  TabList,
-  TabPanel,
-  TabPanels,
-} from "@headlessui/react";
-import User from "../../core/types/user";
-import { NavLink, Outlet, useLocation } from "react-router-dom";
-import useCurrentUserQuery from "../../core/hooks/useCurrentUserQuery";
-import { BookmarkIcon, Squares2X2Icon } from "@heroicons/react/24/outline";
-import ShowMoreText from "../../core/components/ShowMoreText";
-import useFollowQuery from "../../core/hooks/useFollowQuery";
-import Follow from "../../core/types/follow";
-import useFollowMutation from "../../core/hooks/useFollowMutation";
-import useUnfollowMutation from "../../core/hooks/useUnfollowMutation";
-import ProfilePic from "../../core/components/ProfilePic";
-import ProfilePicInput from "./ProfilePicInput";
-import useUsersByUsernameQuery from "../../core/hooks/useUsersByUsernameQuery";
+  NavLink,
+  Outlet,
+  useLocation,
+  useParams,
+  matchPath,
+} from "react-router-dom";
 import clsx from "clsx";
+import useCurrentUserQuery from "../../core/hooks/useCurrentUserQuery";
+import ProfileHeader from "./ProfileHeader";
+import { TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
+import { BookmarkIcon, Squares2X2Icon } from "@heroicons/react/24/outline";
 
-type ProfileProps = {
-  initialData: {
-    user: User;
-    follow: Follow | null;
-  };
-};
-
+const basePath = ":username/";
 const generalTabs = [
   {
     name: "Posts",
@@ -33,7 +19,6 @@ const generalTabs = [
     Icon: Squares2X2Icon,
   },
 ];
-
 const userTabs = [
   {
     name: "Saved",
@@ -42,97 +27,23 @@ const userTabs = [
   },
 ];
 
-export default function Profile({ initialData }: ProfileProps) {
+export default function Profile() {
   const { data: currentUser } = useCurrentUserQuery();
-  const { data: queriedUsers } = useUsersByUsernameQuery(
-    initialData.user.name,
-    false,
-    [initialData.user],
-  );
-  const user = queriedUsers[0];
-  const { data: follow } = useFollowQuery(user._id);
-  const followMutation = useFollowMutation(user._id);
-  const unfollowMutation = useUnfollowMutation(user._id);
+  const { pathname } = useLocation();
+  const { username = "" } = useParams();
   const tabs = [
     ...generalTabs,
-    ...(user._id === currentUser?._id ? userTabs : []),
+    ...(currentUser?.name === username ? userTabs : []),
   ];
-  const { pathname } = useLocation();
-  const selectedTab = pathname.split("/")[2] || "";
-  const selectedTabIndex = tabs.findIndex((item) => item.path === selectedTab);
-
-  const onFollowClick = () => {
-    if (follow) {
-      unfollowMutation.mutate(user._id);
-    } else {
-      followMutation.mutate(user._id);
-    }
-  };
+  const selectedTabIndex = tabs.findIndex((item) =>
+    matchPath(basePath + item.path, pathname),
+  );
 
   return (
     <div className="w-full pt-12">
       <div className="mx-auto max-w-full md:max-w-5xl xl:max-w-5xl">
         <div className="flex flex-col gap-4 px-0 md:px-6">
-          <header
-            className="mx-4 grid grid-cols-[76px_4fr] items-start justify-items-start gap-4
-              sm:grid-cols-[120px_4fr] md:grid-cols-[1fr_2fr]"
-          >
-            <section className="row-start-1 mr-2 sm:row-end-4 md:row-end-5 md:mr-6 md:justify-self-center">
-              <div className="relative size-16 sm:size-24 md:size-40">
-                <ProfilePic photo={user?.profilePic} />
-                {currentUser?._id === user._id ?
-                  <ProfilePicInput />
-                : null}
-              </div>
-            </section>
-
-            <section className="col-start-2 row-start-1">
-              <div className="flex flex-row flex-wrap items-center justify-start gap-4 sm:justify-center">
-                <h2 className="text-xl">{user.name}</h2>
-                <div className="flex flex-row items-center gap-2">
-                  {user._id !== currentUser?._id ?
-                    <Button
-                      onClick={onFollowClick}
-                      className="rounded-lg bg-gray-300 px-4 py-1 font-semibold hover:bg-gray-400
-                        dark:bg-gray-700 dark:hover:bg-gray-800"
-                    >
-                      {follow ? "Following" : "Follow"}
-                    </Button>
-                  : null}
-                </div>
-              </div>
-            </section>
-
-            <section className="col-start-1 row-start-2 sm:col-start-2">
-              <div className="flex flex-row gap-4 md:gap-8">
-                <div>
-                  <span className="font-semibold">{user.posts}</span>
-                  {" posts"}
-                </div>
-                <div>
-                  <span className="font-semibold">{user.followers}</span>
-                  {" followers"}
-                </div>
-                <div>
-                  <span className="font-semibold">{user.following}</span>
-                  {" following"}
-                </div>
-              </div>
-            </section>
-
-            <section
-              className="col-start-1 col-end-3 row-start-3 row-end-4 whitespace-pre-line leading-none
-                sm:row-start-4 md:col-start-2 md:col-end-2 md:row-start-3 md:row-end-3"
-            >
-              <div>
-                <ShowMoreText
-                  text={user.description}
-                  overflowLength={250}
-                  textSize="text-sm"
-                />
-              </div>
-            </section>
-          </header>
+          <ProfileHeader username={username} />
 
           <TabGroup
             manual
@@ -143,7 +54,7 @@ export default function Profile({ initialData }: ProfileProps) {
               {tabs.map((item, index) => (
                 <NavLink
                   end
-                  key={item.path}
+                  key={item.name}
                   to={item.path}
                   role="tab"
                   aria-selected={index === selectedTabIndex ? "true" : "false"}
@@ -166,7 +77,7 @@ export default function Profile({ initialData }: ProfileProps) {
             </TabList>
             <TabPanels>
               {tabs.map((item) => (
-                <TabPanel key={item.path}>
+                <TabPanel key={item.name}>
                   <Outlet />
                 </TabPanel>
               ))}

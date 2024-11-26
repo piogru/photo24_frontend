@@ -1,6 +1,6 @@
 import { MutationCache, QueryCache, QueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import toaster from "../utils/toaster";
+import toaster from "../../notifications/utils/toaster";
 import AxiosErrorResponse from "../types/axiosErrorResponse";
 
 declare module "@tanstack/react-query" {
