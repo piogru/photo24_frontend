@@ -15,16 +15,15 @@ React Typescript application meant to be a study of Instagram, with features lim
   - React Hook Form
   - Zod
 
-* Data fetching
-
-  - React Query / TanStack Query
-  - Axios
+* State management
+  - React Query / TanStack Query (async state)
+  - Zustand
 
 * Styles
-
   - TailwindCSS
 
 * Other
+  - Axios
   - date-fns
 
 ## Features (ver. 0.2.1)
@@ -47,8 +46,9 @@ React Typescript application meant to be a study of Instagram, with features lim
 ## Planned features
 
 - Further test coverage with React Testing Library
-- Comments and replies
+- Post comments and replies
+- Infinite scroll/pagination in Feed/Explore pages
+- Saved posts
 - Additional photo upload features (aspect ratio/crop) and QoL (modifying photos included in a post)
 - Accessibility pass
-- UX/responsiveness improvements
-- And possibly more...
+- UX/RWD improvements
