@@ -1,0 +1,53 @@
+# Place this file in a common parent directory or both backend/frontend projects
+
+services:
+  mongo_container:
+    image: mongo
+    container_name: mongodb
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data:/data/db
+      - mongodb_config:/data/configdb
+    networks:
+      - photo_network
+
+  backend:
+    build:
+      context: ./photo-backend
+      dockerfile: Dockerfile
+    container_name: photo-backend
+    restart: always
+    ports:
+     - 3000:3000
+    environment:
+      - DB_URI=mongodb://mongo_container:27017/photos
+    networks:
+      - photo_network
+    depends_on:
+      - mongo_container
+
+  frontend:
+    build:
+      context: ./photo-frontend
+      dockerfile: Dockerfile
+    container_name: photo-frontend
+    restart: always
+    ports:
+      - 5173:5173
+    networks:
+      - photo_network
+
+volumes:
+  mongodb_data:
+    driver: local
+    name: mongo-data
+  mongodb_config:
+    driver: local
+    name: mongo-log
+
+networks:
+  photo_network:
+    driver: bridge
+    name: photo-network
