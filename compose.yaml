@@ -1,4 +1,4 @@
-# Place this file in a common parent directory or both backend/frontend projects
+# Place this file in a common parent directory for both backend/frontend projects
 
 services:
   mongo_container:
@@ -36,6 +36,9 @@ services:
     restart: always
     ports:
       - 5173:5173
+    volumes:
+     - ./photo-frontend:/usr/local/app
+     - /usr/local/app/node_modules
     networks:
       - photo_network
 
